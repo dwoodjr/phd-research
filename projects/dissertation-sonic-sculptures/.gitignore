@@ -1,0 +1,148 @@
+# ============================================
+# OS Files
+# ============================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+*~
+
+# ============================================
+# Max/MSP
+# ============================================
+# Compiled externals
+*.mxo
+*.mxe
+*.mxe64
+
+# Backup and temporary files
+*~.maxpat
+*~.maxhelp
+*.autosave
+.maxpat.orig
+.maxhelp.orig
+/max-startup.txt~
+**/maxproject.maxpat.orig
+**/maxproject.maxproj.orig
+
+# Max cache and search
+**/.search_cache/
+**/saved_searches/
+**/search.db
+**/search.db-journal
+
+# Max Project specific
+**/data/cache/
+**/recordings/
+**/captures/
+
+# ============================================
+# Pure Data / Plugdata
+# ============================================
+*.pd_linux
+*.pd_darwin
+*.dll
+*.pd~
+*.pd.orig
+
+# ============================================
+# TouchDesigner
+# ============================================
+*.toe~
+**/.backup/
+**/backup/
+*.1.toe
+*.2.toe
+*.3.toe
+*.4.toe
+*.5.toe
+**/Backup/
+**/Cache/
+**/CrashAutoSave/
+**/Palette/
+
+# ============================================
+# VS Code
+# ============================================
+.vscode/
+*.code-workspace
+.history/
+
+# ============================================
+# PlatformIO / Arduino
+# ============================================
+.pio/
+.pioenvs/
+.piolibdeps/
+.clang_complete
+.gcc-flags.json
+lib/readme.txt
+
+# ============================================
+# Build Artifacts
+# ============================================
+*.o
+*.obj
+*.hex
+*.bin
+*.elf
+*.map
+*.lst
+
+# ============================================
+# Python (if used)
+# ============================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+*.egg-info/
+
+# ============================================
+# Node.js (if used)
+# ============================================
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# ============================================
+# Large Media Files
+# ============================================
+# Note: Using Git LFS for these
+
+# ============================================
+# Documentation Builds
+# ============================================
+**/_site/
+**/dist/
+**/build/
+
+# ============================================
+# Temporary Files
+# ============================================
+*.tmp
+*.temp
+*.log
+*.swp
+*.swo
+
+# ============================================
+# OneDrive
+# ============================================
+~$*
+.~lock.*
+
+# ============================================
+# Project Specific
+# ============================================
+**/test-recordings/
+**/scratch/
+**/experiments/archive/

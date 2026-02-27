@@ -1,0 +1,119 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{extras/editing}[2025/12/16 Editing helpers for Drexel thesis]
+
+% We assume the class already loads hyperref, xcolor, etc.
+% But we load what is safe/needed for our features.
+\RequirePackage{xcolor}
+\RequirePackage{etoolbox}
+\RequirePackage{comment}
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{marginnote}
+
+% ------------------------------------------------------------
+% Draft/final switch (driven by \ifdraft in main.tex)
+% ------------------------------------------------------------
+\newif\ifdraftnotes
+
+% Default: if user didn't define \ifdraft, behave like FINAL (notes off).
+\AtBeginDocument{%
+  \ifcsname ifdraft\endcsname
+    \ifdraft
+      \draftnotestrue
+    \else
+      \draftnotesfalse
+    \fi
+  \else
+    \draftnotesfalse
+  \fi
+}
+
+% ------------------------------------------------------------
+% Gantt Chart (Unconditional)
+% ------------------------------------------------------------
+\RequirePackage{pgfgantt} % provides ganttchart environment
+
+% ------------------------------------------------------------
+% Hyperlink highlighting (draft only)
+% ------------------------------------------------------------
+\AtBeginDocument{%
+  \ifdraftnotes
+    \hypersetup{
+      colorlinks=true,
+      linkcolor=blue!60!black,
+      citecolor=green!40!black,
+      urlcolor=magenta!60!black,
+      pdfborder={0 0 0}
+    }%
+  \fi
+}
+
+% ------------------------------------------------------------
+% Reviewer-style notes (boxed / inline / margin)
+% ------------------------------------------------------------
+\definecolor{AdvisorRed}{RGB}{180,30,30}
+
+% Editable label
+\newcommand{\reviewernotetitle}{Author note:}
+
+\tcbset{
+  advisorstyle/.style={
+    sharp corners,
+    colframe=AdvisorRed,
+    colback=AdvisorRed!5,
+    boxrule=0.8pt,
+    left=8pt, right=8pt, top=6pt, bottom=6pt,
+    before skip=6pt, after skip=6pt,
+    fonttitle=\bfseries,
+  }
+}
+
+% Block note (full-width boxed)
+\newcommand{\adnote}[2][]{%
+  \ifdraftnotes
+    \begin{tcolorbox}[advisorstyle,title={\reviewernotetitle},#1]%
+      #2%
+    \end{tcolorbox}%
+  \fi
+}
+
+% Inline note
+\newcommand{\adin}[1]{%
+  \ifdraftnotes
+    {\bfseries\textcolor{AdvisorRed}{[Note: #1]}}%
+  \fi
+}
+
+% Margin note
+\newcommand{\admargin}[1]{%
+  \ifdraftnotes
+    \marginnote{\footnotesize\color{AdvisorRed}#1}%
+  \fi
+}
+
+% Intent-revealing aliases
+\newcommand{\authornote}[2][]{\adnote[title={Author note for advisors},#1]{#2}}
+\newcommand{\readernote}[2][]{\adnote[title={Note for committee},#1]{#2}}
+
+% ------------------------------------------------------------
+% FINAL-mode hard errors if note commands remain
+% ------------------------------------------------------------
+\AtBeginDocument{%
+  \ifdraftnotes\relax\else
+    % In final mode, make any note usage an error.
+    \renewcommand{\adnote}[2][]{%
+      \PackageError{myediting}{\string\adnote\space found in FINAL mode}{Remove or resolve this note.}%
+    }%
+    \renewcommand{\adin}[1]{%
+      \PackageError{myediting}{\string\adin\space found in FINAL mode}{Remove or resolve this note.}%
+    }%
+    \renewcommand{\admargin}[1]{%
+      \PackageError{myediting}{\string\admargin\space found in FINAL mode}{Remove or resolve this note.}%
+    }%
+    \renewcommand{\authornote}[2][]{%
+      \PackageError{myediting}{\string\authornote\space found in FINAL mode}{Remove or resolve this note.}%
+    }%
+    \renewcommand{\readernote}[2][]{%
+      \PackageError{myediting}{\string\readernote\space found in FINAL mode}{Remove or resolve this note.}%
+    }%
+  \fi
+}

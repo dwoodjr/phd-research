@@ -1,0 +1,251 @@
+\documentclass{dont_touch/proquest_drexel_thesis}
+
+% ============================================================
+% Bibliography
+% ============================================================\
+\PassOptionsToPackage{backend=biber}{biblatex}
+\usepackage{biblatex}
+\addbibresource{references.bib}
+
+% ============================================================
+% Draft / final toggle (controls editing tools)
+% ============================================================
+\newif\ifdraft
+\drafttrue
+% \draftfalse
+
+\usepackage{extras/editing} % the editing-layer package
+
+% Draft-only helper packages (don't ship these)
+\ifdraft
+\usepackage{lipsum}
+\fi
+
+% ============================================================
+% Dissertation metadata (used by the class)
+% ============================================================
+\title{Sonic Speculocultural Technopoiesis\\
+	\normalfont \textit{Black Speculative Tradition as Modification for Embodied Practice}}
+\author{Darren Woodland, Jr}
+\degreename{Doctor of Philosophy}
+\degreedate{2026}
+\university{Drexel University}
+\universitylogo{assets/drexel-vertical-all_blue.png}
+
+\begin{document}
+
+% ============================================================
+% Title page
+% ============================================================
+\maketitle
+
+% ============================================================
+% Copyright page
+% ============================================================
+\newpage
+\input{contents/preliminary/copyright}
+
+% ============================================================
+% Timeline Page: !!REMOVE THIS SECTION IN FINAL VERSION!!
+% ============================================================
+\newpage
+\input{contents/preliminary/document-version}
+\newpage
+\chapter*{TIMELINE}
+\addcontentsline{toc}{chapter}{TIMELINE}
+\adnote{Remove this chapter for final version!}
+\input{contents/chapters/timeline}
+
+% ============================================================
+% Optional dedication
+% ============================================================
+\input{contents/preliminary/dedications}
+
+% ============================================================
+% Optional acknowledgments
+% ============================================================
+\input{contents/preliminary/acknowledgements}
+
+% ============================================================
+% Table of Contents
+% ============================================================
+\tableofcontents
+\newpage
+
+% ============================================================
+% List of Tables (if you have tables)
+% ============================================================
+\listoftables
+\newpage
+
+% ============================================================
+% List of Figures (if you have figures)
+% ============================================================
+\listoffigures
+\newpage
+
+% ============================================================
+% List of Key Terms (if you have figures)
+% ============================================================
+\chapter*{LIST OF KEY TERMS}
+\addcontentsline{toc}{chapter}{LIST OF KEY TERMS}
+\input{contents/preliminary/keyterms.tex}
+\newpage
+
+% ============================================================
+% List of Software (if you have figures)
+% ============================================================
+\chapter*{LIST OF SOFTWARE}
+\addcontentsline{toc}{chapter}{LIST OF SOFTWARE}
+\input{contents/preliminary/software.tex}
+\newpage
+
+% ============================================================
+% List of Hardware (if you have figures)
+% ============================================================
+\chapter*{LIST OF HARDWARE}
+\addcontentsline{toc}{chapter}{LIST OF HARDWARE}
+\input{contents/preliminary/hardware.tex}
+\newpage
+
+
+% ============================================================
+% Abstract
+% ============================================================
+\input{contents/preliminary/abstract.tex}
+
+% ============================================================
+% Start the main text (Adds blank page and switches to Arabic page numbers)
+% ============================================================
+\starttext
+
+% ============================================================
+% Prologue
+% ============================================================
+\chapter*{PROLOGUE}
+% Chapter Roadmap
+\input{contents/chapters/prologue/prologue}
+
+% ============================================================
+% Chapter 1: Introduction
+% ============================================================
+\chapter{INTRODUCTION}
+% Chapter Roadmap
+\input{contents/chapters/1_introduction/1_introduction}
+
+% ============================================================
+% Chapter 2: Literature Review
+% ============================================================
+\chapter{LITERATURE REVIEW}
+% Chapter Roadmap
+\input{contents/chapters/2_literature-review/2_literature-review}
+% Section 2.1
+\section{The Cultural Life of Technologies}
+\input{contents/chapters/2_literature-review/2_1_CulturalLifeOfTechnologies/2_1_1-post-phenomenology-encounters.tex}
+\input{contents/chapters/2_literature-review/2_1_CulturalLifeOfTechnologies/2_1_2-material-semiotic-entanglement.tex}
+\input{contents/chapters/2_literature-review/2_1_CulturalLifeOfTechnologies/2_1_3-technopoietic-emergence.tex}
+\input{contents/chapters/2_literature-review/2_1_CulturalLifeOfTechnologies/2_1_4-platform-epostemologies.tex}
+% Section 2.2
+\section{Speculative Worlds / Alternative Futures}
+\input{contents/chapters/2_literature-review/2_2_SpeculativeWorldsAlternativeFutures/2_2_1-critical-speculative-design.tex}
+\input{contents/chapters/2_literature-review/2_2_SpeculativeWorldsAlternativeFutures/2_2_2-black-speculative-tradition.tex}
+\input{contents/chapters/2_literature-review/2_2_SpeculativeWorldsAlternativeFutures/2_2_3-critical-fabulation.tex}
+% Section 2.3
+\section{Fugitive Technologies \& Resistant Practices}
+\input{contents/chapters/2_literature-review/2_3_FugitiveTechnologiesResitantPractice/2_3_1-fugitivity-technologiocal-practice.tex}
+\input{contents/chapters/2_literature-review/2_3_FugitiveTechnologiesResitantPractice/2_3_2-sociogenic-critique.tex}
+\input{contents/chapters/2_literature-review/2_3_FugitiveTechnologiesResitantPractice/2_3_3-black-radical-imagination.tex}
+\input{contents/chapters/2_literature-review/2_3_FugitiveTechnologiesResitantPractice/2_3_4-black-computational-thought.tex}
+% Section 2.4
+\section{Embodied Knowledge \& Cultural Memory}
+\input{contents/chapters/2_literature-review/2_4_EmbodiedKnowledgeCulturalMemory/2_4_1-black-performance-epistemology.tex}
+\input{contents/chapters/2_literature-review/2_4_EmbodiedKnowledgeCulturalMemory/2_4_2-sonic-tradition-technical-practice.tex}
+\input{contents/chapters/2_literature-review/2_4_EmbodiedKnowledgeCulturalMemory/2_4_3-embodied-interaction-multisensory-computing.tex}
+\input{contents/chapters/2_literature-review/2_4_EmbodiedKnowledgeCulturalMemory/2_4_4-sonic-interaction-design.tex}
+% Section 2.5
+\section{Computational Culture / Algorithmic Power}
+\input{contents/chapters/2_literature-review/2_5_ComputationalCultureAlgorithmicPower/2_5_1-critical-code-software-studies.tex}
+\input{contents/chapters/2_literature-review/2_5_ComputationalCultureAlgorithmicPower/2_5_2-procedural-rhetoric-habits.tex}
+\input{contents/chapters/2_literature-review/2_5_ComputationalCultureAlgorithmicPower/2_5_3-race-after-technology.tex}
+% Section 2.6
+\section{Research-Creation, Reflective Design, \& Critical Practice}
+\input{contents/chapters/2_literature-review/2_6_ResearchCreationCriticalTechnicalPractice/2_6_1-critical-technical-practice.tex}
+\input{contents/chapters/2_literature-review/2_6_ResearchCreationCriticalTechnicalPractice/2_6_2-critical-making-material-critique.tex}
+\input{contents/chapters/2_literature-review/2_6_ResearchCreationCriticalTechnicalPractice/2_6_3-autoethnographic-methodology.tex}
+\input{contents/chapters/2_literature-review/2_6_ResearchCreationCriticalTechnicalPractice/2_6_4-collaborative-creative-practice.tex}
+\input{contents/chapters/2_literature-review/2_6_ResearchCreationCriticalTechnicalPractice/2_6_5-research-creation-practice-knowledge.tex}
+
+
+% ============================================================
+% Chapter 3: Methodology
+% ============================================================
+\chapter{METHODOLOGY AND FRAMEWORK}
+% Chapter Roadmap
+\input{contents/chapters/3_methodology/3_methodology}
+
+% ============================================================
+% Chapter 4: Results
+% ============================================================
+\chapter{RESULTS AND ANALYSIS}
+% Chapter Roadmap
+\input{contents/chapters/4_results-analysis/4_results-analysis}
+
+% ============================================================
+% Chapter 5: Discussion
+% ============================================================
+\chapter{DISCUSSION}
+% Chapter Roadmap
+\input{contents/chapters/5_discussion/5_discussion}
+
+% ============================================================
+% Chapter 6: Conclusion
+% ============================================================
+\chapter{CONCLUSION}
+% Chapter Roadmap
+\input{contents/chapters/6_conclusion/6_conclsion}
+
+% ============================================================
+% Epilogue
+% ============================================================
+\chapter*{EPILOGUE}
+% Chapter Roadmap
+\input{contents/chapters/epilogue/epilogue}
+
+% ============================================================
+% References section
+% ============================================================
+\chapter*{LIST OF REFERENCES}
+\printbibliography[heading=bibintoc,title={LIST OF REFERENCES}]
+
+% ============================================================
+% Appendix
+% ============================================================
+\startappendix
+
+\chapter{SUPPLEMENTARY MATERIALS}
+Additional data analysis and supplementary figures are provided in this appendix to support the findings presented in the main text. Figure \ref{fig:appendixfig} shows a detailed breakdown of participant demographics.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=.85\textwidth]{example-image}
+	\caption{Demographic distribution of study participants across experience levels and educational backgrounds}
+	\label{fig:appendixfig}
+\end{figure}  % Fixed this closing tag
+
+The methodology used in this study builds on approaches documented by \parencite{Loveless_2019} and \parencite{Manning_Massumi_2014}, with modifications to address the specific research questions outlined in Chapter 1. These adaptations were necessary to account for the unique characteristics of design education in contemporary contexts.
+
+\chapter{RESEARCH INSTRUMENTS}
+\lipsum[33]
+
+\chapter{IRB APPROVAL DOCUMENTS}
+\lipsum[34]
+
+\chapter{DATA COLLECTION PROTOCOLS}
+\lipsum[35]
+
+% ============================================================
+% Vita - Required for PhD dissertations according to Drexel guidelines
+% ============================================================
+\input{contents/appendix/vita}
+
+\end{document}
