@@ -1,7 +1,10 @@
 # Did Sun Ra Fear Cryosleep? — Context Brief
-*Movement II of Organic Memory (Triptych)*
+*Module II of Organic Memory (Triptych) / One Instrument in Three Parts*
 
 > See `00_triptych-overview.md` for shared framework, motif, and hardware inventory.
+
+## Instrument Identity
+Did Sun Ra Fear Cryosleep? is the second of three discrete but connectable instrument modules. It is complete and playable as a standalone instrument, and docks into the unified three-module performance console for the full composition. Each module has its own housing, sensing ecosystem, and performative logic. The unified instrument is played only by its maker — following David Tudor's model that embodied and cultural knowledge is inseparable from the instrument itself. Spatial layout of the three modules is still open, to be resolved through physical sketching and mockup.
 
 ## Conceptual Premise
 Sun Ra claimed to have arrived on Earth from Saturn (Space is the Place, 1974). The work asks: on his journey, did he fear entering cryosleep? This opens onto how Black bodies are depicted in states of suspension and passage through space-time in science fiction — amniotic pods, cryo-chambers, stasis fields — and how these visual tropes carry the historical resonance of the Middle Passage: bodies packed into ship holds, the Atlantic as grave and archive. Water and fluid become sites where historical fact and speculative fiction converge.

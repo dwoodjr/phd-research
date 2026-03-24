@@ -7,10 +7,16 @@
 **Status:** IRB approved, committee approved, active creation phase (Feb 2026)
 
 ## What This Is
-Three sonic sculptures functioning as research instruments for a dissertation on how Black speculative traditions and sonic epistemologies can guide the modification and design of digital audio technologies. The three works are simultaneously:
-- Standalone interactive sonic installations
-- Movements of a single spatial composition
-- Methodological demonstrations of the ST framework
+Three instruments — each discrete and self-contained — that assemble into a single unified instrument, played by one performer (the researcher/builder), enclosed by a spatial audio array. The three works are simultaneously:
+- **Three instruments** — each with its own housing, material basin, sensing ecosystem, circuit logic, and performative affordances
+- **One instrument** — modular, assembled into a shared performance console for the composition
+- **One composition** — *Organic Memory (Triptych)*, performed in sequence through the three modules
+- **One dissertation** — structured organically (non-formulaic) as the score for the instrument/composition
+- **Methodological demonstrations** of the ST framework as research instruments
+
+**David Tudor model:** The instrument is built to be played only by its maker. The performer's embodied and cultural knowledge is inseparable from the instrument itself — this is not a limitation but the epistemological claim. No one else can perform this work identically, and that irreducibility is the point.
+
+**Spatial layout:** The physical arrangement of the three modules relative to each other and the performer's body is still open — to be resolved through sketching and physical mockup. Draw the performer's body first; build the instrument around it. The speaker array encloses the performer, not the audience.
 
 ## The ST Cycle (applied to each work)
 1. **Unsettling** — identifying cultural friction with existing tools
@@ -52,6 +58,13 @@ Each movement uses Somax2 (Max/MSP) for corpus-based co-improvisation. Somax2 is
 | Material | Earth/rock/soil | Water/sediment | Hair/gesture |
 | Listener role | Felt in body | Witnessed | Participated |
 | ST domain foregrounded | Material Memory | Fugitive Speculation | Sensory Worlding |
+
+## Key References Added (March 2026)
+- **David Tudor** — instrument-building philosophy; performer-as-instrument-maker
+- **Julius Eastman, *Femenine*** — structural model for motif + drone architecture
+- **Dissertation-as-score** — organic/non-formulaic dissertation structure maps onto compositional structure; pushed by committee, aligned with researcher's original intent
+
+---
 
 ## Key Software
 Max/MSP, PlugData, Reaper, TouchDesigner, Houdini, Unity, Somax2

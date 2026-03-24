@@ -2,7 +2,7 @@
 
 % ============================================================
 % Bibliography
-% ============================================================\
+% ============================================================
 \PassOptionsToPackage{backend=biber}{biblatex}
 \usepackage{biblatex}
 \addbibresource{references.bib}
@@ -16,13 +16,13 @@
 
 \usepackage{extras/editing} % the editing-layer package
 
-% Draft-only helper packages (don't ship these)
+% Draft-only helper packages
 \ifdraft
 \usepackage{lipsum}
 \fi
 
 % ============================================================
-% Dissertation metadata (used by the class)
+% Dissertation metadata
 % ============================================================
 \title{Sonic Speculocultural Technopoiesis\\
 	\normalfont \textit{Black Speculative Tradition as Modification for Embodied Practice}}
@@ -46,7 +46,7 @@
 \input{contents/preliminary/copyright}
 
 % ============================================================
-% Timeline Page: !!REMOVE THIS SECTION IN FINAL VERSION!!
+% DRAFT ONLY: Version tracker + Timeline — REMOVE IN FINAL
 % ============================================================
 \newpage
 \input{contents/preliminary/document-version}
@@ -54,15 +54,15 @@
 \chapter*{TIMELINE}
 \addcontentsline{toc}{chapter}{TIMELINE}
 \adnote{Remove this chapter for final version!}
-\input{contents/chapters/timeline}
+\input{contents/_archive_old-structure/timeline}
 
 % ============================================================
-% Optional dedication
+% Dedication
 % ============================================================
 \input{contents/preliminary/dedications}
 
 % ============================================================
-% Optional acknowledgments
+% Acknowledgments
 % ============================================================
 \input{contents/preliminary/acknowledgements}
 
@@ -73,19 +73,19 @@
 \newpage
 
 % ============================================================
-% List of Tables (if you have tables)
+% List of Tables
 % ============================================================
 \listoftables
 \newpage
 
 % ============================================================
-% List of Figures (if you have figures)
+% List of Figures
 % ============================================================
 \listoffigures
 \newpage
 
 % ============================================================
-% List of Key Terms (if you have figures)
+% List of Key Terms
 % ============================================================
 \chapter*{LIST OF KEY TERMS}
 \addcontentsline{toc}{chapter}{LIST OF KEY TERMS}
@@ -93,7 +93,7 @@
 \newpage
 
 % ============================================================
-% List of Software (if you have figures)
+% List of Software
 % ============================================================
 \chapter*{LIST OF SOFTWARE}
 \addcontentsline{toc}{chapter}{LIST OF SOFTWARE}
@@ -101,13 +101,12 @@
 \newpage
 
 % ============================================================
-% List of Hardware (if you have figures)
+% List of Hardware
 % ============================================================
 \chapter*{LIST OF HARDWARE}
 \addcontentsline{toc}{chapter}{LIST OF HARDWARE}
 \input{contents/preliminary/hardware.tex}
 \newpage
-
 
 % ============================================================
 % Abstract
@@ -115,137 +114,116 @@
 \input{contents/preliminary/abstract.tex}
 
 % ============================================================
-% Start the main text (Adds blank page and switches to Arabic page numbers)
+% A Note on Structure
+% ============================================================
+\chapter*{A NOTE ON STRUCTURE}
+\addcontentsline{toc}{chapter}{A NOTE ON STRUCTURE}
+\input{contents/note-on-structure/note-on-structure.tex}
+\newpage
+
+% ============================================================
+% START MAIN TEXT
+% (switches to Arabic page numbers)
 % ============================================================
 \starttext
 
 % ============================================================
-% Prologue
+% COMPOSER'S NOTE: Sound Before the Instrument
 % ============================================================
-\chapter*{PROLOGUE}
-% Chapter Roadmap
-\input{contents/chapters/prologue/prologue}
+\chapter*{COMPOSER'S NOTE: SOUND BEFORE THE INSTRUMENT}
+\addcontentsline{toc}{chapter}{COMPOSER'S NOTE: SOUND BEFORE THE INSTRUMENT}
+
+\input{contents/composers-note/0_composers-note-opening.tex}
+\input{contents/composers-note/1_the-drone.tex}
+\input{contents/composers-note/2_who-is-making-this.tex}
+\input{contents/composers-note/3_trombone-in-third-position.tex}
+\input{contents/composers-note/4_making-the-score.tex}
+\input{contents/composers-note/5_how-to-hear-this.tex}
 
 % ============================================================
-% Chapter 1: Introduction
+% FIRST MOVEMENT: GROUND
+% Buffalo Soldier — earth, rock, substrate, piezo, tactility
+% Tempo: Geological | Form: Excavation log
 % ============================================================
-\chapter{INTRODUCTION}
-% Chapter Roadmap
-\input{contents/chapters/1_introduction/1_introduction}
+\chapter*{FIRST MOVEMENT: GROUND}
+\addcontentsline{toc}{chapter}{FIRST MOVEMENT: GROUND}
+
+\input{contents/movement-1-ground/0_ground-opening.tex}
+\input{contents/movement-1-ground/1_surface.tex}
+\input{contents/movement-1-ground/2_layer-1-ground-as-archive.tex}
+\input{contents/movement-1-ground/3_layer-2-encounter-without-archive.tex}
+\input{contents/movement-1-ground/4_layer-3-right-to-opacity.tex}
+\input{contents/movement-1-ground/5_layer-4-instrument-built.tex}
+\input{contents/movement-1-ground/6_deep-layer-what-ground-hears.tex}
 
 % ============================================================
-% Chapter 2: Literature Review
+% SECOND MOVEMENT: HOLD
+% Did Sun Ra Fear Cryosleep? — water, hydrophone, dissolution
+% Tempo: Chemical | Form: Ship's log / dissolution record
 % ============================================================
-\chapter{LITERATURE REVIEW}
-% Chapter Roadmap
-\input{contents/chapters/2_literature-review/2_literature-review}
-% Section 2.1
-\section{The Cultural Life of Technologies}
-\input{contents/chapters/2_literature-review/2_1_CulturalLifeOfTechnologies/2_1_1-post-phenomenology-encounters.tex}
-\input{contents/chapters/2_literature-review/2_1_CulturalLifeOfTechnologies/2_1_2-material-semiotic-entanglement.tex}
-\input{contents/chapters/2_literature-review/2_1_CulturalLifeOfTechnologies/2_1_3-technopoietic-emergence.tex}
-\input{contents/chapters/2_literature-review/2_1_CulturalLifeOfTechnologies/2_1_4-platform-epostemologies.tex}
-% Section 2.2
-\section{Speculative Worlds / Alternative Futures}
-\input{contents/chapters/2_literature-review/2_2_SpeculativeWorldsAlternativeFutures/2_2_1-critical-speculative-design.tex}
-\input{contents/chapters/2_literature-review/2_2_SpeculativeWorldsAlternativeFutures/2_2_2-black-speculative-tradition.tex}
-\input{contents/chapters/2_literature-review/2_2_SpeculativeWorldsAlternativeFutures/2_2_3-critical-fabulation.tex}
-% Section 2.3
-\section{Fugitive Technologies \& Resistant Practices}
-\input{contents/chapters/2_literature-review/2_3_FugitiveTechnologiesResitantPractice/2_3_1-fugitivity-technologiocal-practice.tex}
-\input{contents/chapters/2_literature-review/2_3_FugitiveTechnologiesResitantPractice/2_3_2-sociogenic-critique.tex}
-\input{contents/chapters/2_literature-review/2_3_FugitiveTechnologiesResitantPractice/2_3_3-black-radical-imagination.tex}
-\input{contents/chapters/2_literature-review/2_3_FugitiveTechnologiesResitantPractice/2_3_4-black-computational-thought.tex}
-% Section 2.4
-\section{Embodied Knowledge \& Cultural Memory}
-\input{contents/chapters/2_literature-review/2_4_EmbodiedKnowledgeCulturalMemory/2_4_1-black-performance-epistemology.tex}
-\input{contents/chapters/2_literature-review/2_4_EmbodiedKnowledgeCulturalMemory/2_4_2-sonic-tradition-technical-practice.tex}
-\input{contents/chapters/2_literature-review/2_4_EmbodiedKnowledgeCulturalMemory/2_4_3-embodied-interaction-multisensory-computing.tex}
-\input{contents/chapters/2_literature-review/2_4_EmbodiedKnowledgeCulturalMemory/2_4_4-sonic-interaction-design.tex}
-% Section 2.5
-\section{Computational Culture / Algorithmic Power}
-\input{contents/chapters/2_literature-review/2_5_ComputationalCultureAlgorithmicPower/2_5_1-critical-code-software-studies.tex}
-\input{contents/chapters/2_literature-review/2_5_ComputationalCultureAlgorithmicPower/2_5_2-procedural-rhetoric-habits.tex}
-\input{contents/chapters/2_literature-review/2_5_ComputationalCultureAlgorithmicPower/2_5_3-race-after-technology.tex}
-% Section 2.6
-\section{Research-Creation, Reflective Design, \& Critical Practice}
-\input{contents/chapters/2_literature-review/2_6_ResearchCreationCriticalTechnicalPractice/2_6_1-critical-technical-practice.tex}
-\input{contents/chapters/2_literature-review/2_6_ResearchCreationCriticalTechnicalPractice/2_6_2-critical-making-material-critique.tex}
-\input{contents/chapters/2_literature-review/2_6_ResearchCreationCriticalTechnicalPractice/2_6_3-autoethnographic-methodology.tex}
-\input{contents/chapters/2_literature-review/2_6_ResearchCreationCriticalTechnicalPractice/2_6_4-collaborative-creative-practice.tex}
-\input{contents/chapters/2_literature-review/2_6_ResearchCreationCriticalTechnicalPractice/2_6_5-research-creation-practice-knowledge.tex}
+\chapter*{SECOND MOVEMENT: HOLD}
+\addcontentsline{toc}{chapter}{SECOND MOVEMENT: HOLD}
 
+\input{contents/movement-2-hold/0_hold-opening.tex}
+\input{contents/movement-2-hold/1_entry-the-question.tex}
+\input{contents/movement-2-hold/2_log-1-the-wake.tex}
+\input{contents/movement-2-hold/3_log-2-what-water-holds.tex}
+\input{contents/movement-2-hold/4_log-3-temporal-escape.tex}
+\input{contents/movement-2-hold/5_log-4-instrument-built.tex}
+\input{contents/movement-2-hold/6_dissolution.tex}
 
 % ============================================================
-% Chapter 3: Methodology
+% THIRD MOVEMENT: TOUCH
+% Don't Play with My Hair — hair, gesture, CV, synthesis
+% Tempo: Human | Form: Technical manual, interrupted
 % ============================================================
-\chapter{METHODOLOGY AND FRAMEWORK}
-% Chapter Roadmap
-\input{contents/chapters/3_methodology/3_methodology}
+\chapter*{THIRD MOVEMENT: TOUCH}
+\addcontentsline{toc}{chapter}{THIRD MOVEMENT: TOUCH}
+
+\input{contents/movement-3-touch/0_touch-opening.tex}
+\input{contents/movement-3-touch/1_before-the-manual.tex}
+\input{contents/movement-3-touch/2_section-1-signifying-practice.tex}
+\input{contents/movement-3-touch/3_section-2-pipeline.tex}
+\input{contents/movement-3-touch/4_interruption-1.tex}
+\input{contents/movement-3-touch/5_section-3-haptic-epistemology.tex}
+\input{contents/movement-3-touch/6_section-4-braiding.tex}
+\input{contents/movement-3-touch/7_section-5-instrument-built.tex}
+\input{contents/movement-3-touch/8_interruption-final.tex}
 
 % ============================================================
-% Chapter 4: Results
+% CODA: TRANSMISSION
 % ============================================================
-\chapter{RESULTS AND ANALYSIS}
-% Chapter Roadmap
-\input{contents/chapters/4_results-analysis/4_results-analysis}
+\chapter*{CODA: TRANSMISSION}
+\addcontentsline{toc}{chapter}{CODA: TRANSMISSION}
+
+\input{contents/coda/0_coda-opening.tex}
+\input{contents/coda/1_ensemble-sound.tex}
+\input{contents/coda/2_framework-found.tex}
+\input{contents/coda/3_both-keys.tex}
+\input{contents/coda/4_for-future-performers.tex}
+\input{contents/coda/5_the-long-note.tex}
 
 % ============================================================
-% Chapter 5: Discussion
+% BIBLIOGRAPHY
 % ============================================================
-\chapter{DISCUSSION}
-% Chapter Roadmap
-\input{contents/chapters/5_discussion/5_discussion}
+\newpage
+\printbibliography
 
 % ============================================================
-% Chapter 6: Conclusion
+% APPENDICES
 % ============================================================
-\chapter{CONCLUSION}
-% Chapter Roadmap
-\input{contents/chapters/6_conclusion/6_conclsion}
+\appendix
 
-% ============================================================
-% Epilogue
-% ============================================================
-\chapter*{EPILOGUE}
-% Chapter Roadmap
-\input{contents/chapters/epilogue/epilogue}
+\chapter{CALL FOR COLLABORATORS}
+\input{contents/appendix/appendix-a-call-for-collaborators.tex}
 
-% ============================================================
-% References section
-% ============================================================
-\chapter*{LIST OF REFERENCES}
-\printbibliography[heading=bibintoc,title={LIST OF REFERENCES}]
+\chapter{IRB DOCUMENTATION}
+\input{contents/appendix/appendix-b-irb.tex}
 
-% ============================================================
-% Appendix
-% ============================================================
-\startappendix
+\chapter{USE OF ARTIFICIAL INTELLIGENCE IN RESEARCH}
+\input{contents/appendix/appendix-c-ai-use.tex}
 
-\chapter{SUPPLEMENTARY MATERIALS}
-Additional data analysis and supplementary figures are provided in this appendix to support the findings presented in the main text. Figure \ref{fig:appendixfig} shows a detailed breakdown of participant demographics.
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=.85\textwidth]{example-image}
-	\caption{Demographic distribution of study participants across experience levels and educational backgrounds}
-	\label{fig:appendixfig}
-\end{figure}  % Fixed this closing tag
-
-The methodology used in this study builds on approaches documented by \parencite{Loveless_2019} and \parencite{Manning_Massumi_2014}, with modifications to address the specific research questions outlined in Chapter 1. These adaptations were necessary to account for the unique characteristics of design education in contemporary contexts.
-
-\chapter{RESEARCH INSTRUMENTS}
-\lipsum[33]
-
-\chapter{IRB APPROVAL DOCUMENTS}
-\lipsum[34]
-
-\chapter{DATA COLLECTION PROTOCOLS}
-\lipsum[35]
-
-% ============================================================
-% Vita - Required for PhD dissertations according to Drexel guidelines
-% ============================================================
-\input{contents/appendix/vita}
+\chapter{TECHNICAL DOCUMENTATION}
+\input{contents/appendix/appendix-d-technical.tex}
 
 \end{document}

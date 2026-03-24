@@ -1,12 +1,14 @@
 # Context Brief: Don't Play with My Hair
-### Movement III — Organic Memory (Triptych)
+### Module III — Organic Memory (Triptych) / One Instrument in Three Parts
 *Sonic Speculocultural Technopoiesis | Darren Woodland Jr. | Drexel University*
 
 ---
 
 ## What This Work Is
 
-**Don't Play with My Hair** is the third and most intimate movement of *Organic Memory (Triptych)*, a spatial composition-in-development for three interactive sonic sculptures. It is the movement where the shared compositional motif — derived from the final phrase of *When Johnny Comes Marching Home* — appears at its most recognizable and human scale.
+**Don't Play with My Hair** is the third module of *Organic Memory (Triptych)* — a spatial composition performed on a single unified instrument built from three discrete but connectable modules. Each module is a complete instrument in its own right, with its own housing, sensing ecosystem, circuit logic, and performative affordances. Together they form one instrument, played by one performer (the researcher/builder), enclosed by a spatial audio array. This follows David Tudor's model: an instrument built to be played only by its maker, where the instrument and the performer's embodied knowledge are inseparable.
+
+This module is the most intimate of the three. It is where the shared compositional motif — derived from the final phrase of *When Johnny Comes Marching Home* — appears at its most recognizable and human scale.
 
 The work investigates the policing of Black hair by Western standards (workplace discrimination, school dress codes, the CROWN Act) alongside hair's deep importance within Black communities — the barbershop, intergenerational care knowledge, natural hair as political and aesthetic resistance. It treats hair simultaneously as a site of violation and intimate self-knowledge.
 
@@ -124,6 +126,21 @@ This is the movement where the listener *understands* what they have been hearin
 
 ---
 
+## The Instrument / Dissertation / Score Relationship
+
+A key structural revelation (March 2026): the three modules are not installations or sculptures in the conventional gallery sense. They are:
+
+- **Three instruments** — discrete, modular, each self-contained
+- **One instrument** — when assembled into a shared performance console/housing with a surrounding speaker array
+- **One composition** — *Organic Memory (Triptych)*, performed in sequence through the three modules, only by its maker
+- **One dissertation** — whose structure is organic/non-formulaic, functioning as the *score* for the instrument/composition rather than documentation after the fact
+
+The spatial layout of the three modules relative to each other and to the performer's body is still open — to be resolved through sketching and physical mockup. The performer's body should be drawn first; the instrument built around it.
+
+**David Tudor** is the primary instrument-building reference: his philosophy that a piece written for "only something he could play" is not a limitation but a knowledge claim maps directly onto Speculocultural Technopoiesis. The cultural and embodied knowledge required to play this instrument cannot be separated from the person who holds it.
+
+---
+
 ## Frameworks / References Active in This Work
 - Speculocultural Technopoiesis (ST) — Woodland Jr. (dissertation framework)
 - Sonic Interaction Design — Franinović & Serafin (2013)
@@ -132,5 +149,6 @@ This is the movement where the listener *understands* what they have been hearin
 - Afrofuturism / Black Speculative Traditions — Womack (2013), Nelson (2002)
 - Sonic Fiction — Eshun (1999)
 - Organic Music — Julius Eastman, *Femenine* (structural model for motif architecture)
+- David Tudor — instrument-building philosophy; performer-as-instrument-maker; embodied knowledge inseparable from the instrument itself
 - Race After Technology — Benjamin (2019)
 - Post-phenomenology — Ihde (1990)

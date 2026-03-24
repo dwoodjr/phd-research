@@ -1,7 +1,10 @@
 # Buffalo Soldier — Context Brief
-*Movement I of Organic Memory (Triptych)*
+*Module I of Organic Memory (Triptych) / One Instrument in Three Parts*
 
 > See `00_triptych-overview.md` for shared framework, motif, and hardware inventory.
+
+## Instrument Identity
+Buffalo Soldier is the first of three discrete but connectable instrument modules. It is complete and playable as a standalone instrument, and docks into the unified three-module performance console for the full composition. Each module has its own housing, sensing ecosystem, and performative logic. The unified instrument is played only by its maker — following David Tudor's model that embodied and cultural knowledge is inseparable from the instrument itself. Spatial layout of the three modules is still open, to be resolved through physical sketching and mockup.
 
 ## Conceptual Premise
 Explores the co-commodification of Black bodies and the American bison under colonial expansion. Speculative narrative: a Buffalo Soldier and an American buffalo meet and recognize each other — both nearly driven to extinction, both carrying the weight of genocidal logic. The name "Buffalo Soldier" itself binds Black bodies to bison through colonial violence (given by Indigenous peoples, referencing either fierce fighting or hair texture resembling buffalo fur).
