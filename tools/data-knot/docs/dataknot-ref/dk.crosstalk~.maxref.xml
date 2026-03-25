@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.crosstalk~' category='' module='dataknot'>
+    <digest>Remove crosstalk from multiple simultaneous sources
+</digest>
+    <description>The <o>dk.crosstalk~</o> takes input from multiple inputs and will lock all others out for a definiable amount of time, minimizing crosstalk between channels. This is particularly useful with drum triggers or similar setups with multiple mics on a single instrument.
+</description>
+    <discussion>This is an attempt to mimic &quot;drum brain&quot; behavior, where each incoming onset locks out other onsets from happening for a short period of time, but in a Data Knot context allowing you to use multiple input sources while mitigating crosstalk as much as possible.
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='signal'>
+            <digest>Trigger/gate and control in
+</digest>
+            <description>Trigger/gate and control in.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='signal'>
+            <digest>Trigger/gate output
+</digest>
+            <description>Trigger/gate output.
+</description>
+        </outlet>
+        <outlet id='1' type='signal'>
+            <digest>Trigger when cloud completes
+</digest>
+            <description>Trigger when cloud completes.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='base'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Base to output onset index from
+</digest>
+        <description>Base to output onset index from.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='40'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='lockout'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Time before another channel can trigger (in ms)
+</digest>
+        <description>Time before another channel can trigger (in ms).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='3.99093'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.descriptors~' />
+        <seealso name='dk.melbands~' />
+        <seealso name='dk.mfccs~' />
+        <seealso name='dk.sines~' />
+        <seealso name='dk.spectralshape~' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

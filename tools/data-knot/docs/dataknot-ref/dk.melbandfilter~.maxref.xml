@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.melbandfilter~' category='' module='dataknot'>
+    <digest>Apply a filter to incoming audio based on incoming melbands
+</digest>
+    <description>The <o>dk.melbandfilter~</o> object takes the output of <o>dk.melbandsrt~</o> or <o>dk.melbands~</o> and uses it to create a filter curve that can be applied to any audio input.
+</description>
+    <discussion>If you want to learn more about the underlying algorithms have a look at these articles:<br/><a href="https://learn.flucoma.org/reference/loudness">https://learn.flucoma.org/reference/loudness</a><br/><a href="https://learn.flucoma.org/reference/melbands">https://learn.flucoma.org/reference/melbands</a>
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='list'>
+            <digest>Frame to analyze
+</digest>
+            <description>Frame to analyze from <o>dk.onsetframe~</o>, <o>dk.realtimeframe~</o>, or <o>dk.triggerframe~</o>
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='list'>
+            <digest>Melbands as list
+</digest>
+            <description>Analyzed melbands in list form.
+</description>
+        </outlet>
+        <outlet id='1' type='list'>
+            <digest>Melbands as <o>buffer~</o>
+</digest>
+            <description>Analyzed melbands in <o>buffer~</o> form.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='gain'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Gain of input signal
+</digest>
+        <description>Gain multiplier for input signal (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='100'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='ramptime'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Smoothing applied to filter changes
+</digest>
+        <description>Smoothing applied to filter changes (in ms).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='20'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.convolver~' />
+        <seealso name='dk.crosstalk~' />
+        <seealso name='dk.envelope~' />
+        <seealso name='dk.lpg~' />
+        <seealso name='dk.melbands~' />
+        <seealso name='dk.onsetfreeze~' />
+        <seealso name='dk.onsettap~' />
+        <seealso name='dk.scatter~' />
+        <seealso name='dk.scramble~' />
+        <seealso name='dk.shatter~' />
+        <seealso name='dk.sift~' />
+        <seealso name='dk.smear~' />
+        <seealso name='dk.spectralshapefilter~' />
+        <seealso name='dk.transientextract~' />
+        <seealso name='dk.transientreplace~' />
+        <seealso name='dk.ultrasound~' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.list2buf' category='' module='dataknot'>
+    <digest>Copy a list to a buffer~
+</digest>
+    <description>Copies the values of a list to a <o>buffer~.</o>
+</description>
+    <discussion>The <o>dk.list2buf</o> object copies the values of a list to a <o>buffer~.</o><br/>This is a convenient way of transforming data such that it can interface with other Data Knot objects that expect to receive a buffer.<br/>Be aware that if a <o>buffer~</o> of a known size is not received at the input, it will defer the copying, and the copying will occure in the low priority thread.
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='list'>
+            <digest>From <o>dk.corpusmatch</o>
+</digest>
+            <description>From <o>dk.corpusmatch.</o>
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='list'>
+            <digest>Selected sample
+</digest>
+            <description>Selected sample.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.buf2list' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

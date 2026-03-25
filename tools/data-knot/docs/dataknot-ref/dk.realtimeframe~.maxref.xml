@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.realtimeframe~' category='' module='dataknot'>
+    <digest>Buffer recording and clock output
+</digest>
+    <description>The <o>dk.realtimeframe~</o> object is the counterpart to <o>dk.onsetframe~</o> where instead of outputting the frame to analyzed based on onset detection, <o>dk.realtimeframe~</o> spits out a constant stream of frame values to analyze enabling realtime analysis of multiple descriptor types that remain in sync.
+</description>
+    <discussion>The underlying timing is sample-accurate (using <o>phasor~</o>), but the timing at output may vary slightly as it is converted to message rate.
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='signal'>
+            <digest>Audio and control in
+</digest>
+            <description>Audio input to analyze.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='list'>
+            <digest>Sample position to beging analysis from
+</digest>
+            <description>Sample position to analyze in rolling <o>buffer~</o> along with <o>buffer~</o> name.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='rate'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Rate at which the frame is output (also sets the delay to make sure the window is analyzed)
+</digest>
+        <description>Rate at which the frame is output (also sets the delay to make sure the window is analyzed) (in samples).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='256'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.descriptorframe' />
+        <seealso name='dk.melbandframe' />
+        <seealso name='dk.mfccframe' />
+        <seealso name='dk.onsetframe~' />
+        <seealso name='dk.sineframe' />
+        <seealso name='dk.spectralshapeframe' />
+        <seealso name='dk.triggerframe~' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

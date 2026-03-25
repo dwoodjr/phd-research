@@ -1,0 +1,421 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.clustertrain~' category='' module='dataknot'>
+    <digest>Create a setup which can be used to improve corpus matching
+</digest>
+    <description>The <o>dk.setupcreate~</o> object creates a setup or overview of of your instrument/sticks/sources. It saves multiple descriptors at multiple time frames and can be used to scale your input to match a corpus, or to improve matching overall.
+</description>
+    <discussion>If you want to learn more about the underlying algorithms have a look at these articles:<br/><a href="https://learn.flucoma.org/reference/mlpregressor">https://learn.flucoma.org/reference/mlpregressor</a><br/><a href="https://learn.flucoma.org/reference/robustscale">https://learn.flucoma.org/reference/robustscale</a>
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='signal'>
+            <digest>Primary audio input
+</digest>
+            <description>Primary input for onset detection and recording. Different <at>input</at> modes can apply filtering based on the type of input being used.
+</description>
+        </inlet>
+        <inlet id='1' type='signal'>
+            <digest>Secondary audio input
+</digest>
+            <description>Audio input for recording independently of onset detection when being used in different <at>input</at> modes.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='list'>
+            <digest>Dict output for <o>dk.plotter</o>
+</digest>
+            <description>Dict output for <o>dk.plotter.</o>
+</description>
+        </outlet>
+        <outlet id='1' type='list'>
+            <digest>Amount of entries
+</digest>
+            <description>Amount of entries for this training set.
+</description>
+        </outlet>
+        <outlet id='2' type='float64'>
+            <digest>Training loss
+</digest>
+            <description>Training loss value for the neural network.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+    <method name='clear'>
+        <arglist>
+        </arglist>
+        <digest>Clears the training
+</digest>
+        <description>Clears the training.
+</description>
+    </method>
+    <method name='print'>
+        <arglist>
+        </arglist>
+        <digest>Print dataset contents to Max console
+</digest>
+        <description>Prints a summary of the descriptors in the dataset to the Max console.
+</description>
+    </method>
+    <method name='train'>
+        <arglist>
+        </arglist>
+        <digest>Enable setup training
+</digest>
+        <description>Enables the training mode for the internal regressor.
+</description>
+    </method>
+    <method name='trainmlp'>
+        <arglist>
+        </arglist>
+        <digest>Sets the training state of the predictive neural network
+</digest>
+        <description>Sets the training state of the predictive neural network. A &#39;1&#39; will begin training the network, and a &#39;0&#39; will complete the training and write the results to the dataset.
+</description>
+    </method>
+    <method name='write'>
+        <arglist>
+        </arglist>
+        <digest>Write training to disk
+</digest>
+        <description>Write a <strong>.json</strong> file with all the descriptors, scaling, and neural network fitting to disk.
+</description>
+    </method>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='envelope'
+        type='symbol'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Determines whether differential thresholding is logarithmic or linear
+</digest>
+        <description>Determines whether ampltidue thresholding is computed on the logarithmic differential (default) or linear (log or lin).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='symbol'
+            size='1'
+            value='log'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='fastrampdown'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The number of samples the relative envelope follower will take to reach the next value when falling
+</digest>
+        <description>The number of samples the relative envelope follower will take to reach the next value when falling. Typically, this will be faster than slowrampdown.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='383'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='fastrampup'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The number of samples the relative envelope follower will take to reach the next value when raising
+</digest>
+        <description>The number of samples the relative envelope follower will take to reach the next value when raising. Typically, this will be faster than slowrampup.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='3'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='floor'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The level in dB the slow ramp needs to be above to consider a detected difference valid, allowing to ignore the onsets in the noise floor
+</digest>
+        <description>The level in dB the slow ramp needs to be above to consider a detected difference valid, allowing to ignore the onsets in the noise floor.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='-70'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='highpassfreq'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The frequency of the fourth-order high-pass filter. This is done first on the signal to minimise low frequency intermodulation with very fast ramp lengths.
+</digest>
+        <description>The frequency of the fourth-order Linkwitz–Riley high-pass filter (<a href="https://en.wikipedia.org/wiki/Linkwitz%E2%80%93Riley_filter">https://en.wikipedia.org/wiki/Linkwitz%E2%80%93Riley_filter</a>). This is done first on the signal to minimise low frequency intermodulation with very fast ramp lengths. A frequency of 0 bypasses the filter.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='2000'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='input'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Sets the input mode (air microphone, SP Sensor, contact/trigger)
+</digest>
+        <description>Sets the input mode allowing you to use an air microphone, a Sensory
+Percussion sensor, or a normal drum trigger/contact mic. When using
+input modes 3/4, the SP sensor and contact mic are only used for
+onset detection, and the air microphone will be recorded into the
+<o>buffer~</o> for audio analysis.<br/><br/>
+The available options are:<br/>
+<ul>
+<li><strong>0</strong> = primary input (onset and recording)
+</li>
+<li><strong>1</strong> = SP sensor in primary input (onset and recording)
+</li>
+<li><strong>2</strong> = contact mic in primary input (onset and recording)
+</li>
+<li><strong>3</strong> = SP sensor + air microphone (secondary input)
+</li>
+<li><strong>4</strong> = contact mic + air microphone (secondary input)
+</li>
+<li><strong>5</strong> = primary input + secondary input (recording)
+</li>
+<li><strong>6</strong> = SP sensor with mic correction
+</li>
+</ul>
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='lockout'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Amount of time (in <strong>ms</strong>) before it can get triggered again
+</digest>
+        <description>Amount of time (in <strong>ms</strong>) before an onset can get triggered again.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='30'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='minslicelength'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The length in samples that the slice will stay ON
+</digest>
+        <description>The length in samples that the Slice will stay ON. Changes of states during that period will be ignored. This is the equivalent of <a>lockout</a> but set in samples.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='1323'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='offthreshold'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The threshold in dB of the relative envelope follower to reset, aka to allow the differential envelope to trigger again.
+</digest>
+        <description>The threshold in dB of the relative envelope follower to reset, aka to allow the differential envelope to trigger again.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='8'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='onthreshold'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The threshold in dB of the relative envelope follower to trigger an onset, aka to go ON when in OFF state
+</digest>
+        <description>The threshold in dB of the relative envelope follower to trigger an onset, aka to go ON when in OFF state. It is computed on the difference between the two envelope followers.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='19'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='sensitivity'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The nervousness of the algorithm thresholds (from 0 to 100%)
+</digest>
+        <description>The nervousness of the algorithm thresholds (from 0 to 100%). This is essentially a &#39;macro&#39; parameter for the individual on/off thresholds.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='50'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='slowrampdown'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The number of samples the absolute envelope follower will take to reach the next value when falling.
+</digest>
+        <description>The number of samples the absolute envelope follower will take to reach the next value when falling.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='2205'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='slowrampup'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The number of samples the absolute envelope follower will take to reach the next value when raising.
+</digest>
+        <description>The number of samples the absolute envelope follower will take to reach the next value when raising.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='2205'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.corpuscreate' />
+        <seealso name='dk.corpuslist' />
+        <seealso name='dk.corpusplayer~' />
+        <seealso name='dk.corpussampler~' />
+        <seealso name='dk.gridmatch' />
+        <seealso name='dk.plotter' />
+        <seealso name='dk.sampler~' />
+        <seealso name='dk.setupcreate~' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

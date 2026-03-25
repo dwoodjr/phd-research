@@ -18,26 +18,35 @@ OUTLET 1: audio~ drone output (via [send~ drone-out])
 ## Analysis Chain
 
 ```
+-- dk.descriptors~ is the primary analysis object.
+-- It does onset detection AND outputs descriptors in one object.
+-- Outlet 0 = list: loudness, loudness_derivative, centroid (MIDI), centroid_derivative,
+--                  flatness, flatness_derivative, pitch (MIDI), pitch_confidence
+-- Outlet 2 = trigger signal (onset-aligned, use for playback trigger)
+-- Outlet 3 = gate signal
+
 [ receive~ hydrophone-in ]
         |
-        ├── [ fluid.onset~ ]
-        |     threshold: 0.5   -- tune per dissolution material
-        |     mingap: 100ms    -- ignore re-triggers within 100ms
-        |     |
-        |     └── ONSET BANG (goes to playback trigger below)
+[ dk.descriptors~ ]
+  @input 2          -- contact mic mode (appropriate for hydrophone)
+  @sensitivity 50   -- default, tune lower (30-40) for quiet dissolution sounds
+  @floor -60        -- noise floor, raise to -50 if too many false triggers
+  @lockout 100      -- ms between onsets (default 30 is too fast for dissolution)
         |
-        ├── [ fluid.pitch~ ]
-        |     numframes: 2048
-        |     hopsize: 512
-        |     |
-        |     ├── outlet 0: frequency (Hz)
-        |     └── outlet 1: confidence (0.0–1.0)
-        |
-        └── [ fluid.loudness~ ]
-              numframes: 2048
-              hopsize: 512
-              |
-              └── outlet 0: loudness (dB, roughly -60 to 0)
+        ├── outlet 0: descriptor list → [unpack] for individual values (see below)
+        ├── outlet 2: trigger~ signal → onset trigger
+        └── outlet 3: gate~ signal → sustained gate while sound above floor
+
+-- Unpack descriptor list (order is fixed):
+[ unpack 0. 0. 0. 0. 0. 0. 0. 0. ]
+  index 0: loudness (dB)
+  index 1: loudness_derivative
+  index 2: centroid (MIDI pitch, 0-127)
+  index 3: centroid_derivative
+  index 4: flatness (dB)
+  index 5: flatness_derivative
+  index 6: pitch (MIDI pitch, 0-127)
+  index 7: pitch_confidence (0.0–1.0)
 ```
 
 ---
@@ -46,14 +55,20 @@ OUTLET 1: audio~ drone output (via [send~ drone-out])
 
 ```
 -- Only respond to onsets where pitch is detectable (not pure noise hits)
+-- Use pitch_confidence (index 7 from unpack) as quality gate
 
-[ fluid.pitch~ ] confidence outlet
+[ unpack ] outlet 7 → pitch_confidence
         |
-[ > 0.7 ]   -- confidence threshold, expose as parameter
+[ > 0.6 ]   -- confidence threshold, expose as float number box parameter
         |
-[ gate 1 ]  ← also gated by ONSET BANG from fluid.onset~
+    CONFIDENCE PASS (1 = tonal enough, 0 = too noisy)
+
+-- Gate the trigger signal:
+[ dk.descriptors~ ] outlet 2 (trigger~)
         |
-    GATED ONSET BANG → playback trigger
+[ *~ ] ← CONFIDENCE PASS (upsampled via [sig~] or direct *~ gate)
+        |
+    GATED TRIGGER → playback trigger
 ```
 
 ---
@@ -61,13 +76,20 @@ OUTLET 1: audio~ drone output (via [send~ drone-out])
 ## Pitch → Playback Rate Mapping
 
 ```
-[ fluid.pitch~ ] Hz outlet
+-- pitch (index 6) arrives as MIDI pitch (0–127), not Hz
+-- Convert to playback rate relative to drone sample root pitch
+
+[ unpack ] outlet 6 → MIDI_PITCH
         |
-[ / BASE_FREQ ]   -- BASE_FREQ = fundamental pitch of your drone sample
-        |           -- e.g. if drone sample is tuned to A2 (110 Hz), divide by 110
-[ clip 0.5 2.0 ]  -- limit rate to ±1 octave transposition range
+[ - DRONE_ROOT_MIDI ]   -- DRONE_ROOT_MIDI = MIDI note of your drone sample root
+        |                 -- e.g. if drone sample is tuned to A2, DRONE_ROOT_MIDI = 45
+[ / 12.0 ]              -- semitones → octaves
         |
-[ * ] ← playback rate for granular engine
+[ pow 2 ] ← 2^(semitones/12) = playback rate ratio
+        |
+[ clip 0.5 2.0 ]        -- ±1 octave max transposition range
+        |
+PLAYBACK_RATE → granular engine
 ```
 
 ---
@@ -75,13 +97,15 @@ OUTLET 1: audio~ drone output (via [send~ drone-out])
 ## Loudness → Amplitude Mapping
 
 ```
-[ fluid.loudness~ ] dB outlet
+-- loudness (index 0) arrives in dB
+
+[ unpack ] outlet 0 → LOUDNESS_DB
         |
 [ scale -40 -6 0.1 0.9 ]   -- map dB range to amplitude 0.1–0.9
-        |                      -- floor at 0.1 so it never goes silent entirely
+        |                      -- floor at 0.1 so it never goes fully silent
 [ clip 0.0 1.0 ]
         |
-[ * ] ← amplitude envelope target
+AMPLITUDE_TARGET → envelope
 ```
 
 ---
@@ -90,28 +114,29 @@ OUTLET 1: audio~ drone output (via [send~ drone-out])
 
 ```
 -- Assumes drone sample loaded into buffer~ [drone-sample]
--- Use groove~ or a granular object (e.g. munger~, fluid.bufgrain~ if available)
+-- Two options: groove~ (simpler) or dk.sampler~ (more expressive)
+-- Start with groove~ for testing, switch to dk.sampler~ for performance
 
-GATED ONSET BANG
+-- OPTION A: groove~ approach (simpler, good for testing)
+GATED TRIGGER (from outlet 2 of dk.descriptors~, converted to bang via [edge~])
         |
 [ line~ 0.0 TARGET_AMP 2000 ]   -- 2s attack envelope (softens onset click)
         |
-[ *~ ]  ← also multiply by playback output
+[ *~ ] ← multiply envelope by groove~ output
         |
-[ groove~ drone-sample PLAYBACK_RATE ]
-        |
-    -- or use granular approach:
-    -- [ fluid.bufgrain~ drone-sample ]
-    --   position: slow random drift (drunk object / triangle LFO)
-    --   rate: from pitch mapping above
-    --   duration: 200–800ms grains
-    --   overlap: 2–4
+[ groove~ drone-sample ]
+  rate input: PLAYBACK_RATE (from pitch mapping)
         |
 [ *~ AMPLITUDE ]
         |
-[ line~ TARGET_AMP 0.0 4000 ]  -- 4s release after each onset trigger
+[ line~ TARGET_AMP 0.0 4000 ]  -- 4s release after each trigger
         |
 [ send~ drone-out ]
+
+-- OPTION B: dk.sampler~ approach (more granular control)
+-- dk.sampler~ is Data Knot's sample playback object
+-- Accepts position, rate, duration, and overlap arguments
+-- See dk.sampler~ help patcher for full parameter list
 ```
 
 ---

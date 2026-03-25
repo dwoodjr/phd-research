@@ -1,0 +1,311 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.plotter' category='' module='dataknot'>
+    <digest>Display 2d corpus data and labels
+</digest>
+    <description>The <o>dk.plotter</o> object is a utility for visualizing corpora and trained classes.
+</description>
+    <discussion>If you want to learn more about the underlying algorithms have a look at these articles:<br/><a href="https://learn.flucoma.org/reference/umap">https://learn.flucoma.org/reference/umap</a><br/><a href="https://learn.flucoma.org/reference/pca">https://learn.flucoma.org/reference/pca</a>
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='list'>
+            <digest>Dataset and labelset input
+</digest>
+            <description>Dataset and labelset input.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='list'>
+            <digest>Selected point
+</digest>
+            <description>Selected point from incoming matching or UI interaction.
+</description>
+        </outlet>
+        <outlet id='1' type='list'>
+            <digest>Selected label
+</digest>
+            <description>Selected label output from incoming matching or UI interaction.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+    <method name='bgcolor'>
+        <arglist>
+        </arglist>
+        <digest>Sets the background color of the plotter
+</digest>
+        <description>Sets the background color of the plotter.
+</description>
+    </method>
+    <method name='clear'>
+        <arglist>
+        </arglist>
+        <digest>Clears the graph and all associated data and settings
+</digest>
+        <description>Clears the graph and all associated data and settings.
+</description>
+    </method>
+    <method name='pointcolor'>
+        <arglist>
+        </arglist>
+        <digest>Display 2d corpus data and labels
+</digest>
+        <description>The <o>dk.plotter</o> object is a utility for visualizing corpora and trained classes.
+</description>
+    </method>
+    <method name='pointsize'>
+        <arglist>
+        </arglist>
+        <digest>Display 2d corpus data and labels
+</digest>
+        <description>The <o>dk.plotter</o> object is a utility for visualizing corpora and trained classes.
+</description>
+    </method>
+    <method name='pointsizescale'>
+        <arglist>
+        </arglist>
+        <digest>Display 2d corpus data and labels
+</digest>
+        <description>The <o>dk.plotter</o> object is a utility for visualizing corpora and trained classes.
+</description>
+    </method>
+    <method name='setpoint'>
+        <arglist>
+        </arglist>
+        <digest>Display 2d corpus data and labels
+</digest>
+        <description>The <o>dk.plotter</o> object is a utility for visualizing corpora and trained classes.
+</description>
+    </method>
+    <method name='xrange'>
+        <arglist>
+        </arglist>
+        <digest>Display 2d corpus data and labels
+</digest>
+        <description>The <o>dk.plotter</o> object is a utility for visualizing corpora and trained classes.
+</description>
+    </method>
+    <method name='yrange'>
+        <arglist>
+        </arglist>
+        <digest>Display 2d corpus data and labels
+</digest>
+        <description>The <o>dk.plotter</o> object is a utility for visualizing corpora and trained classes.
+</description>
+    </method>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='algorithm'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Sets the dimensionality reduction algorithm
+</digest>
+        <description>Sets the dimensionality reduction algorithm (UMAP or PCA).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='150'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='color'
+        type=''
+        size='2'
+        get='1' set='1'
+        >
+        <digest>Sets the color mapping for 3d and 4d projections
+</digest>
+        <description>Set the color mapping for the 3d and 4d projections.
+The available options are:
+<strong>linear</strong> = Black - Blue - Green - Orange - Yellow map. The most perceptually accurate mapping.
+<strong>rainbow</strong> = Vivid rainbow colour map from blue to red with a small perceptual blind spot at yellow. Beware, the vivid colours may make you segment regions in your data on the basis of the colours in the map rather than the structure in your data.
+<strong>cyclic</strong> = Attractive six-colour cyclic with primaries and secondaries matched in lightness.
+<strong>greyscale</strong> = Standard grey scale.
+<strong>colorblind</strong> = Linear map with maximal chroma for Protanopic/Deuteranopic viewers.
+<strong>hsl</strong> = Even distribution based on Hue, Lightness, and Saturation. Offers wide visual contrast at the cost of distance accuracy in the data.
+As a rule of thumb linear offers the most accurate display and hsl offers the most visual contrast.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='list'
+            size='2'
+            value='rainbow'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='iterations'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The number of iterations that the algorithm will go through
+</digest>
+        <description>The number of iterations that the algorithm will go through to optimise the new representation (minimum 1).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='150'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='learnrate'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Learning rate of the algorithm
+</digest>
+        <description>The learning rate of the algorithm, aka how much of the error it uses to estimate the next iteration.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0.2'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='mindist'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Minimum distance each point is allowed to be from the others in the low dimension space
+</digest>
+        <description>The minimum distance each point is allowed to be from the others in the low dimension space. Low values will make tighter clumps, and higher will spread the points more.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0.5'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='numneighbors'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Number of neighbors considered by the algorithm to balance local vs global structures
+</digest>
+        <description>The number of neighbors considered by the algorithm to balance local vs global structures to conserve. Low values will prioritise preservation of the local structure while high values will prioritise preservation of the global structure.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='10'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='size'
+        type='symbol'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Display size of UI
+</digest>
+        <description>Display size of UI (small: 169, medium: 235, large: 350, xl: 600).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='symbol'
+            size='1'
+            value='medium'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='whiten'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Whether or not to perform &quot;whitening&quot; on the output of PCA
+</digest>
+        <description>A flag (0 or 1) indicating whether or not to perform &quot;whitening&quot; on the output of PCA.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.classifierdisplay' />
+        <seealso name='dk.corpuslist' />
+        <seealso name='dk.descriptordisplay' />
+        <seealso name='dk.eraetouch' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

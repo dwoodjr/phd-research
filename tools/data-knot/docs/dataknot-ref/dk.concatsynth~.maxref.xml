@@ -1,0 +1,454 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.concatsynth~' category='' module='dataknot'>
+    <digest>Realtime concatenative synthesis
+</digest>
+    <description>The <o>dk.concatplayer~</o> object creates real-time audio mosaicking via concatenative synthesis with a pre-analyzed concat corpus. <o>dk.concatsynth~</o> handles the audio analysis and nearest neighbor matching in a single object.
+</description>
+    <discussion>If you want to learn more about the underlying algorithm have a look at this article:<br/><a href="https://learn.flucoma.org/reference/kdtree">https://learn.flucoma.org/reference/kdtree</a>
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='signal'>
+            <digest>Audio and control in
+</digest>
+            <description>Audio input to be analyzed for concatenation/resynthesis.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='signal'>
+            <digest>Audio output (left)
+</digest>
+            <description>Audio output (left).
+</description>
+        </outlet>
+        <outlet id='1' type='signal'>
+            <digest>Audio output (right)
+</digest>
+            <description>Audio output (right).
+</description>
+        </outlet>
+        <outlet id='2' type='list'>
+            <digest>Position and name outlet for <o>waveform~</o>
+</digest>
+            <description>Sends the <o>buffer~</o> name and playback position to be used with <o>waveform~.</o>
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+        <objarg name='default' optional='1' type='symbol'>
+            <digest>JSON file to load by default
+</digest>
+            <description>JSON file to load by default.
+</description>
+        </objarg>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+    <method name='info'>
+        <arglist>
+        </arglist>
+        <digest>Print summary information about the concat corpus
+</digest>
+        <description>Print summary information about the concat corpus.
+</description>
+    </method>
+    <method name='print'>
+        <arglist>
+        </arglist>
+        <digest>Print summary info to Max console
+</digest>
+        <description>Prints summary info including overall statistics to the Max console.
+</description>
+    </method>
+    <method name='read'>
+        <arglist>
+        </arglist>
+        <digest>Read a pre-trained concat <strong>.json</strong> file
+</digest>
+        <description>Reads a pre-trained concat <strong>.json</strong> file directly from a relative or absolute path. With no additional argument, a file dialog will appear to choose a <strong>.json</strong> file.
+</description>
+    </method>
+    <method name='refer'>
+        <arglist>
+        </arglist>
+        <digest>Messages related to <o>buffer~</o> loading
+</digest>
+        <description>Messages related to <o>buffer~</o> loading and referring.<br/>
+You can point the analysis to an existing <o>buffer~</o> by sending sending a <m>refer</m>
+message followed by a valid <o>buffer~</o> name. This will immediately analyze the named
+<o>buffer~</o> and make it available for playback as soon as the process is done.<br/><br/>
+Additional optional arguments allow you to specify a subsection of the <o>buffer~</o> to load
+for analysis.<br/><br/>
+A single additional argument will specify how much of the <o>buffer~</o> (in ms) to analyze from the start.
+If two arguments are given these will specify the <strong>start</strong> position (in ms) of the analysis and then the
+<strong>duration</strong> (in ms) of the <o>buffer~</o> to analyze after that point.<br/><br/>
+Therefore a complete message would look as follows:<br/>
+<code>refer bufferName</code> or <code>refer bufferName 500</code> or <code>refer bufferName 500 1500</code>
+</description>
+    </method>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='active'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Enables or disables the matching
+</digest>
+        <description>Enables or disables the matching.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='1'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='loudness'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Amount of loudness compensation to apply
+</digest>
+        <description>Amount of loudness compensation to apply (bewteen -100 and 100%).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='50'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='neighbors'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The number of neighbors to return
+</digest>
+        <description>The number of neighbors to return.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='3'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='pitch'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Amount of pitch compensation to apply
+</digest>
+        <description>Amount of pitch compensation to apply (between -100 and 100%).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='radius'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Maximum Distance
+</digest>
+        <description>The maximum distance (in high dimensional space) that a returned point can be. Any points beyond <a>radius</a> will not be returned (even if they&#39;re within the nearest <a>neighbors</a> points). When <a>radius</a> is 0, it is no longer a constraint and the distance of a nearest neighbor is not taken into account.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='12'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='random'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Enable random rate matching
+</digest>
+        <description>Enable random variation to the matching/concatenation.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='rate'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Rate of concatenation
+</digest>
+        <description>Rate of matching/playback in the concatenation engine (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='100'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='size'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Size of grain to play back
+</digest>
+        <description>Size of grain to play back, in %.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='100'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='steal'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Whether poly voice stealing is enabled
+</digest>
+        <description>Sets whether voice stealing is enabled, which allows new samples to start when previous ones are still sounding.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='1'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='speed'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Playback speed
+</digest>
+        <description>Sets the playback speed for each individual grain.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='100'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='weights'
+        type='list'
+        size=''
+        get='1' set='1'
+        >
+        <digest>Messages related to descriptor weighting
+</digest>
+        <description>Messages related to descriptor weighting.<br/>
+After sending the <m>weights</m> message you send a series of
+additional arguments that determine what descriptor is being
+weighted, and how much its weight is being modified by.<br/>
+The available descriptors that can be used for weighting are:<br/>
+<ul>
+<li><strong>loudness</strong>
+</li>
+<li><strong>loudness_derivative</strong>
+</li>
+<li><strong>centroid</strong>
+</li>
+<li><strong>centroid_derivative</strong>
+</li>
+<li><strong>flatness</strong>
+</li>
+<li><strong>flatness_derivative</strong>
+</li>
+<li><strong>pitch</strong>
+</li>
+<li><strong>pitch_confidence</strong><br/><br/>
+</li>
+</ul>
+The descriptors are weighted with a percentage between 0% and 1000%, with 100% being the default.<br/>
+Therefore a complete message would look as follows:<br/>
+<code>weights loudness 200</code> or <code>weights pitch 1000</code> or <code>weights flatness 50, weights pitch_confidence 500</code>
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='list'
+            size=''
+            value=''
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='width'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Panning width
+</digest>
+        <description>Sets the random distribution width for the grain panning.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='100'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='window'
+        type='symbol'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Window function for playback
+</digest>
+        <description>Sets the window function for the grain playback.&quot;
+The available options are:
+<strong>sine</strong>
+<strong>hann</strong>
+<strong>triangle</strong>
+<strong>rampdown</strong>
+<strong>rampup</strong>
+<strong>onset</strong>
+<strong>hamming</strong>
+<strong>blackman</strong>
+<strong>square</strong>
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='symbol'
+            size='1'
+            value='sine'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='voices'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Amount of polyphony
+</digest>
+        <description>Sets the amount of polyphony available for sample playback.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='64'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.concatanalysis~' />
+        <seealso name='dk.concatcreate' />
+        <seealso name='dk.concatmatch' />
+        <seealso name='dk.concatplayer~' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

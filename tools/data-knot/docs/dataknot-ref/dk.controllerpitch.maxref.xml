@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.controllerpitch' category='' module='dataknot'>
+    <digest>Map pitches across a range in a given key/scale
+</digest>
+    <description>The <o>dk.controllerpitch</o> object takes incoming values (between 0. and 1.) and maps them across a specified range, including scale/key quantization. This is useful for creating melodic gestures from incoming descriptor or controller data.
+</description>
+    <discussion>Originally inspired by Sensory Percussion modulators, but the expanded to incorporate additional parameters derived in a similar way.
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='float'>
+            <digest>Controller in
+</digest>
+            <description>Controller input.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='float'>
+            <digest>Quantized notes
+</digest>
+            <description>Quantized MIDI note output.
+</description>
+        </outlet>
+        <outlet id='1' type='int'>
+            <digest>Display output for <o>kslider</o>
+</digest>
+            <description>Display output for <o>kslider.</o>
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='active'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Enables or disables the matching
+</digest>
+        <description>Enables or disables the matching.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='1'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='key'
+        type='list'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Key to transpose the scale/mode to
+</digest>
+        <description>Key to transpose the scale/mode to.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='list'
+            size='1'
+            value='7'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='range'
+        type='list'
+        size='2'
+        get='1' set='1'
+        >
+        <digest>Output note range
+</digest>
+        <description>Output note range.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='list'
+            size='2'
+            value='60 84'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='scale'
+        type='list'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Scale/mode to use
+</digest>
+        <description>Scale/mode to use. All options from the native BEAP quantizer.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='list'
+            size='1'
+            value='7'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.controllermatch' />
+        <seealso name='dk.descriptorframe' />
+        <seealso name='dk.descriptors~' />
+        <seealso name='dk.quantizepitch' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

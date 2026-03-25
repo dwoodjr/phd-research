@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.mangrove~' category='' module='dataknot'>
+    <digest>Mangrove-inspired oscillator
+</digest>
+    <description>The <o>dk.mangrove~</o> object is a digital recreation of the Whimsical Raps Mangrove oscillator. It is a triangle-core oscillator with built in waveshaping and emphasis on timbre and spectra shaping. The control scheme is modelled after the Mangrove + PPM expansion, offering additional inputs and outputs to the original oscillator.
+</description>
+    <discussion>Based on the Whimsical Raps Mangrove. For more information visit <a href="https://www.whimsicalraps.com/products/mangrove">https://www.whimsicalraps.com/products/mangrove</a>
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='signal'>
+            <digest>Note input and optional audio input
+</digest>
+            <description>Note input (as MIDI float) and optional audio input for triggering the algorithm.
+</description>
+        </inlet>
+        <inlet id='1' type='signal'>
+            <digest>Trigger input
+</digest>
+            <description>Trigger input.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='signal'>
+            <digest>Audio output (L)
+</digest>
+            <description>Audio output (L).
+</description>
+        </outlet>
+        <outlet id='1' type='signal'>
+            <digest>Audio output (R)
+</digest>
+            <description>Audio output (R).
+</description>
+        </outlet>
+        <outlet id='2' type='signal'>
+            <digest>Impulse output
+</digest>
+            <description>Impulse that is fed to algorithm output.
+</description>
+        </outlet>
+        <outlet id='3' type='list'>
+            <digest>Dump out for parameter names, ranges, and values
+</digest>
+            <description>Dump out for parameter names, ranges, and values.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+    <method name='dump'>
+        <arglist>
+        </arglist>
+        <digest>Dump parameter names, ranges, and values
+</digest>
+        <description>Dumps parameter names, ranges, and values out of the right-most outlet.
+</description>
+    </method>
+    <method name='randomize'>
+        <arglist>
+        </arglist>
+        <digest>Randomize parameters
+</digest>
+        <description>Randomize parameters defined by the preset dictionary. An additional optional argument will randomize by a certain percentage.
+</description>
+    </method>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='air'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Amount of overdrive applied to signal
+</digest>
+        <description>Amount of overdrive applied to signal, morphing the harmonic content (-1 to 1).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='barrel'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Controls the balance of rise-time to fall-time
+</digest>
+        <description>Controls the balance of rise-time to fall-time as percentages of the total impulse duration (-1 to 1).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='constant'
+        type='symbol'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Select between constant wave or formant
+</digest>
+        <description>Determines whether or not the frequency of the core oscillator affects the impulse duration by toggling the addition of the frequency control to the formant control before setting the impulse duration (wave or formant).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='symbol'
+            size='1'
+            value='wave'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='curve'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Shape of slopes as they rise and fall
+</digest>
+        <description>Effects the shape of slopes as they rise and fall without affecting the durations of either stage (-1 to 1).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='formant'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Controls the total duration of each impulse
+</digest>
+        <description>Controls the total duration of each impulse. As formant increases, the duration of each impulse decreases.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='ramptime'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Ramp time for smoothing of each parameter
+</digest>
+        <description>Ramp time for smoothing each parameter (in ms).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='35'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='upsample'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>How much upsampling to apply
+</digest>
+        <description>How much upsampling to apply to underlying algorithm (0 = none, 1 = default, 2 = maximum).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='1'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.avdog~' />
+        <seealso name='dk.fourses~' />
+        <seealso name='dk.gongue~' />
+        <seealso name='dk.justfriends~' />
+        <seealso name='dk.quantussy~' />
+        <seealso name='dk.rungler~' />
+        <seealso name='dk.snare~' />
+        <seealso name='dk.ultrasound~' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

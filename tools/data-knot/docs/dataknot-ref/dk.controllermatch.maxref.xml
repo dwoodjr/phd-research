@@ -1,0 +1,653 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.controllermatch' category='' module='dataknot'>
+    <digest>Find the nearest match in a pre-analyzed corpus
+</digest>
+    <description>The <o>dk.controllermatch</o> object finds the nearest match in a corpus based on a 1D version of the space. You can load/use the same corpora as you would with <o>dk.corpusmatch</o> but instead of matching based on incoming audio descriptors you can match using a single float from a controller or UI object.
+</description>
+    <discussion>If you want to learn more about the underlying algorithms have a look at these articles:<br/><a href="https://learn.flucoma.org/reference/kdtree">https://learn.flucoma.org/reference/kdtree</a><br/><a href="https://learn.flucoma.org/reference/mlpregressor">https://learn.flucoma.org/reference/mlpregressor</a>
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='list'>
+            <digest>Buffer and control in
+</digest>
+            <description>Buffer and control input.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='list'>
+            <digest>Matched entry
+</digest>
+            <description>Matched entry.
+</description>
+        </outlet>
+        <outlet id='1' type='list'>
+            <digest>Dict output for <o>dk.plotter</o>
+</digest>
+            <description>Dict output for <o>dk.plotter.</o>
+</description>
+        </outlet>
+        <outlet id='2' type='list'>
+            <digest>Waveform and slice display for <o>fluid.waveform~</o>
+</digest>
+            <description>Waveform and slice display for <o>fluid.waveform~.</o>
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+        <objarg name='default' optional='1' type='symbol'>
+            <digest>JSON file to load by default
+</digest>
+            <description>JSON file to load by default.
+</description>
+        </objarg>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+    <method name='dump'>
+        <arglist>
+        </arglist>
+        <digest>Dumps out the current entries as a list
+</digest>
+        <description>Dumps out current entries as a list (filtered or otherwise) as a list.
+</description>
+    </method>
+    <method name='dumpdict'>
+        <arglist>
+        </arglist>
+        <digest>Dumps out the current entries as a list
+</digest>
+        <description>Dumps out current entries as a list (filtered or otherwise) as a dictionary.
+</description>
+    </method>
+    <method name='info'>
+        <arglist>
+        </arglist>
+        <digest>Print corpus metatdata/info to Max console
+</digest>
+        <description>Prints a summary of the corpus metatdata/info to the Max console.
+</description>
+    </method>
+    <method name='print'>
+        <arglist>
+        </arglist>
+        <digest>Print dataset contents to Max console
+</digest>
+        <description>Prints a summary of the descriptors in the dataset to the Max console.
+</description>
+    </method>
+    <method name='read'>
+        <arglist>
+        </arglist>
+        <digest>Read a pre-trained corpus <strong>.json</strong> file
+</digest>
+        <description>Reads a pre-trained corpus <strong>.json</strong> file directly from a relative or absolute path. With no additional argument, a file dialog will appear to choose a <strong>.json</strong> file.
+</description>
+    </method>
+    <method name='refer'>
+        <arglist>
+        </arglist>
+        <digest>Messages related to <o>buffer~</o> loading
+</digest>
+        <description>Messages related to <o>buffer~</o> loading and referring.<br/>
+You can point the analysis to an existing <o>buffer~</o> by sending sending a <m>refer</m>
+message followed by a valid <o>buffer~</o> name. This will immediately analyze the named
+<o>buffer~</o> and make it available for playback as soon as the process is done.<br/><br/>
+Additional optional arguments allow you to specify a subsection of the <o>buffer~</o> to load
+for analysis.<br/><br/>
+A single additional argument will specify how much of the <o>buffer~</o> (in ms) to analyze from the start.
+If two arguments are given these will specify the <strong>start</strong> position (in ms) of the analysis and then the
+<strong>duration</strong> (in ms) of the <o>buffer~</o> to analyze after that point.<br/><br/>
+Therefore a complete message would look as follows:<br/>
+<code>refer bufferName</code> or <code>refer bufferName 500</code> or <code>refer bufferName 500 1500</code>
+</description>
+    </method>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='active'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Enables or disables the matching
+</digest>
+        <description>Enables or disables the matching.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='1'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='corpus'
+        type='list'
+        size=''
+        get='1' set='1'
+        >
+        <digest>Messages related to corpus matching
+</digest>
+        <description>Messages related to corpus matching.<br/>
+After sending the <m>corpus</m> message you send an argument of
+&#39;match&#39; followed by a time-scale you wish to match against.<br/>
+The available options are:<br/>
+<ul>
+<li><strong>short</strong> = the first 256 samples (at 44.1k sample rate)
+</li>
+<li><strong>medium</strong> = the first 4410 samples (at 44.1k sample rate)
+</li>
+<li><strong>all</strong> = the entire file<br/><br/>
+</li>
+</ul>
+Therefore a complete message would look as follows:<br/>
+<code>corpus match all</code> or <code>corpus match small</code>
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='list'
+            size=''
+            value=''
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='fastrampdown'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The number of samples the relative envelope follower will take to reach the next value when falling
+</digest>
+        <description>The number of samples the relative envelope follower will take to reach the next value when falling. Typically, this will be faster than slowrampdown.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='383'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='fastrampup'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The number of samples the relative envelope follower will take to reach the next value when raising
+</digest>
+        <description>The number of samples the relative envelope follower will take to reach the next value when raising. Typically, this will be faster than slowrampup.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='3'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='filter'
+        type='list'
+        size=''
+        get='1' set='1'
+        >
+        <digest>Messages related to corpus filtering
+</digest>
+        <description>Messages related to corpus filtering.
+After sending the <m>filter</m> message you send a series of
+additional arguments that determine what descriptor is being
+filtered, how it is being filtered, as well as further filtering
+strands combined with conditionals.<br/><br/>
+The available descriptors that can be used for filtering are:<br/>
+<ul>
+<li><strong>duration</strong> =  overall sample duration in <strong>ms</strong>
+</li>
+<li><strong>time_centroid</strong> = how long a sample &#39;sounds&#39; in <strong>ms</strong>
+</li>
+<li><strong>loudness</strong> = loudness in <strong>dB</strong>
+</li>
+<li><strong>centroid</strong> = centroid in <strong>MIDI pitch</strong>
+</li>
+<li><strong>flatness</strong> = spectral flatness in <strong>dB</strong>
+</li>
+<li><strong>pitch</strong> = pitch in <strong>MIDI pitch</strong>
+</li>
+<li><strong>pitch_confidence</strong> = pitch confidence in <strong>0 to 1</strong>
+</li>
+<li><strong>loudness_medium</strong> = same for medium time frame
+</li>
+<li><strong>centroid_medium</strong> = same for medium time frame
+</li>
+<li><strong>flatness_medium</strong> = same for medium time frame
+</li>
+<li><strong>pitch_medium</strong> = same for medium time frame
+</li>
+<li><strong>pitch_confidence_medium</strong> = same for medium time frame
+</li>
+<li><strong>loudness_all</strong> = same for entire sample
+</li>
+<li><strong>centroid_all</strong> = same for entire sample
+</li>
+<li><strong>flatness_all</strong> = same for entire sample
+</li>
+<li><strong>pitch_all</strong> = same for entire sample
+</li>
+<li><strong>pitch_confidence_all</strong> = same for entire sample
+</li>
+<li><strong>index</strong> = the sample index in the corpus<br/><br/>
+</li>
+</ul>
+You can filter by the following operators:<br/>
+<ul>
+<li><strong>==</strong> = equals
+</li>
+<li><strong>!=</strong> = does not equal
+</li>
+<li><strong>&lt;</strong> = less than
+</li>
+<li><strong>&lt;=</strong> = less than or equal
+</li>
+<li><strong>&gt;</strong> = greater than
+</li>
+<li><strong>&gt;=</strong> = greater than or equal<br/><br/>
+</li>
+</ul>
+You can join multiple queries using:<br/>
+<ul>
+<li><strong>and</strong>
+</li>
+<li><strong>or</strong>
+</li>
+</ul>
+Therefore a complete message would look as follows:
+<code>filter loudness &lt; -45</code> or <code>filter duration &gt; 2500</code> or <code>filter centroid &gt; 60 and time_centroid &lt; 80</code><br/><br/>
+To reset the filtering you can send the following message:
+&#39;filter reset&#39;
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='list'
+            size=''
+            value=''
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='floor'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The level in dB the slow ramp needs to be above to consider a detected difference valid, allowing to ignore the onsets in the noise floor
+</digest>
+        <description>The level in dB the slow ramp needs to be above to consider a detected difference valid, allowing to ignore the onsets in the noise floor.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='-70'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='highpassfreq'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The frequency of the fourth-order high-pass filter. This is done first on the signal to minimise low frequency intermodulation with very fast ramp lengths.
+</digest>
+        <description>The frequency of the fourth-order Linkwitz–Riley high-pass filter (<a href="https://en.wikipedia.org/wiki/Linkwitz%E2%80%93Riley_filter">https://en.wikipedia.org/wiki/Linkwitz%E2%80%93Riley_filter</a>). This is done first on the signal to minimise low frequency intermodulation with very fast ramp lengths. A frequency of 0 bypasses the filter.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='2000'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='iterations'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The number of iterations that the algorithm will go through
+</digest>
+        <description>The number of iterations that the algorithm will go through to optimise the new representation (minimum 1).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='150'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='learnrate'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Learning rate of the algorithm
+</digest>
+        <description>The learning rate of the algorithm, aka how much of the error it uses to estimate the next iteration.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0.2'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='lockout'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Amount of time (in <strong>ms</strong>) before it can get triggered again
+</digest>
+        <description>Amount of time (in <strong>ms</strong>) before an onset can get triggered again.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='30'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='matchcount'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Sets the number of matches that are returned
+</digest>
+        <description>Sets the number of matches that are returned as iterated items, which will be played back as a &quot;chord&quot;.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='1'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='mindist'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Minimum distance each point is allowed to be from the others in the low dimension space
+</digest>
+        <description>The minimum distance each point is allowed to be from the others in the low dimension space. Low values will make tighter clumps, and higher will spread the points more.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0.5'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='minslicelength'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The length in samples that the slice will stay ON
+</digest>
+        <description>The length in samples that the Slice will stay ON. Changes of states during that period will be ignored. This is the equivalent of <a>lockout</a> but set in samples.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='1323'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='numneighbors'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Number of neighbors considered by the algorithm to balance local vs global structures
+</digest>
+        <description>The number of neighbors considered by the algorithm to balance local vs global structures to conserve. Low values will prioritise preservation of the local structure while high values will prioritise preservation of the global structure.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='10'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='offthreshold'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The threshold in dB of the relative envelope follower to reset, aka to allow the differential envelope to trigger again.
+</digest>
+        <description>The threshold in dB of the relative envelope follower to reset, aka to allow the differential envelope to trigger again.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='8'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='onthreshold'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The threshold in dB of the relative envelope follower to trigger an onset, aka to go ON when in OFF state
+</digest>
+        <description>The threshold in dB of the relative envelope follower to trigger an onset, aka to go ON when in OFF state. It is computed on the difference between the two envelope followers.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='19'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='roundrobin'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Enable roundrobin sample matching
+</digest>
+        <description>Enables round robin sample matching so when a match is found twice
+in a row, a randomized selection is made within the nearest matches.<br/>
+The available options are:<br/>
+<ul>
+<li><strong>0</strong> = round robin selection is off 
+</li>
+<li><strong>1</strong> = round robin selection is on (default 5 nearest neighbors)
+</li>
+</ul>
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='1'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='sensitivity'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The nervousness of the algorithm thresholds (from 0 to 100%)
+</digest>
+        <description>The nervousness of the algorithm thresholds (from 0 to 100%). This is essentially a &#39;macro&#39; parameter for the individual on/off thresholds.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='50'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='slowrampdown'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The number of samples the absolute envelope follower will take to reach the next value when falling.
+</digest>
+        <description>The number of samples the absolute envelope follower will take to reach the next value when falling.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='2205'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='slowrampup'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The number of samples the absolute envelope follower will take to reach the next value when raising.
+</digest>
+        <description>The number of samples the absolute envelope follower will take to reach the next value when raising.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='2205'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.controllerpitch' />
+        <seealso name='dk.corpuscreate' />
+        <seealso name='dk.corpusmatch' />
+        <seealso name='so.corpusplayer~' />
+        <seealso name='dk.plotter' />
+        <seealso name='dk.sampler~' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

@@ -1,0 +1,440 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.waveguidesnare~' category='' module='dataknot'>
+    <digest>Physical model of a snare
+</digest>
+    <description>The <o>dk.waveguidesnare~</o> object is a physical model of a snare. The model is activated by a generated impulse, live input, or a combination of both, which serves to further shape the resultant sound.
+</description>
+    <discussion>Adapted from BLAIR&#39;s post on the cycling74.com forum <a href="https://cycling74.com/forums/sharing-acoustic-waveguide-snare">https://cycling74.com/forums/sharing-acoustic-waveguide-snare</a>
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='signal'>
+            <digest>Note input and optional audio input
+</digest>
+            <description>Note input (as MIDI float) and optional audio input for triggering the algorithm.
+</description>
+        </inlet>
+        <inlet id='1' type='signal'>
+            <digest>Trigger input
+</digest>
+            <description>Trigger input.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='signal'>
+            <digest>Audio output (L)
+</digest>
+            <description>Audio output (L).
+</description>
+        </outlet>
+        <outlet id='1' type='signal'>
+            <digest>Audio output (R)
+</digest>
+            <description>Audio output (R).
+</description>
+        </outlet>
+        <outlet id='2' type='signal'>
+            <digest>Impulse output
+</digest>
+            <description>Impulse that is fed to algorithm output.
+</description>
+        </outlet>
+        <outlet id='3' type='list'>
+            <digest>Dump out for parameter names, ranges, and values
+</digest>
+            <description>Dump out for parameter names, ranges, and values.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+    <method name='bang'>
+        <arglist>
+        </arglist>
+        <digest>Equivalent of sending a trigger when sent into right inlet
+</digest>
+        <description>Equivalent of sending a trigger when sent into right inlet.
+</description>
+    </method>
+    <method name='dump'>
+        <arglist>
+        </arglist>
+        <digest>Dump parameter names, ranges, and values
+</digest>
+        <description>Dumps parameter names, ranges, and values out of the right-most outlet.
+</description>
+    </method>
+    <method name='randomize'>
+        <arglist>
+        </arglist>
+        <digest>Randomize parameters
+</digest>
+        <description>Randomize parameters defined by the preset dictionary. An additional optional argument will randomize by a certain percentage.
+</description>
+    </method>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='brightness'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>&#39;Brightness&#39; parameter in impulse generator algorithm
+</digest>
+        <description>&#39;Brightness&#39; parameter in impulse generator algorithm.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='100'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='damping'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Damping of the drum
+</digest>
+        <description>Damping of the drum in the physical model (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='50'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='decay'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Decay time of generated impulse
+</digest>
+        <description>Decay time of generated impulse.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='54'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='gain'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Output gain
+</digest>
+        <description>Output gain (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='100'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='impulse'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Amount of impulse signal sent to algorithm
+</digest>
+        <description>Amount of impulse signal sent to algorithm.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='100'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='impulseout'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Amount of impulse sent to the output
+</digest>
+        <description>Amount of impulse signal sent to the otuput.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='50'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='input'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Amount of input signal sent to algorithm
+</digest>
+        <description>Amount of input signal sent to algorithm.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='50'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='inputgain'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Amount of input sent directly to model when in realtime/combined modes
+</digest>
+        <description>Amount of input sent directly to model when in realtime/combined modes.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='100'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='mode'
+        type='list'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Sets the actuation mode for audio input
+</digest>
+        <description>Sets the actuation mode for audio input.<br/>
+The available options are:<br/>
+<ul>
+<li><strong>0</strong> = no direct audio, triggers only</li>
+<li><strong>1</strong> = direct audio only, no triggers</li>
+<li><strong>2</strong> = both direct and trigger audio)</li>
+</ul>
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='list'
+            size='1'
+            value=''
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='ramptime'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Ramp time for smoothing of each parameter
+</digest>
+        <description>Ramp time for smoothing each parameter (in ms).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='20'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='rattle'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Rattle of the snares
+</digest>
+        <description>Rattles of the snares in the physical model (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='50'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='resonance'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>&#39;Resonance&#39; parameter in impulse generator algorithm
+</digest>
+        <description>&#39;Resonance&#39; parameter in impulse generator algorithm.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='9'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='position'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Position parameter in impulse generator algorithm
+</digest>
+        <description>Position parameter in impulse generator algorithm.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='4'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='sharpness'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>&#39;Sharpness&#39; parameter in impulse generator algorithm
+</digest>
+        <description>&#39;Sharpness&#39; parameter in impulse generator algorithm.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='3'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='tuning'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Tuning of the snare
+</digest>
+        <description>Tuning of the snare in the physical model (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='50'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.convolver~' />
+        <seealso name='dk.justfriends~' />
+        <seealso name='dk.karplus~' />
+        <seealso name='dk.mangrove~' />
+        <seealso name='dk.resonators~' />
+        <seealso name='dk.resonatorscreate~' />
+        <seealso name='dk.shaker~' />
+        <seealso name='dk.sinusoidplayer~' />
+        <seealso name='dk.sinusoids~' />
+        <seealso name='dk.waveguidemesh~' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

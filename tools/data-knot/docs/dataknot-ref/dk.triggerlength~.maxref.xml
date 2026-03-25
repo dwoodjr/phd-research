@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.triggerlength~' category='' module='dataknot'>
+    <digest>Trigger and gate length adjustment
+</digest>
+    <description>The <o>dk.triggerlength~</o> object increases the length of incoming trigger or gate signals. This is useful if your triggers are too short to trigger subsequent processes or your gates are musically too short.
+</description>
+    <discussion>This is especially useful when being used with the other trigger-based objects to make the minimum trigger length register in phyisical hardware. A @attribute @lengthabsolute 5 is generally a good starting off point here.
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='signal'>
+            <digest>Trigger/gate in
+</digest>
+            <description>Trigger/gate input.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='signal'>
+            <digest>Trigger/gate out
+</digest>
+            <description>Trigger/gate output.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='length'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Additional length added to trigger/gates
+</digest>
+        <description>Additional length added to trigger/gates (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='150'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='lengthabsolute'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Additional length added to trigger/gates
+</digest>
+        <description>Additional length added to trigger/gates (in ms).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.cvcontrollers~' />
+        <seealso name='dk.cvcross~' />
+        <seealso name='dk.cvgate~' />
+        <seealso name='dk.cvonset~' />
+        <seealso name='dk.cvscatter~' />
+        <seealso name='dk.cvsmear~' />
+        <seealso name='dk.onset~' />
+        <seealso name='dk.probability~' />
+        <seealso name='dk.spectralonset~' />
+        <seealso name='dk.triggerbounce~' />
+        <seealso name='dk.triggercloud~' />
+        <seealso name='dk.triggerdelay~' />
+        <seealso name='dk.triggershape~' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

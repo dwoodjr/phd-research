@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.triggerdelay~' category='' module='dataknot'>
+    <digest>Create a delay of triggers (or gates) after each input
+</digest>
+    <description>The <o>dk.triggerdelay~</o> object creates a delay of triggers (or gates) after each input similar to a delay with control over delay time (in ms) and feedback. Delay time can be set as a single value or as a list, in which case each delay will select a random value from the list.
+</description>
+    <discussion>When working with hardware instruments it may be required to use <o>dk.triggerlength~</o> to make the single sample triggers from MSP register correctly. A trigger length of 5-10ms works fairly well across all equipment I have tested.
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='signal'>
+            <digest>Trigger/gate and control in
+</digest>
+            <description>Trigger/gate and control in.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='signal'>
+            <digest>Trigger/gate output
+</digest>
+            <description>Trigger/gate output.
+</description>
+        </outlet>
+        <outlet id='1' type='signal'>
+            <digest>Trigger when cloud completes
+</digest>
+            <description>Trigger when cloud completes.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+    <method name='bang'>
+        <arglist>
+        </arglist>
+        <digest>Equivalent to sending a trigger
+</digest>
+        <description>Equivalent of sending a trigger to the inlet.
+</description>
+    </method>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='activity'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Overall density of output (in %)
+</digest>
+        <description>Overall density of output (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='40'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='rate'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Maximum delay time between outputs (in ms)
+</digest>
+        <description>Maximum delay time between outputs (in ms).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='200'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.cvcontrollers~' />
+        <seealso name='dk.cvcross~' />
+        <seealso name='dk.cvgate~' />
+        <seealso name='dk.cvonset~' />
+        <seealso name='dk.cvscatter~' />
+        <seealso name='dk.cvsmear~' />
+        <seealso name='dk.onset~' />
+        <seealso name='dk.probability~' />
+        <seealso name='dk.spectralonset~' />
+        <seealso name='dk.triggerbounce~' />
+        <seealso name='dk.triggercloud~' />
+        <seealso name='dk.triggerlength~' />
+        <seealso name='dk.triggershape~' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

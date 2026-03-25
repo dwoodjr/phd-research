@@ -1,0 +1,290 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.gridscale' category='' module='dataknot'>
+    <digest>Scale and offset 2d space
+</digest>
+    <description>The <o>dk.gridscale</o> object allows you to scale and offset an XY grid-based space including gamepad-specific features like a definable deadzone and click-to-zoom. This is useful when paired with <o>dk.gridmatch</o> allowing you to use the full range of your controller to access and control a subspace within the overall space.
+</description>
+    <discussion>This is a useful utility for creating complex mappings using the <o>gamepad</o> object.
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='list'>
+            <digest>XY and control in
+</digest>
+            <description>XY and control input.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='list'>
+            <digest>Scaled XY list out
+</digest>
+            <description>Scaled XY list output.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+    <method name='clear'>
+        <arglist>
+        </arglist>
+        <digest>Clears any scaling and resets to default values
+</digest>
+        <description>Clears any input and output scaling and resets to default values (0. 1. 0. 1.).
+</description>
+    </method>
+    <method name='node'>
+        <arglist>
+        </arglist>
+        <digest>Keyword identifier for control messages coming from <o>nodes</o>
+</digest>
+        <description>Keyword identifier for control messages coming from <o>nodes.</o> This takes the control messages from the 2nd outlet of <o>nodes.</o>
+</description>
+    </method>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='curve'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Curve that is applied symmetrically each axis
+</digest>
+        <description>Curve that is applied symmetrically each axis. Can be a two item list, which would set both sets or a four item list {x low, x high, y low, y high} for setting each X or Y independently.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='deadzone'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Defines deadzone amount
+</digest>
+        <description>Defines deadzone amount, which is an area in the center of the range that is ignored. This is typically used for gamepad input (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='edgecase'
+        type='symbol'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Defines what happens when input exceeds scaling
+</digest>
+        <description>Defines what happens when input exceeds scaling. The options are <code>ignore</code> or <code>clip</code> Ignore will not pass out the XY list if it leaves the defined area whereas clip will clip values to the defined values.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='symbol'
+            size='1'
+            value='ignore'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='transformation'
+        type='symbol'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Transforms input space
+</digest>
+        <description>Transforms input space by turning a circlular input (gamepad) into a square (circ2square) or by turning a square input (trackpad) into a circle (square2circ).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='symbol'
+            size='1'
+            value='none'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='xyin'
+        type='list'
+        size='4'
+        get='1' set='1'
+        >
+        <digest>List consisting of input scaling
+</digest>
+        <description>List consisting of input scaling. Can be a two item list, which would set both sets or a four item list {x low, x high, y low, y high} for setting each X or Y independently.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='list'
+            size='4'
+            value='0 1 0 1'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='xyout'
+        type='list'
+        size='4'
+        get='1' set='1'
+        >
+        <digest>List consisting of output scaling
+</digest>
+        <description>List consisting of output scaling. Can be a two item list, which would set both sets or a four item list {x low, x high, y low, y high} for setting each X or Y independently.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='list'
+            size='4'
+            value='0 1 0 1'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='zoom'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Engage temporary zooming in
+</digest>
+        <description>Engage temporary zooming in to a subset of the overall range. Inspired by sniper rifle zoom in in first person shooter games.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='zoomamount'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Amount to zoom in with <at>zoom</at> attribute
+</digest>
+        <description>Amount to zoom in with <at>zoom</at> attribute (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='15'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='zoomfadein'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Fade in time for <at>zoom</at> attribute
+</digest>
+        <description>Fade in time for <at>zoom</at> attribute (in ms).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='500'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='zoomfadeout'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Fade out time for <at>zoom</at> attribute
+</digest>
+        <description>Fade out time for <at>zoom</at> attribute (in ms).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='800'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.boppad' />
+        <seealso name='dk.eraetouch' />
+        <seealso name='dk.gridmatch' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>
