@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.metro~' category='' module='dataknot'>
+    <digest>Metro with complex functionality
+</digest>
+    <description>Acts similarly to the native <o>metro</o> object which outputs a <o>bang</o>, as well as a trigger and a phasor output.
+</description>
+    <discussion>The object also contains <at>random</at> and <at>glitch</at> based variations to the given <at>rate</at>, as well as a <at>weight</at> attribute for further adjusting how much variation is applied.
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='list'>
+            <digest>From <o>dk.corpusmatch</o>
+</digest>
+            <description>From <o>dk.corpusmatch.</o>
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='list'>
+            <digest>Selected sample
+</digest>
+            <description>Selected sample.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+        <objarg name='probability' optional='1' type='number'>
+            <digest>Probability of input passing through (in %)
+</digest>
+            <description>Probability of input passing through (in %).
+</description>
+        </objarg>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+    <method name='dump'>
+        <arglist>
+        </arglist>
+        <digest>Dump parameter names, ranges, and values
+</digest>
+        <description>Dumps parameter names, ranges, and values out of the right-most outlet.
+</description>
+    </method>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='every'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Lets every nth message through
+</digest>
+        <description>Lets every nth message through (minimum 1).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='1'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk' />
+        <seealso name='metro~' />
+        <seealso name='dk.datalooper~' />
+        <seealso name='dk.quantizetime~' />
+        <seealso name='dk.ramp' />
+        <seealso name='dk.ramp~' />
+        <seealso name='dk.sequenceclock~' />
+        <seealso name='dk.sequencedata~' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

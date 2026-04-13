@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.triggerframe~' category='' module='dataknot'>
+    <digest>Buffer recording for frame analysis on trigger input
+</digest>
+    <description>The <o>dk.triggerframe~</o> records audio into a rolling <o>buffer~</o> to be analyzed by descriptor objects down the line. Takes a trigger, gate, or bang as its input to output the frame to analyze. This is mainly useful when you want to trigger descriptor analysis based on another process so onset detection is no longer necessary.
+</description>
+    <discussion>If receiving a bang, the frame for analysis will be sent out as quickly as possible, but it may not be sample accurate as a trigger would be. So when trying to syncronize multiple sample-accurate processes, you should always use triggers.
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='signal'>
+            <digest>Audio and control in
+</digest>
+            <description>Audio input to analyze.
+</description>
+        </inlet>
+        <inlet id='1' type='signal'>
+            <digest>Trigger, gate, or bang input
+</digest>
+            <description>Trigger, gate, or bang input.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='list'>
+            <digest>Sample position to beging analysis from
+</digest>
+            <description>Sample position to analyze in rolling <o>buffer~</o> along with <o>buffer~</o> name.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='delay'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Amount of time to wait before sending frame to analyze
+</digest>
+        <description>Amount of time to wait, in samples, before sending frame to analyze.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='256'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='maxbuffertime'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Amount of time in circular <o>buffer~</o>
+</digest>
+        <description>Amount of time (in <strong>ms</strong>) in circular <o>buffer~.</o>
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='5000'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.descriptorframe' />
+        <seealso name='dk.melbandframe' />
+        <seealso name='dk.mfccframe' />
+        <seealso name='dk.onsetframe~' />
+        <seealso name='dk.sineframe' />
+        <seealso name='dk.spectralshapeframe' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

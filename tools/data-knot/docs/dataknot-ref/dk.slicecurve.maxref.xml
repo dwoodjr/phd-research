@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.slicecurve' category='' module='dataknot'>
+    <digest>Divides a normalized space into equal or irregularly-spaced slices
+</digest>
+    <description>The <o>dk.slicecurve</o> object takes incoming numbers (either as jump indices or MIDI note numbers) and converts these into slices of a normalized space. These can be evenly spaced or with a curve applied to create irregularly-spaced slices.ch using a single float from a controller or UI object.
+</description>
+    <discussion>This was adapted from an early monome app called Block Party that made use of non-linear distribution of slices on a grid. The implementation here allows you to use arbitrary curve values, rather than an option of fixed ones.
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='list'>
+            <digest>Index to jump to
+</digest>
+            <description>Index to jump to.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='float'>
+            <digest>Position to jump to
+</digest>
+            <description>Position to jump to.
+</description>
+        </outlet>
+        <outlet id='1' type='list'>
+            <digest>Display output for <o>multislider</o>
+</digest>
+            <description>Display output for <o>multislider.</o>
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='base'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Expected starting value of input
+</digest>
+        <description>Expected starting value of input
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='curve'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Curve for spacing of subdivisions
+</digest>
+        <description>Curve for spacing of subdivisions (0% = linear, -100% = ramping up, 100% = ramping down).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='scale'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Scale of output values
+</digest>
+        <description>Scale of output values.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='1'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='steps'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Amount of steps to subdivide the space into
+</digest>
+        <description>Amount of steps to subdivide the space into.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='8'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.controllermatch' />
+        <seealso name='dk.controllerpitch' />
+        <seealso name='dk.corpusplayer~' />
+        <seealso name='dk.quantizetime~' />
+        <seealso name='dk.sampler~' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

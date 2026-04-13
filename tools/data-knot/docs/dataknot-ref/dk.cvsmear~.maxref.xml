@@ -1,0 +1,267 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.cvsmear~' category='' module='dataknot'>
+    <digest>Send incoming control voltage to multiple outputs
+</digest>
+    <description>The <o>dk.cvsmear~</o> object takes control voltage input and smears across a multi-channel output so that different ranges of the cv can be sent to different outputs.
+</description>
+    <discussion>This can be used to process MSP signals or actual CV/triggers/gates from modular hardware. This can be accomplished with any DC-coupled audio interface or with specialist hardware like Expert-Sleepers interfaces<br/><a href="http://expert-sleepers.co.uk">http://expert-sleepers.co.uk</a>
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='signal'>
+            <digest>Trigger/gate and control in
+</digest>
+            <description>Trigger/gate and control in.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='signal'>
+            <digest>Trigger/gate output
+</digest>
+            <description>Trigger/gate output.
+</description>
+        </outlet>
+        <outlet id='1' type='signal'>
+            <digest>Trigger when cloud completes
+</digest>
+            <description>Trigger when cloud completes.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='attack'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Attack time of signal
+</digest>
+        <description>Attack time of signal (in ms).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='25'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='chans'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Sets the number of output channels in the multichannel output
+</digest>
+        <description>Sets the number of output channels in the multichannel output.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='4'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='offset'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Offset of signal
+</digest>
+        <description>Offset of signal (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='polarity'
+        type='symbol'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Sets input range
+</digest>
+        <description>Sets the input range of the CV between unipoar (0 to 1) or bipolar (-1 to 1).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='symbol'
+            size='1'
+            value='unipolar'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='release'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Release time of signal
+</digest>
+        <description>Release time of signal (in ms).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='50'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='scale'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Scale of signal
+</digest>
+        <description>Scale of signal (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='100'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='slew'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Smoothing applied to input signal
+</digest>
+        <description>Smoothing applied to input signal (in ms).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='10'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='smearcurve'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Curve that is applied to the smearing
+</digest>
+        <description>Curve that is applied to the smearing (-100 to 100).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='transition'
+        type='symbol'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Whether the transitions between channel is via stepped or smooth
+</digest>
+        <description>Whether the transitions between channel is via stepped or smooth (step or smooth).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='symbol'
+            size='1'
+            value='step'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.cvcontrollers~' />
+        <seealso name='dk.cvcross~' />
+        <seealso name='dk.cvgate~' />
+        <seealso name='dk.cvonset~' />
+        <seealso name='dk.cvscatter~' />
+        <seealso name='dk.probability~' />
+        <seealso name='dk.triggerbounce~' />
+        <seealso name='dk.triggercloud~' />
+        <seealso name='dk.triggerdelay~' />
+        <seealso name='dk.triggerlength~' />
+        <seealso name='dk.triggershape~' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

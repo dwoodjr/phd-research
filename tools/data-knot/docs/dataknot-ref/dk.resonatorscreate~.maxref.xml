@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.resonatorscreate~' category='' module='dataknot'>
+    <digest>Create a model for <o>dk.resonators~</o>
+</digest>
+    <description>The <o>dk.resonatorscreate~</o> object analyzes a loaded audio file for sinusoidal components (frequency/gain) as well as derivative of loudness, in order to create CNMAT formatted tuplets of frequency, gain, and decay rate. This can be then loaded into <o>dk.resonators~.</o>
+</description>
+    <discussion>Based on the approach taken in CNMAT&#39;s <o>resonators~</o> algorithm. For more information visit <a href="https://cycling74.com/packages/cnmat-externals">https://cycling74.com/packages/cnmat-externals</a>
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='list'>
+            <digest>Control in
+</digest>
+            <description>Control input.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='signal'>
+            <digest>Audio output
+</digest>
+            <description>Audio output.
+</description>
+        </outlet>
+        <outlet id='1' type='list'>
+            <digest>Sinusoidal components
+</digest>
+            <description>Sinusoidal components as a laced list of frequency/gain pairs for visualization.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+        <objarg name='default' optional='1' type='symbol'>
+            <digest>JSON file to load by default
+</digest>
+            <description>JSON file to load by default.
+</description>
+        </objarg>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+    <method name='analyze'>
+        <arglist>
+        </arglist>
+        <digest>Analyze the loaded file
+</digest>
+        <description>Analyze the loaded file with the current settings.
+</description>
+    </method>
+    <method name='audition'>
+        <arglist>
+        </arglist>
+        <digest>Play back the current model
+</digest>
+        <description>Play back the current model.
+</description>
+    </method>
+    <method name='clear'>
+        <arglist>
+        </arglist>
+        <digest>Clears the analysis
+</digest>
+        <description>Clears the analysis.
+</description>
+    </method>
+    <method name='play'>
+        <arglist>
+        </arglist>
+        <digest>Play back the currently loaded file
+</digest>
+        <description>Play back the currently loaded file.
+</description>
+    </method>
+    <method name='read'>
+        <arglist>
+        </arglist>
+        <digest>Reads a samples to analyze
+</digest>
+        <description>Reads a sample to analyze directly from a relative or absolute path. With no additional argument, a file dialog will appear to choose a file.
+</description>
+    </method>
+    <method name='stop'>
+        <arglist>
+        </arglist>
+        <digest>Stop playback of the currently loaded file
+</digest>
+        <description>Stop playback of the currently loaded file.
+</description>
+    </method>
+    <method name='write'>
+        <arglist>
+        </arglist>
+        <digest>Write model analysis to disk
+</digest>
+        <description>Write a <strong>.json</strong> file with all the required information to recreate the model.
+</description>
+    </method>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='normalize'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Whether the gains will be normalized or not
+</digest>
+        <description>Whether the gains will be normalized or not.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='1'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='numpeaks'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The amount of peaks to create a resynthesis with
+</digest>
+        <description>The amount of peaks to create a resynthesis with.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='32'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='time_centroid'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Whether the analysis will be on the entire file or only on the first half of the time centroid
+</digest>
+        <description>Whether the analysis will be on the entire file or only on the first half of the time centroid.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='1'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.convolver~' />
+        <seealso name='dk.justfriends~' />
+        <seealso name='dk.karplus~' />
+        <seealso name='dk.mangrove~' />
+        <seealso name='dk.resonators~' />
+        <seealso name='dk.shaker~' />
+        <seealso name='dk.sinusoidplayer~' />
+        <seealso name='dk.sinusoids~' />
+        <seealso name='dk.waveguidemesh~' />
+        <seealso name='dk.waveguidesnare~' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

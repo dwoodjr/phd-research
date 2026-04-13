@@ -1,0 +1,351 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.cvscatter~' category='' module='dataknot'>
+    <digest>Send incoming control voltage to multiple outputs
+</digest>
+    <description>The <o>dk.scatter~</o> objects takes control voltage input and based on &quot;onset&quot; analysis sends it to a different channel in a multi-channel output.
+</description>
+    <discussion>This can be used to process MSP signals or actual CV/triggers/gates from modular hardware. This can be accomplished with any DC-coupled audio interface or with specialist hardware like Expert-Sleepers interfaces<br/><a href="http://expert-sleepers.co.uk">http://expert-sleepers.co.uk</a>
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='signal'>
+            <digest>Trigger/gate and control in
+</digest>
+            <description>Trigger/gate and control in.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='signal'>
+            <digest>Trigger/gate output
+</digest>
+            <description>Trigger/gate output.
+</description>
+        </outlet>
+        <outlet id='1' type='signal'>
+            <digest>Trigger when cloud completes
+</digest>
+            <description>Trigger when cloud completes.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='attack'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Attack time of signal
+</digest>
+        <description>Attack time of signal (in ms).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='25'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='chans'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Sets the number of output channels in the multichannel output
+</digest>
+        <description>Sets the number of output channels in the multichannel output.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='8'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='direction'
+        type='symbol'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Direction of step direction
+</digest>
+        <description>Direction of step direction (forward, reverse, random).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='symbol'
+            size='1'
+            value='forward'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='lockout'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Time before an onset can be triggered again
+</digest>
+        <description>Time before an onset can be triggered again (in ms).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='100'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='manual'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Disables internal onset detection
+</digest>
+        <description>Disables internal onset detection (0 or 1).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='offset'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Offset of signal
+</digest>
+        <description>Offset of signal (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='ramp'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Amount of fade time when changing to different output channels
+</digest>
+        <description>Amount of fade time when changing to different output channels (in ms).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='release'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Release time of signal
+</digest>
+        <description>Release time of signal (in ms).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='50'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='scale'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Scale of signal
+</digest>
+        <description>Scale of signal (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='100'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='scattermode'
+        type='symbol'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Determines how scatter steps happen
+</digest>
+        <description>Determines how scatter steps happen (threshold or direction).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='symbol'
+            size='1'
+            value='threshold'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='sensitivity'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Sets the sensitivity of the thresholding for the gate output
+</digest>
+        <description>Sets the sensitivity of the thresholding for the gate output (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='75'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='sequence'
+        type='list'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Optional sequence that the scatter will step through
+</digest>
+        <description>Optional sequence that the scatter will step through.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='list'
+            size='1'
+            value=''
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='slew'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Smoothing applied to input signal
+</digest>
+        <description>Smoothing applied to input signal (in ms).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='10'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.cvcontrollers~' />
+        <seealso name='dk.cvcross~' />
+        <seealso name='dk.cvgate~' />
+        <seealso name='dk.cvonset~' />
+        <seealso name='dk.cvsmear~' />
+        <seealso name='dk.probability~' />
+        <seealso name='dk.triggerbounce~' />
+        <seealso name='dk.triggercloud~' />
+        <seealso name='dk.triggerdelay~' />
+        <seealso name='dk.triggerlength~' />
+        <seealso name='dk.triggershape~' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

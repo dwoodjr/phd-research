@@ -1,0 +1,265 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.snare~' category='' module='dataknot'>
+    <digest>Plumbutter snare-inspired snare voice
+</digest>
+    <description>The <o>dk.snare~</o> object is a digital recreation of the Snare in the ciat-lonbarde Plumbutter drum and drama machine as well as the noise/dust of the IFM Dunst euro module. In addition to the ear-tuned noise of the snare output there are various CV outputs based on the Dunst module, allowing for further control and triggering of other Data Knot modules.
+</description>
+    <discussion>Based on the ciat-lonbarde Plumbutter drum and drama machine. For more information visit <a href="https://ciat-lonbarde.net/ciat-lonbarde/plumbutter/index.html">https://ciat-lonbarde.net/ciat-lonbarde/plumbutter/index.html</a>
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='signal'>
+            <digest>Note input and optional audio input
+</digest>
+            <description>Note input (as MIDI float) and optional audio input for triggering the algorithm.
+</description>
+        </inlet>
+        <inlet id='1' type='signal'>
+            <digest>Trigger input
+</digest>
+            <description>Trigger input.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='signal'>
+            <digest>Audio output (L)
+</digest>
+            <description>Audio output (L).
+</description>
+        </outlet>
+        <outlet id='1' type='signal'>
+            <digest>Audio output (R)
+</digest>
+            <description>Audio output (R).
+</description>
+        </outlet>
+        <outlet id='2' type='signal'>
+            <digest>Impulse output
+</digest>
+            <description>Impulse that is fed to algorithm output.
+</description>
+        </outlet>
+        <outlet id='3' type='list'>
+            <digest>Dump out for parameter names, ranges, and values
+</digest>
+            <description>Dump out for parameter names, ranges, and values.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+    <method name='bang'>
+        <arglist>
+        </arglist>
+        <digest>Equivalent of sending a trigger when sent into right inlet
+</digest>
+        <description>Equivalent of sending a trigger when sent into right inlet.
+</description>
+    </method>
+    <method name='dump'>
+        <arglist>
+        </arglist>
+        <digest>Dump parameter names, ranges, and values
+</digest>
+        <description>Dumps parameter names, ranges, and values out of the right-most outlet.
+</description>
+    </method>
+    <method name='randomize'>
+        <arglist>
+        </arglist>
+        <digest>Randomize parameters
+</digest>
+        <description>Randomize parameters defined by the preset dictionary. An additional optional argument will randomize by a certain percentage.
+</description>
+    </method>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='attack'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Attack time of CV output
+</digest>
+        <description>Attack time of CV output (in ms).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='decay'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Decay time of snare sound (-1 to 1)
+</digest>
+        <description>Decay time of snare sound (-1 to 1).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='gain'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Output gain
+</digest>
+        <description>Output gain (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='100'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='offset'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Offset of CV output (in %)
+</digest>
+        <description>Offset of CV output (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='release'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Release time of CV output
+</digest>
+        <description>Release time of CV output (in ms).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='ramptime'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Ramp time for smoothing of each parameter
+</digest>
+        <description>Ramp time for smoothing each parameter (in ms).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='35'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='scale'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Scale of CV output (in %)
+</digest>
+        <description>Scale of CV output (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='100'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.avdog~' />
+        <seealso name='dk.fourses~' />
+        <seealso name='dk.gongue~' />
+        <seealso name='dk.justfriends~' />
+        <seealso name='dk.mangrove~' />
+        <seealso name='dk.quantussy~' />
+        <seealso name='dk.rungler~' />
+        <seealso name='dk.ultrasound~' />
+        <seealso name='dk.waveguidesnare~' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

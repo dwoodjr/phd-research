@@ -1,0 +1,211 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.ultrasound~' category='' module='dataknot'>
+    <digest>Plumbutter-inspired Ultrasound filter
+</digest>
+    <description>The <o>dk.ultrasound~</o> object is a digital recreation of the Ultrasound filter in the ciat-lonbarde Plumbutter drum and drama machine. The Ultrasound filter &quot;takes any sort of signal, and attempts a Nyquist resampling to bring out any unheard ultrasounds&quot;. It is essentially a switched capacitor filter which can create aliased-sounding results.
+</description>
+    <discussion>Based on the ciat-lonbarde Plumbutter drum and drama machine. For more information visit <a href="https://ciat-lonbarde.net/ciat-lonbarde/plumbutter/index.html">https://ciat-lonbarde.net/ciat-lonbarde/plumbutter/index.html</a>
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='signal'>
+            <digest>Note input and optional audio input
+</digest>
+            <description>Note input (as MIDI float) and optional audio input for triggering the algorithm.
+</description>
+        </inlet>
+        <inlet id='1' type='signal'>
+            <digest>Trigger input
+</digest>
+            <description>Trigger input.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='signal'>
+            <digest>Audio output (L)
+</digest>
+            <description>Audio output (L).
+</description>
+        </outlet>
+        <outlet id='1' type='signal'>
+            <digest>Audio output (R)
+</digest>
+            <description>Audio output (R).
+</description>
+        </outlet>
+        <outlet id='2' type='signal'>
+            <digest>Impulse output
+</digest>
+            <description>Impulse that is fed to algorithm output.
+</description>
+        </outlet>
+        <outlet id='3' type='list'>
+            <digest>Dump out for parameter names, ranges, and values
+</digest>
+            <description>Dump out for parameter names, ranges, and values.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+    <method name='dump'>
+        <arglist>
+        </arglist>
+        <digest>Dump parameter names, ranges, and values
+</digest>
+        <description>Dumps parameter names, ranges, and values out of the right-most outlet.
+</description>
+    </method>
+    <method name='randomize'>
+        <arglist>
+        </arglist>
+        <digest>Randomize parameters
+</digest>
+        <description>Randomize parameters defined by the preset dictionary. An additional optional argument will randomize by a certain percentage.
+</description>
+    </method>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='capacitor'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Slew of switching capacitor
+</digest>
+        <description>Slew of switching capacitor (-1 to 1).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='1'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='frequency'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Frequency of filter
+</digest>
+        <description>Frequency of filter (-1 to 1).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='noise'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Amount of noise added to signal
+</digest>
+        <description>Amount of noise added to signal (-1 to 1).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='-1'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='q'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Resonance of filter
+</digest>
+        <description>Resonance of filter (-1 to 1).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='-1'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='ramptime'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Ramp time for smoothing of each parameter
+</digest>
+        <description>Ramp time for smoothing each parameter (in ms).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='35'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.convolver~' />
+        <seealso name='dk.resonators~' />
+        <seealso name='dk.shaker~' />
+        <seealso name='dk.sinusoidplayer~' />
+        <seealso name='dk.sinusoids~' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

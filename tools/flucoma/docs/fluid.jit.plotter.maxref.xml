@@ -1,0 +1,295 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+<!--
+Part of the Fluid Corpus Manipulation Project (http://www.flucoma.org/)
+Copyright University of Huddersfield.
+Licensed under the BSD-3 License.
+See license.md file in the project root for full license information.
+This project has received funding from the European Research Council (ERC)
+under the European Union’s Horizon 2020 research and innovation programme
+(grant agreement No 725899).
+-->
+<c74object name='fluid.jit.plotter' category='FluidCorpusManipulation'>
+    <digest>Plot very large 2D datasets fast.</digest>
+    <description>An abstraction based on OpenGL that plots data in a two-dimensional graph. Similar to fluid.plotter, but more performant on large datasets.</description>
+    <discussion>
+        <h4><openfilelink filename="Fluid Corpus Manipulation Toolkit.maxpat">Open the Overview Patch</openfilelink></h4>
+        The fluid.jit.plotter abstraction can be used as a versatile solution for plotting points in a two-dimensional graph.
+
+It is a performance-oriented variant of the fluid.plotter object, based on OpenGL, which allows it to be more efficient and to handle larger datasets (potentially with millions of points).
+
+To use it, use the refer message (left inlet) with the name of a fluid.dataset~ that contains the 2D coordinates of the points. Similarly, you can use the refer message (right inlet) with the name of a fluid.labelset~ to be used for assigning colors to the points based on pre-defined color palettes.
+
+The interface of fluid.jit.plotter is in parity with that of fluid.plotter, offering a drop-in replacement for the latter.
+
+        <p>fluid.jit.plotter is part of the Fluid Decomposition Toolkit of the FluCoMa project. For more explanations, learning material, and discussions on its musicianly uses, visit <a href="http://www.flucoma.org/">flucoma.org</a>.</p>
+    </discussion>
+	<!--METADATA-->
+	<metadatalist>
+		<metadata name='author'>FluCoMa</metadata>
+		<metadata name='tag'>Fluid Decomposition</metadata>
+		<metadata name='tag'>corpus</metadata>
+	</metadatalist>
+
+    <inletlist>
+        <inlet id='0' type='anything'>
+            <digest>
+            Refer to a fluid.dataset~ or highlight points.
+            </digest>
+            <description>
+            Use the refer message with the name of the <o>fluid.dataset~</o> to be plotted. Alternatively, use the highlight message with a list of identifiers to highlight the corresponding points in the plot.
+            </description>
+        </inlet>
+        <inlet id='1' type='anything'>
+            <digest>
+            Refer to a fluid.labelset~ to be used for assigning colors to the points.
+            </digest>
+            <description>
+            Use the refer message with the name of the <o>fluid.labelset~</o> to be used for assigning colors to the points.
+            </description>
+        </inlet>
+    </inletlist>
+
+    <outletlist>
+        <outlet id='0' type='anything'>
+            <digest>
+            The position of the mouse.
+            </digest>
+            <description>
+            The position of the mouse will be reported while the mouse is over the plotter and is clicking and dragging. The position is constrained to the domain of the plotter.
+            </description>
+        </outlet>
+        <outlet id='1' type='anything'>
+            <digest>
+            Zoom updates.
+            </digest>
+            <description>
+            Reports any updates made to the plotter view while zooming.
+            </description>
+        </outlet>
+    </outletlist>
+
+    <objarglist>
+    </objarglist>
+
+    <!--MESSAGES-->
+    <methodlist>
+    <method name='refer'>
+        <arglist>
+            <arg name='datasetname' optional='1' type='symbol' />
+        </arglist>
+        <digest>
+        Reference a dataset or labelset
+        </digest>
+        <description>
+        In left inlet: refer to the name of a <o>fluid.dataset~</o> with the coordinates to be plotted. Using the refer message with no arguments will remove the reference and clear the plotter.
+        In right inlet: refer to the name of a <o>fluid.labelset~</o> with the colors to be used for the points. Using the refer message with no arguments will remove the reference and reset colors to black.
+        
+        </description>
+    </method>
+    <method name='xrange'>
+        <arglist>
+            <arg name='min' optional='0' type='float' />
+            <arg name='max' optional='0' type='float' />
+        </arglist>
+        <digest>
+        Set the x-axis range
+        </digest>
+        <description>
+        Set the x-axis range.
+        
+        </description>
+    </method>
+    <method name='yrange'>
+        <arglist>
+            <arg name='min' optional='0' type='float' />
+            <arg name='max' optional='0' type='float' />
+        </arglist>
+        <digest>
+        Set the y-axis range
+        </digest>
+        <description>
+        Set the y-axis range.
+        
+        </description>
+    </method>
+    <method name='range'>
+        <arglist>
+            <arg name='min' optional='0' type='float' />
+            <arg name='max' optional='0' type='float' />
+        </arglist>
+        <digest>
+        Set the x- and y-axis ranges
+        </digest>
+        <description>
+        Set the x- and y-axis ranges.
+        
+        </description>
+    </method>
+    <method name='panfactor'>
+        <arglist>
+            <arg name='factor' optional='0' type='float' />
+        </arglist>
+        <digest>
+        Set the strengh and direction of the panning
+        </digest>
+        <description>
+        Set the strength of the panning action when shift-clicking and dragging. Set to a negative value to invert the direction of the panning. Defaults to 1.
+        
+        </description>
+    </method>
+    <method name='colorscheme'>
+        <arglist>
+            <arg name='scheme' optional='0' type='symbol' />
+        </arglist>
+        <digest>
+        Choose a colour scheme
+        </digest>
+        <description>
+        Change the colour scheme for automatic colouring via a fluid.labelset~. Options are default, cat, accent, dark, paired, tableau, R4, R3, R2, R1, random. Taken mostly from <a href='https://github.com/d3/d3-scale-chromatic'>d3-scale-chromatic</a>.
+        
+        </description>
+    </method>
+    <method name='setpoint'>
+        <arglist>
+            <arg name='identifier' optional='0' type='symbol' />
+            <arg name='x' optional='0' type='float' />
+            <arg name='y' optional='0' type='float' />
+        </arglist>
+        <digest>
+        Set the position of a point
+        </digest>
+        <description>
+        Set the point at the given coordinates.
+        
+        </description>
+    </method>
+    <method name='pointcolor'>
+        <arglist>
+            <arg name='identifier' optional='0' type='symbol' />
+            <arg name='red' optional='0' type='float' />
+            <arg name='green' optional='0' type='float' />
+            <arg name='blue' optional='0' type='float' />
+            <arg name='alpha' optional='0' type='float' />
+        </arglist>
+        <digest>
+        Set the color of a point
+        </digest>
+        <description>
+        Set the color of the point with a given identifier.
+        
+        </description>
+    </method>
+    <method name='highlight'>
+        <arglist>
+            <arg name='identifier' optional='0' type='symbol' />
+        </arglist>
+        <digest>
+        Emphasise points on the plot
+        </digest>
+        <description>
+        Emphasises the given identifier's points in the plot. Any number of identifiers as a list of symbols can be provided.
+        </description>
+    </method>
+    <method name='pointsize'>
+        <arglist>
+            <arg name='identifier' optional='0' type='symbol' />
+            <arg name='size' optional='0' type='float' />
+        </arglist>
+        <digest>
+        Set the size of a point
+        </digest>
+        <description>
+        Set the size of the point with a given identifier.
+        
+        </description>
+    </method>
+    <method name='pointsizescale'>
+        <arglist>
+            <arg name='scale' optional='0' type='float' />
+        </arglist>
+        <digest>
+        Set the overall size of the points
+        </digest>
+        <description>
+        Set the overall size of the points.
+        
+        </description>
+    </method>
+    <method name='highlightscale'>
+        <arglist>
+            <arg name='scale' optional='0' type='float' />
+        </arglist>
+        <digest>
+        Set the ratio between highlighted and normal point size
+        </digest>
+        <description>
+        Set the ratio between highlighted and normal point size.
+        
+        </description>
+    </method>
+    <method name='shape'>
+        <arglist>
+            <arg name='shape' optional='0' type='symbol' />
+        </arglist>
+        <digest>
+        Set the shape of all points
+        </digest>
+        <description>
+        Modifies the shape of the points. Options are circle or square.
+        
+        </description>
+    </method>
+    <method name='bgcolor'>
+        <arglist>
+            <arg name='r' optional='0' type='float' />
+            <arg name='g' optional='0' type='float' />
+            <arg name='b' optional='0' type='float' />
+            <arg name='a' optional='0' type='float' />
+        </arglist>
+        <digest>
+        Set the background colour
+        </digest>
+        <description>
+        Sets the background colour of the plotter.
+        
+        </description>
+    </method>
+    <method name='clear'>
+        <arglist>
+        </arglist>
+        <digest>
+        Clear the plot
+        </digest>
+        <description>
+        Clears the graph and all associated data and settings.
+        
+        </description>
+    </method>
+    <method name='reset'>
+        <arglist>
+        </arglist>
+        <digest>
+        Clear the plot
+        </digest>
+        <description>
+        An alias of clear. Clears the graph.
+        
+        </description>
+    </method>
+
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!--RELATED-->
+	<seealsolist>
+    <seealso name='fluid.plotter'/>
+    <seealso name='fluid.waveform~'/>
+	</seealsolist>
+	<!--RELATED-->
+</c74object>

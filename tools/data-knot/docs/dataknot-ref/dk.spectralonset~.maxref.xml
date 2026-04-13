@@ -1,0 +1,232 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.spectralonset~' category='' module='dataknot'>
+    <digest>Spectral difference-based onset detection
+</digest>
+    <description>The <o>dk.spectralonset~</o> object takes audio input and outputs a bang and a trigger when spectral difference is detected. The difference can be computed across different time frames and for different parameters.
+</description>
+    <discussion>If you want to learn more about the underlying algorithm have a look at this article:<br/><a href="https://learn.flucoma.org/reference/onsetslice">https://learn.flucoma.org/reference/onsetslice</a>
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='signal'>
+            <digest>Audio and control in
+</digest>
+            <description>Audio input to analyze for novelty.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='list'>
+            <digest>bang out
+</digest>
+            <description>bang output when an onset is detected.
+</description>
+        </outlet>
+        <outlet id='1' type='signal'>
+            <digest>Trigger out
+</digest>
+            <description>Trigger output when an onset is detected.
+</description>
+        </outlet>
+        <outlet id='2' type='signal'>
+            <digest>Gate out
+</digest>
+            <description>Gate output when an onset is detected.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='input'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Sets the input mode (air microphone, SP Sensor, contact/trigger)
+</digest>
+        <description>Sets the input mode allowing you to use an air microphone, a Sensory
+Percussion sensor, or a normal drum trigger/contact mic.<br/><br/>
+The available options are:<br/>
+<ul>
+<li><strong>0</strong> = unfiltered audio directly into onset detection
+</li>
+<li><strong>1</strong> = 5k bump tuned for use with a Sensory Percussion sensor
+</li>
+<li><strong>2</strong> = 2k bandpass tuned for use with a contact mic or drum trigger
+</li>
+</ul>
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='lockout'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Amount of time (in <strong>ms</strong>) before it can get triggered again
+</digest>
+        <description>Amount of time (in <strong>ms</strong>) before an onset can get triggered again.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='30'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='metric'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The metric on which spectral difference is computed
+</digest>
+        <description>The metric used to derive a difference curve between spectral frames. It can be any of the following:<br/>
+0 = &#39;0&#39;<br/>
+Energy thresholds on (sum of squares of magnitudes / nBins) (like Onsets power)<br/><br/>
+1 = &#39;1&#39;<br/>
+HFC thresholds on (sum of (squared magnitudes * binNum) / nBins)<br/><br/>
+2 = &#39;2&#39;<br/>
+SpectralFlux thresholds on (difference in magnitude between consecutive frames, half rectified)<br/><br/>
+3 = &#39;3&#39;<br/>
+MKL thresholds on (sum of log of magnitude ratio per bin) (or equivalently, sum of difference of the log magnitude per bin) (like Onsets mkl)<br/><br/>
+4 = &#39;4&#39;<br/>
+IS Itakura-Saito divergence (see literature)<br/><br/>
+5 = &#39;5&#39;<br/>
+Cosine thresholds on (cosine distance between comparison frames)<br/><br/>
+6 = &#39;6&#39;<br/>
+PhaseDev takes the past 2 frames, projects to the current, as anticipated if it was a steady state, then compute the sum of the differences, on which it thresholds (like Onsets phase)<br/><br/>
+7 = &#39;7&#39;<br/>
+WPhaseDev same as PhaseDev, but weighted by the magnitude in order to remove chaos noise floor (like Onsets wphase)<br/><br/>
+8 = &#39;8&#39;<br/>
+ComplexDev same as PhaseDev, but in the complex domain - the anticipated amp is considered steady, and the phase is projected, then a complex subtraction is done with the actual present frame. The sum of magnitudes is used to threshold (like Onsets complex)<br/><br/>
+9 = &#39;9&#39;<br/>
+RComplexDev same as above, but rectified (like Onsets rcomplex)
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='9'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='sensitivity'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The nervousness of the algorithm thresholds (from 0 to 100%)
+</digest>
+        <description>The nervousness of the algorithm thresholds (from 0 to 100%). This is essentially a &#39;macro&#39; parameter for the individual on/off thresholds.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='50'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='smoothing'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The size of the smoothing filter applied to the difference curve
+</digest>
+        <description>The size of the smoothing filter applied to the difference curve.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='2.5'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='window'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Window of time to look for spectral difference in (for HFC, SpectralFlux, MKL, Cosine only)
+</digest>
+        <description>Window of time to look for spectral difference (for HFC, SpectralFlux, MKL, Cosine only). (in ms)
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='2.5'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.novelty~' />
+        <seealso name='dk.onset~' />
+        <seealso name='dk.onsetframe~' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

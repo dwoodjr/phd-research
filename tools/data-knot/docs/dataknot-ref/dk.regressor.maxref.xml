@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.regressor' category='' module='dataknot'>
+    <digest>Output parameter regression based on new input
+</digest>
+    <description>The <o>dk.regressor</o> object will create parameter regression based on a pre-trained regressor model.
+</description>
+    <discussion>If you want to learn more about the underlying algorithm have a look at this article:<br/><a href="https://learn.flucoma.org/reference/mlpregressor">https://learn.flucoma.org/reference/mlpregressor</a>
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='list'>
+            <digest>Buffer and control in
+</digest>
+            <description>Takes incoming <o>buffer~</o> name to find the nearest class match. Also takes the messages for object control.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='list'>
+            <digest>Matched class
+</digest>
+            <description>The nearest match in the pre-trained classifier.
+</description>
+        </outlet>
+        <outlet id='1' type='list'>
+            <digest>Dict out for visualization
+</digest>
+            <description>Dict output for displaying on an <o>dk.plotter.</o>
+</description>
+        </outlet>
+        <outlet id='2' type='list'>
+            <digest>Dump out
+</digest>
+            <description>Dump output for class information.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+        <objarg name='default' optional='1' type='symbol'>
+            <digest>JSON file to load by default
+</digest>
+            <description>JSON file to load by default.
+</description>
+        </objarg>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+    <method name='clear'>
+        <arglist>
+        </arglist>
+        <digest>Clears the loaded regressor
+</digest>
+        <description>Clears the loaded regressor.
+</description>
+    </method>
+    <method name='dump'>
+        <arglist>
+        </arglist>
+        <digest>Dumps regressor summary out the right-most outlet
+</digest>
+        <description>Dumps regressor summary out the right-most outlet.
+</description>
+    </method>
+    <method name='info'>
+        <arglist>
+        </arglist>
+        <digest>Print regressor metatdata/info to Max console
+</digest>
+        <description>Prints a summary of the regressor metatdata/info to the Max console.
+</description>
+    </method>
+    <method name='read'>
+        <arglist>
+        </arglist>
+        <digest>Read a pre-trained regressor
+</digest>
+        <description>Reads a pre-trained regressor directly from a relative or absolute path. With no additional argument, a file dialog will appear to choose a <strong>.json</strong> file.
+</description>
+    </method>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='outputmode'
+        type='symbol'
+        size=''
+        get='1' set='1'
+        >
+        <digest>Sets how the output values are returned
+</digest>
+        <description>Sets how the output values are returned. The available options are:<br/>
+<ul>
+<li><strong>iterated</strong> = sends out pairs formatted as key-value pairs for sending directly to a synth algorithm (e.g. param1 0.0, param2, 0.5, param3, 1.0)</li>
+<li><strong>lacedlist</strong> = single list with all the key-value pairs combined into a single laced list (e.g. param1 0.0 param2 0.5 param3 1.0)</li>
+<li><strong>rawlist</strong> = single list with only the values (e.g. 0.0 0.5 1.0)</li>
+</ul>
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='symbol'
+            size=''
+            value='iterated'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.regressorcreate~' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

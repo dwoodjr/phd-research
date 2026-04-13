@@ -1,0 +1,293 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.regressorcreate~' category='' module='dataknot'>
+    <digest>Create a regressor based on training data
+</digest>
+    <description>The <o>dk.regressorcreate~</o> object will create a regressor based on incoming pairs of data, be it descriptors, synth parameters, or any arbitrary data, as well as parallel audio analysis of any incoming synth sounds.
+</description>
+    <discussion>If you want to learn more about the underlying algorithm have a look at this article:<br/><a href="https://learn.flucoma.org/reference/mlpregressor">https://learn.flucoma.org/reference/mlpregressor</a>
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='list'>
+            <digest>Buffer and control in
+</digest>
+            <description>Incoming <o>buffer~</o> of descriptors to attach to the current label/class. Also takes the messages for object control.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='list'>
+            <digest>Matched class
+</digest>
+            <description>The nearest match in the pre-trained classifier.
+</description>
+        </outlet>
+        <outlet id='1' type='int'>
+            <digest>Amount of entries
+</digest>
+            <description>Total amount of entries that have been sent to the classifier.
+</description>
+        </outlet>
+        <outlet id='2' type='float64'>
+            <digest>Training loss
+</digest>
+            <description>Training loss value for the neural network.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+    <method name='addpoint'>
+        <arglist>
+        </arglist>
+        <digest>Add a point to the regressor
+</digest>
+        <description>Add a point tot he regressor.
+</description>
+    </method>
+    <method name='clear'>
+        <arglist>
+        </arglist>
+        <digest>Clears the loaded regressor
+</digest>
+        <description>Clears the loaded regressor.
+</description>
+    </method>
+    <method name='print'>
+        <arglist>
+        </arglist>
+        <digest>Print regressor contents to Max console
+</digest>
+        <description>Prints a summary of the regressor to the Max console.
+</description>
+    </method>
+    <method name='train'>
+        <arglist>
+        </arglist>
+        <digest>Enable regressor training
+</digest>
+        <description>Enables the training mode for the internal regressor.
+</description>
+    </method>
+    <method name='write'>
+        <arglist>
+        </arglist>
+        <digest>Write training to disk
+</digest>
+        <description>Write a <strong>.json</strong> file with the regressor and all related meta-data to disk. to disk.
+</description>
+    </method>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='activation'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Activation Function
+</digest>
+        <description>An integer indicating which activation function each neuron in the output layer will use. Changing this will reset the neural network, clearing any learning that has happened. The options are:<br/><br/>
+Possible values:<br/>
+<ul>
+<li><strong>0</strong> = identity (the output range can be any value)
+</li>
+<li><strong>1</strong> = sigmoid (the output will always always be greater than 0 and less than 1)
+</li>
+<li><strong>2</strong> = relu (the output will always be greater than or equal to 0)
+</li>
+<li><strong>3</strong> = tanh (the output will always be greater than -1 and less than 1)
+</li>
+</ul>
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='3'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='batchsize'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Batch Size
+</digest>
+        <description>The number of data points to use in between adjustments of the MLP&#39;s internal parameters during training.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='50'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='hiddenlayers'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Hidden Layer Sizes
+</digest>
+        <description>An array of numbers that specifies the internal structure of the neural network. Each number in the list represents one hidden layer of the neural network, the value of which is the number of neurons in that layer. Changing this will reset the neural network, clearing any learning that has happened.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='3, 3'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='learnrate'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Learning Rate
+</digest>
+        <description>A scalar for indicating how much the neural network should adjust its internal parameters during training. This is the most important parameter to adjust while training a neural network.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0.1'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='maxiter'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Maximum Number of Iterations
+</digest>
+        <description>The number of epochs to train for when fit is called on the object. An epoch consists of training on all the data points one time.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='100'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='momentum'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Momentum
+</digest>
+        <description>A scalar that applies a portion of previous adjustments to a current adjustment being made by the neural network during training.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='outputactivation'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Output Activation Function
+</digest>
+        <description>An integer indicating which activation function each neuron in the output layer will use. Options are the same as <at>activation.</at> Changing this will reset the neural network, clearing any learning that has happened.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='validation'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Validation Amount
+</digest>
+        <description>A percentage (represented as a decimal) of the data points to randomly select, set aside, and not use for training (this &quot;validation set&quot; is reselected on each fit). These points will be used after each epoch to check how the neural network is performing. If it is found to be no longer improving, training will stop, even if a fit has not reached its <at>maxiter</at> number of epochs.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.regressor' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

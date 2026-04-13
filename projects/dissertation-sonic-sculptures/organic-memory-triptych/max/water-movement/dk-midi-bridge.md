@@ -18,29 +18,30 @@ OUTLET 1: MIDI note messages (pitch, velocity, channel) → [send phrase-buf-in]
 ## Analysis
 
 ```
+-- dk.descriptors~ handles onset detection + all descriptors in one object.
+-- Outlet 0 = list: loudness, loudness_derivative, centroid (MIDI), centroid_derivative,
+--                  flatness (dB), flatness_derivative, pitch (MIDI), pitch_confidence
+-- Outlet 2 = trigger~ signal (onset-aligned)
+
+-- NOTE: Use a SEPARATE instance of dk.descriptors~ from dk-drone
+-- (each analysis instance should be independent to avoid shared state)
+
 [ receive~ hydrophone-in ]
         |
-        ├── [ fluid.onset~ ]          -- onset detection
-        |     threshold: 0.5
-        |     mingap: 150ms           -- slightly longer than drone to avoid flooding
-        |     |
-        |     └── ONSET BANG
+[ dk.descriptors~ ]
+  @input 2          -- contact mic mode
+  @sensitivity 45   -- slightly less sensitive than drone (fewer false triggers into MIDI)
+  @floor -58
+  @lockout 150      -- longer lockout than drone — avoids flooding phrase buffer
         |
-        ├── [ fluid.pitch~ ]          -- pitch estimation
-        |     numframes: 2048
-        |     |
-        |     ├── Hz value
-        |     └── confidence
+        ├── outlet 0: descriptor list → [unpack 0. 0. 0. 0. 0. 0. 0. 0.]
+        |     index 0: loudness (dB)
+        |     index 2: centroid (MIDI pitch, 0–127)
+        |     index 4: flatness (dB — lower = more tonal, higher = more noise-like)
+        |     index 6: pitch (MIDI pitch, 0–127)
+        |     index 7: pitch_confidence (0.0–1.0)
         |
-        ├── [ fluid.loudness~ ]       -- dynamics
-        |     |
-        |     └── dB value
-        |
-        └── [ fluid.spectralshape~ ]  -- timbre
-              numframes: 2048
-              |
-              ├── outlet 0: centroid (Hz)    -- maps to pitch register
-              └── outlet 3: flatness (0–1)   -- tonal vs. noise quality
+        └── outlet 2: trigger~ → onset detection (convert to bang with [edge~])
 ```
 
 ---
@@ -48,20 +49,26 @@ OUTLET 1: MIDI note messages (pitch, velocity, channel) → [send phrase-buf-in]
 ## Confidence + Flatness Gate
 
 ```
--- Only pass onsets that have some pitch content (not pure noise bursts)
--- Spectral flatness near 1.0 = white noise, near 0.0 = tonal
+-- pitch_confidence (index 7): reject low confidence onsets
+-- flatness (index 4, in dB): more negative = more tonal (e.g. -60dB = very tonal)
+--   flatness near 0dB = white noise; flatness around -40 to -60dB = tonal content
 
-[ fluid.pitch~ ] confidence     [ fluid.spectralshape~ ] flatness
-        |                                   |
-[ > 0.6 ]                          [ < 0.7 ]   -- reject highly flat (noisy) signals
-        |                                   |
-        └──────── [ && ] ───────────────────┘
-                    |
-             QUALITY GATE (1 = pass, 0 = reject)
-                    |
-             [ gate 1 ] ← ONSET BANG
-                    |
-             GATED ONSET BANG → quantization step
+-- NOTE: dk.descriptors~ also supports [inputfilter] message for built-in filtering:
+-- Example: [inputfilter pitch_confidence > 0.6 and flatness < -20]
+-- This is cleaner than manual gating — use it to gate onsets within the object itself
+
+[ message: inputfilter pitch_confidence > 0.6 and flatness < -20 ]
+    → [ dk.descriptors~ ]
+
+-- With inputfilter set, outlet 2 trigger~ only fires when conditions are met.
+-- No separate gate logic needed — the filter is built in.
+
+-- For manual gate (alternative if inputfilter is too aggressive):
+[ unpack ] pitch_confidence (index 7)
+        |
+[ > 0.6 ]
+        |
+QUALITY_PASS → [ gate 1 ] ← onset bang from [edge~] on outlet 2
 ```
 
 ---
@@ -69,20 +76,23 @@ OUTLET 1: MIDI note messages (pitch, velocity, channel) → [send phrase-buf-in]
 ## Transport Quantization
 
 ```
--- Arm a metro on onset, fire on next beat grid point
+-- Convert trigger~ to bang, then quantize to transport grid
 
-GATED ONSET BANG
+[ dk.descriptors~ ] outlet 2 (trigger~)
+        |
+[ edge~ ]   -- converts trigger signal to bang on rising edge
+        |
+ONSET BANG
         |
 [ t b b ]
     |       |
 [ set 1 ]  [ qmetro 1n ]   -- quantize to nearest quarter note
-    |       |               -- change to 2n for half-note grid (more spacious)
+    |       |               -- 2n for half-note grid (more spacious feel)
     └──→ arm qmetro
             |
-        QUANTIZED BANG (fires on next beat boundary)
+        QUANTIZED BANG
             |
-        -- Small humanization offset:
-        [ random 40 ]        -- 0–40ms random delay
+        [ random 40 ]       -- 0–40ms humanization jitter
             |
         [ delay ]
             |
@@ -94,38 +104,37 @@ GATED ONSET BANG
 ## Descriptor → MIDI Mapping
 
 ```
--- All mappings run in parallel, values stored and read on quantized bang
+-- All values stored on onset, read on humanized quantized bang
 
--- PITCH: Use spectral centroid as register indicator
-[ fluid.spectralshape~ ] centroid Hz
+-- PITCH: Use centroid (index 2) — already in MIDI pitch format
+[ unpack ] outlet 2 → CENTROID_MIDI
         |
-[ scale 200 6000 36 84 ]   -- map 200Hz–6kHz → MIDI C2–C6
+[ clip 36 84 ]          -- constrain to C2–C6 range
         |
-[ round ]                  -- to nearest integer
+[ round ]
         |
-[ clip 36 84 ]
-        |
-[ snapshot~ ] ← triggered by HUMANIZED QUANTIZED BANG
+[ snapshot ] ← triggered by HUMANIZED QUANTIZED BANG (use [snapshot], not [snapshot~])
         |
 MIDI_PITCH value
 
--- VELOCITY: From loudness
-[ fluid.loudness~ ] dB
+-- VELOCITY: From loudness (index 0, in dB)
+[ unpack ] outlet 0 → LOUDNESS_DB
         |
 [ scale -45 -6 30 110 ]    -- map dB range → velocity 30–110
         |
 [ clip 1 127 ]
         |
-[ snapshot~ ] ← triggered by same bang
+[ int ] ← snapshot on HUMANIZED QUANTIZED BANG
         |
 MIDI_VELOCITY value
 
--- CHANNEL: From centroid range (routes to different instrument groups)
+-- CHANNEL: Route by pitch register to different S2 instrument groups
 MIDI_PITCH value
         |
-[ if $i1 < 48 then 3 ]     -- low register  → ch 3 (chord/bass player)
-[ if $i1 >= 48 and $i1 < 66 then 2 ]  -- mid → ch 2 (woodwind player)
-[ if $i1 >= 66 then 1 ]    -- high register → ch 1 (strings player)
+[ sel ]  -- use [if] or [route] for range matching:
+[ if $i1 < 48 then 3 ]              -- low  → ch 3 (Piano/Vibraphone)
+[ if $i1 >= 48 && $i1 < 66 then 2 ] -- mid  → ch 2 (Woodwind)
+[ if $i1 >= 66 then 1 ]             -- high → ch 1 (Strings)
         |
 MIDI_CHANNEL value
 ```

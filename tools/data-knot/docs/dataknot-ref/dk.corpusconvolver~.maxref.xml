@@ -1,0 +1,1074 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.corpusconvolver~' category='' module='dataknot'>
+    <digest>Convolution-based corpus matching
+</digest>
+    <description>The <o>dk.corpusconvolver~</o> object works in conjunction with <o>dk.descriptors~</o> or <o>dk.descriptorsframe</o> to find the nearest match in a pre-analyzed corpus similar to how <o>dk.corpusmatch</o> works. However instead of simply returning the name of the file that has matched, it loads the sample as an IR that the incoming audio is convolved with.
+</description>
+    <discussion>Based on <o>multiconvolve~</o> from the HIRT package. For more info visit <a href="https://cycling74.com/packages/hisstools-impulse-response-toolbox-hirt">https://cycling74.com/packages/hisstools-impulse-response-toolbox-hirt</a>
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='signal'>
+            <digest>Primary audio input
+</digest>
+            <description>Primary input for onset detection and recording. Different <at>input</at> modes can apply filtering based on the type of input being used.
+</description>
+        </inlet>
+        <inlet id='1' type='signal'>
+            <digest>Secondary audio input
+</digest>
+            <description>Audio input for recording independently of onset detection when being used in different <at>input</at> modes.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='signal'>
+            <digest>Audio output (L)
+</digest>
+            <description>Audio output (left).
+</description>
+        </outlet>
+        <outlet id='1' type='signal'>
+            <digest>AUdio output (R)
+</digest>
+            <description>Audio outout (right).
+</description>
+        </outlet>
+        <outlet id='2' type='list'>
+            <digest>Dict output for <o>dk.plotter</o>
+</digest>
+            <description>Dict output for <o>dk.plotter.</o>
+</description>
+        </outlet>
+        <outlet id='3' type='signal'>
+            <digest>Trigger output
+</digest>
+            <description>Analyzed onset as a trigger, time-aligned with descriptor analysis.
+</description>
+        </outlet>
+        <outlet id='4' type='signal'>
+            <digest>Gate output
+</digest>
+            <description>Analyzed onset as a gate, time-aligned with descriptor analysis.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+        <objarg name='default' optional='1' type='symbol'>
+            <digest>JSON file to load by default
+</digest>
+            <description>JSON file to load by default.
+</description>
+        </objarg>
+        <objarg name='setup' optional='1' type='symbol'>
+            <digest>Setup JSON file to load by default
+</digest>
+            <description>Setup JSON file to load by default.
+</description>
+        </objarg>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+    <method name='dump'>
+        <arglist>
+        </arglist>
+        <digest>Dumps out the current entries as a list
+</digest>
+        <description>Dumps out current entries as a list (filtered or otherwise) as a list.
+</description>
+    </method>
+    <method name='dumpdict'>
+        <arglist>
+        </arglist>
+        <digest>Dumps out the current entries as a list
+</digest>
+        <description>Dumps out current entries as a list (filtered or otherwise) as a dictionary.
+</description>
+    </method>
+    <method name='info'>
+        <arglist>
+        </arglist>
+        <digest>Print corpus metatdata/info to Max console
+</digest>
+        <description>Prints a summary of the corpus metatdata/info to the Max console.
+</description>
+    </method>
+    <method name='print'>
+        <arglist>
+        </arglist>
+        <digest>Print dataset contents to Max console
+</digest>
+        <description>Prints a summary of the descriptors in the dataset to the Max console.
+</description>
+    </method>
+    <method name='read'>
+        <arglist>
+        </arglist>
+        <digest>Read a pre-trained corpus <strong>.json</strong> file
+</digest>
+        <description>Reads a pre-trained corpus <strong>.json</strong> file directly from a relative or absolute path. With no additional argument, a file dialog will appear to choose a <strong>.json</strong> file.
+</description>
+    </method>
+    <method name='refer'>
+        <arglist>
+        </arglist>
+        <digest>Messages related to <o>buffer~</o> loading
+</digest>
+        <description>Messages related to <o>buffer~</o> loading and referring.<br/>
+You can point the analysis to an existing <o>buffer~</o> by sending sending a <m>refer</m>
+message followed by a valid <o>buffer~</o> name. This will immediately analyze the named
+<o>buffer~</o> and make it available for playback as soon as the process is done.<br/><br/>
+Additional optional arguments allow you to specify a subsection of the <o>buffer~</o> to load
+for analysis.<br/><br/>
+A single additional argument will specify how much of the <o>buffer~</o> (in ms) to analyze from the start.
+If two arguments are given these will specify the <strong>start</strong> position (in ms) of the analysis and then the
+<strong>duration</strong> (in ms) of the <o>buffer~</o> to analyze after that point.<br/><br/>
+Therefore a complete message would look as follows:<br/>
+<code>refer bufferName</code> or <code>refer bufferName 500</code> or <code>refer bufferName 500 1500</code>
+</description>
+    </method>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='active'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Enables or disables the matching
+</digest>
+        <description>Enables or disables the matching.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='1'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='corpus'
+        type='list'
+        size=''
+        get='1' set='1'
+        >
+        <digest>Messages related to corpus matching
+</digest>
+        <description>Messages related to corpus matching.<br/>
+After sending the <m>corpus</m> message you send an argument of
+&#39;match&#39; followed by a time-scale you wish to match against.<br/>
+The available options are:<br/>
+<ul>
+<li><strong>short</strong> = the first 256 samples (at 44.1k sample rate)
+</li>
+<li><strong>medium</strong> = the first 4410 samples (at 44.1k sample rate)
+</li>
+<li><strong>all</strong> = the entire file<br/><br/>
+</li>
+</ul>
+Therefore a complete message would look as follows:<br/>
+<code>corpus match all</code> or <code>corpus match small</code>
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='list'
+            size=''
+            value=''
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='envelope'
+        type='symbol'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Determines whether differential thresholding is logarithmic or linear
+</digest>
+        <description>Determines whether ampltidue thresholding is computed on the logarithmic differential (default) or linear (log or lin).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='symbol'
+            size='1'
+            value='log'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='fastrampdown'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The number of samples the relative envelope follower will take to reach the next value when falling
+</digest>
+        <description>The number of samples the relative envelope follower will take to reach the next value when falling. Typically, this will be faster than slowrampdown.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='383'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='fastrampup'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The number of samples the relative envelope follower will take to reach the next value when raising
+</digest>
+        <description>The number of samples the relative envelope follower will take to reach the next value when raising. Typically, this will be faster than slowrampup.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='3'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='fftsettings'
+        type='list'
+        size='3'
+        get='1' set='1'
+        >
+        <digest>FFT settings for analysis
+</digest>
+        <description>FFT settings consist of three numbers representing the window size,
+hop size and FFT size in samples:<br/><br/>
+The hop size and fft size can both be set to -1 (and are by
+default), with slightly different meanings:<br/>
+<ul>
+<li>For the hop size, -1 = windowsize/2
+</li>
+<li>For the FFT size, -1 = windowsize snapped to the nearest equal /
+greater power of 2 (e.g. windowsize 1024 =&gt; fftsize 1024, but
+windowssize 1000 also =&gt; fftsize 1024)
+</li>
+</ul>
+<strong>Constraints</strong><br/>
+<ul>
+<li>FFTSize, if != -1, will snap to the next greatest power of two
+</li>
+<li>if FFT size != -1, then window size is clipped at FFT size
+</li>
+</ul>
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='list'
+            size='3'
+            value='256 64 512'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='filter'
+        type='list'
+        size=''
+        get='1' set='1'
+        >
+        <digest>Messages related to corpus filtering
+</digest>
+        <description>Messages related to corpus filtering.
+After sending the <m>filter</m> message you send a series of
+additional arguments that determine what descriptor is being
+filtered, how it is being filtered, as well as further filtering
+strands combined with conditionals.<br/><br/>
+The available descriptors that can be used for filtering are:<br/>
+<ul>
+<li><strong>duration</strong> =  overall sample duration in <strong>ms</strong>
+</li>
+<li><strong>time_centroid</strong> = how long a sample &#39;sounds&#39; in <strong>ms</strong>
+</li>
+<li><strong>loudness</strong> = loudness in <strong>dB</strong>
+</li>
+<li><strong>centroid</strong> = centroid in <strong>MIDI pitch</strong>
+</li>
+<li><strong>flatness</strong> = spectral flatness in <strong>dB</strong>
+</li>
+<li><strong>pitch</strong> = pitch in <strong>MIDI pitch</strong>
+</li>
+<li><strong>pitch_confidence</strong> = pitch confidence in <strong>0 to 1</strong>
+</li>
+<li><strong>loudness_medium</strong> = same for medium time frame
+</li>
+<li><strong>centroid_medium</strong> = same for medium time frame
+</li>
+<li><strong>flatness_medium</strong> = same for medium time frame
+</li>
+<li><strong>pitch_medium</strong> = same for medium time frame
+</li>
+<li><strong>pitch_confidence_medium</strong> = same for medium time frame
+</li>
+<li><strong>loudness_all</strong> = same for entire sample
+</li>
+<li><strong>centroid_all</strong> = same for entire sample
+</li>
+<li><strong>flatness_all</strong> = same for entire sample
+</li>
+<li><strong>pitch_all</strong> = same for entire sample
+</li>
+<li><strong>pitch_confidence_all</strong> = same for entire sample
+</li>
+<li><strong>index</strong> = the sample index in the corpus<br/><br/>
+</li>
+</ul>
+You can filter by the following operators:<br/>
+<ul>
+<li><strong>==</strong> = equals
+</li>
+<li><strong>!=</strong> = does not equal
+</li>
+<li><strong>&lt;</strong> = less than
+</li>
+<li><strong>&lt;=</strong> = less than or equal
+</li>
+<li><strong>&gt;</strong> = greater than
+</li>
+<li><strong>&gt;=</strong> = greater than or equal<br/><br/>
+</li>
+</ul>
+You can join multiple queries using:<br/>
+<ul>
+<li><strong>and</strong>
+</li>
+<li><strong>or</strong>
+</li>
+</ul>
+Therefore a complete message would look as follows:
+<code>filter loudness &lt; -45</code> or <code>filter duration &gt; 2500</code> or <code>filter centroid &gt; 60 and time_centroid &lt; 80</code><br/><br/>
+To reset the filtering you can send the following message:
+&#39;filter reset&#39;
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='list'
+            size=''
+            value=''
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='floor'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The level in dB the slow ramp needs to be above to consider a detected difference valid, allowing to ignore the onsets in the noise floor
+</digest>
+        <description>The level in dB the slow ramp needs to be above to consider a detected difference valid, allowing to ignore the onsets in the noise floor.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='-70'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='gain'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Output gain
+</digest>
+        <description>Output gain (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='150'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='highpass'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Highpass frequency cutoff for impulse
+</digest>
+        <description>Highpass frequency cutoff for impulse.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='250'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='highpassfreq'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The frequency of the fourth-order high-pass filter. This is done first on the signal to minimise low frequency intermodulation with very fast ramp lengths.
+</digest>
+        <description>The frequency of the fourth-order Linkwitz–Riley high-pass filter (<a href="https://en.wikipedia.org/wiki/Linkwitz%E2%80%93Riley_filter">https://en.wikipedia.org/wiki/Linkwitz%E2%80%93Riley_filter</a>). This is done first on the signal to minimise low frequency intermodulation with very fast ramp lengths. A frequency of 0 bypasses the filter.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='2000'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='highshelf'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Boost/cut for highshelf filter set at 1.5k
+</digest>
+        <description>Boost/cut for highshelf filter set at 1.5k (in dB).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='6'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='impulse'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Amount of impulse signal sent to convolution
+</digest>
+        <description>Amount of impulse signal sent to convolution (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='input'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Sets the input mode (air microphone, SP Sensor, contact/trigger)
+</digest>
+        <description>Sets the input mode allowing you to use an air microphone, a Sensory
+Percussion sensor, or a normal drum trigger/contact mic. When using
+input modes 3/4, the SP sensor and contact mic are only used for
+onset detection, and the air microphone will be recorded into the
+<o>buffer~</o> for audio analysis.<br/><br/>
+The available options are:<br/>
+<ul>
+<li><strong>0</strong> = primary input (onset and recording)
+</li>
+<li><strong>1</strong> = SP sensor in primary input (onset and recording)
+</li>
+<li><strong>2</strong> = contact mic in primary input (onset and recording)
+</li>
+<li><strong>3</strong> = SP sensor + air microphone (secondary input)
+</li>
+<li><strong>4</strong> = contact mic + air microphone (secondary input)
+</li>
+<li><strong>5</strong> = primary input + secondary input (recording)
+</li>
+<li><strong>6</strong> = SP sensor with mic correction
+</li>
+</ul>
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='invertmatching'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Returns matches that are furthest away
+</digest>
+        <description>Returns matches that are furthest away as opposed to the nearest matches. This is useful for creating contrast between the analyzed audio and the loaded corpus.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='lockout'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Amount of time (in <strong>ms</strong>) before it can get triggered again
+</digest>
+        <description>Amount of time (in <strong>ms</strong>) before an onset can get triggered again.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='30'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='metric'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The metric on which spectral difference is computed
+</digest>
+        <description>The metric used to derive a difference curve between spectral frames. It can be any of the following:<br/>
+0 = &#39;0&#39;<br/>
+Energy thresholds on (sum of squares of magnitudes / nBins) (like Onsets power)<br/><br/>
+1 = &#39;1&#39;<br/>
+HFC thresholds on (sum of (squared magnitudes * binNum) / nBins)<br/><br/>
+2 = &#39;2&#39;<br/>
+SpectralFlux thresholds on (difference in magnitude between consecutive frames, half rectified)<br/><br/>
+3 = &#39;3&#39;<br/>
+MKL thresholds on (sum of log of magnitude ratio per bin) (or equivalently, sum of difference of the log magnitude per bin) (like Onsets mkl)<br/><br/>
+4 = &#39;4&#39;<br/>
+IS Itakura-Saito divergence (see literature)<br/><br/>
+5 = &#39;5&#39;<br/>
+Cosine thresholds on (cosine distance between comparison frames)<br/><br/>
+6 = &#39;6&#39;<br/>
+PhaseDev takes the past 2 frames, projects to the current, as anticipated if it was a steady state, then compute the sum of the differences, on which it thresholds (like Onsets phase)<br/><br/>
+7 = &#39;7&#39;<br/>
+WPhaseDev same as PhaseDev, but weighted by the magnitude in order to remove chaos noise floor (like Onsets wphase)<br/><br/>
+8 = &#39;8&#39;<br/>
+ComplexDev same as PhaseDev, but in the complex domain - the anticipated amp is considered steady, and the phase is projected, then a complex subtraction is done with the actual present frame. The sum of magnitudes is used to threshold (like Onsets complex)<br/><br/>
+9 = &#39;9&#39;<br/>
+RComplexDev same as above, but rectified (like Onsets rcomplex)
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='9'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='minslicelength'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The length in samples that the slice will stay ON
+</digest>
+        <description>The length in samples that the Slice will stay ON. Changes of states during that period will be ignored. This is the equivalent of <a>lockout</a> but set in samples.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='1323'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='mode'
+        type='symbol'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Select between amplitude or spectral onset detection algorithms
+</digest>
+        <description>Select between amplitude or spectral onset detection algorithms.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='symbol'
+            size='1'
+            value='amplitude'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='noise'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Amount of noise added to the impulse signal
+</digest>
+        <description>Amount of noise added to the impulse signal.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='50'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='offthreshold'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The threshold in dB of the relative envelope follower to reset, aka to allow the differential envelope to trigger again.
+</digest>
+        <description>The threshold in dB of the relative envelope follower to reset, aka to allow the differential envelope to trigger again.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='8'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='onthreshold'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The threshold in dB of the relative envelope follower to trigger an onset, aka to go ON when in OFF state
+</digest>
+        <description>The threshold in dB of the relative envelope follower to trigger an onset, aka to go ON when in OFF state. It is computed on the difference between the two envelope followers.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='19'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='pickup'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Pickup parameter in impulse generator algorithm
+</digest>
+        <description>Pickup parameter in impulse generator algorithm.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='33'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='position'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Position parameter in impulse generator algorithm
+</digest>
+        <description>Position parameter in impulse generator algorithm.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='20'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='predictedweight'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Scaling of predicted descriptors
+</digest>
+        <description>Relative scaling of predicted descriptors when using <strong>predicted</strong> time scale (0. to 1.).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0.5'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='roundrobin'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Enable roundrobin sample matching
+</digest>
+        <description>Enables round robin sample matching so when a match is found twice
+in a row, a randomized selection is made within the nearest matches.<br/>
+The available options are:<br/>
+<ul>
+<li><strong>0</strong> = round robin selection is off 
+</li>
+<li><strong>1</strong> = round robin selection is on (default 5 nearest neighbors)
+</li>
+</ul>
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='1'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='select'
+        type='list'
+        size='8'
+        get='1' set='1'
+        >
+        <digest>Select a subset of descriptors to pass through
+</digest>
+        <description>Allow only a subset of the descriptors to come out of the list output (<o>buffer~</o> output is unaffected).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='list'
+            size='8'
+            value='loudness, loudness_derivative, centroid, centroid_derivative, flatness, flatness_derivative, pitch, pitch_confidence'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='sensitivity'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The nervousness of the algorithm thresholds (from 0 to 100%)
+</digest>
+        <description>The nervousness of the algorithm thresholds (from 0 to 100%). This is essentially a &#39;macro&#39; parameter for the individual on/off thresholds.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='50'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='setup'
+        type='list'
+        size=''
+        get='1' set='1'
+        >
+        <digest>Messages related to setups
+</digest>
+        <description>Messages related to setups.<br/>
+After sending the <m>setup</m> message you can send send several
+additional arguments. These are:<br/>
+<ul>
+<li><strong>load</strong> = opens file dialog to select pre-analyzed setup
+<strong>.json</strong> file.
+</li>
+<li><strong>read</strong> = reads a pre-analyzed setup <strong>.json</strong> file from a
+relative or absolute path
+</li>
+<li><strong>match</strong> = enables or disables the setup matching by sending a
+<strong>0</strong> or <strong>1</strong>
+</li>
+<li><strong>range</strong> = sets the median and range for the internal
+standardization. this consists of two values between <strong>0-100</strong>
+with the default being <strong>25 75</strong><br/><br/>
+</li>
+</ul>
+Therefore a complete message would look as follows:<br/>
+<code>setup range 10 90</code> or <code>setup match 1</code> or <code>setup read setup_snare.json</code>
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='list'
+            size=''
+            value=''
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='slowrampdown'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The number of samples the absolute envelope follower will take to reach the next value when falling.
+</digest>
+        <description>The number of samples the absolute envelope follower will take to reach the next value when falling.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='2205'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='slowrampup'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The number of samples the absolute envelope follower will take to reach the next value when raising.
+</digest>
+        <description>The number of samples the absolute envelope follower will take to reach the next value when raising.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='2205'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='smoothing'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The size of the smoothing filter applied to the difference curve
+</digest>
+        <description>The size of the smoothing filter applied to the difference curve when in spectral <at>mode.</at>
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='2.5'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='weights'
+        type='list'
+        size=''
+        get='1' set='1'
+        >
+        <digest>Messages related to descriptor weighting
+</digest>
+        <description>Messages related to descriptor weighting.<br/>
+After sending the <m>weights</m> message you send a series of
+additional arguments that determine what descriptor is being
+weighted, and how much its weight is being modified by.<br/>
+The available descriptors that can be used for weighting are:<br/>
+<ul>
+<li><strong>loudness</strong>
+</li>
+<li><strong>loudness_derivative</strong>
+</li>
+<li><strong>centroid</strong>
+</li>
+<li><strong>centroid_derivative</strong>
+</li>
+<li><strong>flatness</strong>
+</li>
+<li><strong>flatness_derivative</strong>
+</li>
+<li><strong>pitch</strong>
+</li>
+<li><strong>pitch_confidence</strong><br/><br/>
+</li>
+</ul>
+The descriptors are weighted with a percentage between 0% and 1000%, with 100% being the default.<br/>
+Therefore a complete message would look as follows:<br/>
+<code>weights loudness 200</code> or <code>weights pitch 1000</code> or <code>weights flatness 50, weights pitch_confidence 500</code>
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='list'
+            size=''
+            value=''
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='window'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Window of time to look for spectral difference in (for HFC, SpectralFlux, MKL, Cosine only)
+</digest>
+        <description>Window of time to look for spectral difference in when in spectral <at>mode</at> (for HFC, SpectralFlux, MKL, Cosine only). (in ms)
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='2.5'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.convolver~' />
+        <seealso name='dk.corpuscreate' />
+        <seealso name='dk.corpusmatch' />
+        <seealso name='dk.onsetframe~' />
+        <seealso name='dk.plotter' />
+        <seealso name='dk.setupcreate~' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

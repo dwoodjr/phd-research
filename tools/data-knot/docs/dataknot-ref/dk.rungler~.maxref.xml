@@ -1,0 +1,403 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.rungler~' category='' module='dataknot'>
+    <digest>Rungler-inspired oscillator
+</digest>
+    <description>The <o>dk.rungler~</o> object is a digital recreation of the Rob Hordijk Rungler. The rungler is basically a CMOS shift register clocked by one oscillator and receiving its data input from the other oscillator. To describe the rungler waveform in similar terms as like a sine wave or pulse wave. Rob calls it a &quot;stepped havoc wave&quot;.
+</description>
+    <discussion>Based on the Rob Hordijk Rungler. For more information visit <a href="https://sdiy.info/wiki/Rob_Hordijk_Rungler">https://sdiy.info/wiki/Rob_Hordijk_Rungler</a>
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='signal'>
+            <digest>Note input and optional audio input
+</digest>
+            <description>Note input (as MIDI float) and optional audio input for triggering the algorithm.
+</description>
+        </inlet>
+        <inlet id='1' type='signal'>
+            <digest>Trigger input
+</digest>
+            <description>Trigger input.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='signal'>
+            <digest>Audio output (L)
+</digest>
+            <description>Audio output (L).
+</description>
+        </outlet>
+        <outlet id='1' type='signal'>
+            <digest>Audio output (R)
+</digest>
+            <description>Audio output (R).
+</description>
+        </outlet>
+        <outlet id='2' type='signal'>
+            <digest>Impulse output
+</digest>
+            <description>Impulse that is fed to algorithm output.
+</description>
+        </outlet>
+        <outlet id='3' type='list'>
+            <digest>Dump out for parameter names, ranges, and values
+</digest>
+            <description>Dump out for parameter names, ranges, and values.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+    <method name='dump'>
+        <arglist>
+        </arglist>
+        <digest>Dump parameter names, ranges, and values
+</digest>
+        <description>Dumps parameter names, ranges, and values out of the right-most outlet.
+</description>
+    </method>
+    <method name='randomize'>
+        <arglist>
+        </arglist>
+        <digest>Randomize parameters
+</digest>
+        <description>Randomize parameters defined by the preset dictionary. An additional optional argument will randomize by a certain percentage.
+</description>
+    </method>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='frequencya'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Frequency of oscillator A
+</digest>
+        <description>Frequency of oscillator A (-1 to 1).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='frequencyb'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Frequency of oscillator B
+</digest>
+        <description>Frequency of oscillator B (-1 to 1).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='pwma'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Pulse width of oscillator A&#39;s square output
+</digest>
+        <description>Pulse width of oscillator A&#39;s square output (-1 to 1).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='pwmb'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Pulse width of oscillator B&#39;s square output
+</digest>
+        <description>Pulse width of oscillator B&#39;s square output (-1 to 1).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='rampa'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Slope of oscillator A&#39;s triangle output
+</digest>
+        <description>Slope of oscillator A&#39;s triangle output, morphing from saw to triangle (-1 to 1).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='rampb'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Slope of oscillator B&#39;s triangle output
+</digest>
+        <description>Slope of oscillator B&#39;s triangle output, morphing from saw to triangle (-1 to 1).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='ramptime'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Ramp time for smoothing of each parameter
+</digest>
+        <description>Ramp time for smoothing each parameter (in ms).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='35'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='runglera'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Rungling of oscillator A
+</digest>
+        <description>Rungling of oscillator A (-1 to 1).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='runglerb'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Rungling of oscillator B
+</digest>
+        <description>Rungling of oscillator B (-1 to 1).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='runglerinputa'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Whether the square or triangle output of oscillator A is fed into  oscillator B
+</digest>
+        <description>Whether the square (0) or triangle (1) output of oscillator A is fed into  oscillator B.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='runglerinputb'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Whether the square or triangle output of oscillator B is fed into  oscillator A
+</digest>
+        <description>Whether the square (0) or triangle (1) output of oscillator B is fed into  oscillator A.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='synca'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Freezes the frequency of oscillator A
+</digest>
+        <description>Freezes the frequency of oscillator A (0 or 1).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='syncb'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Freezes the frequency of oscillator B
+</digest>
+        <description>Freezes the frequency of oscillator B (0 or 1).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='upsample'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>How much upsampling to apply
+</digest>
+        <description>How much upsampling to apply to underlying algorithm (0 = none, 1 = default, 2 = maximum).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='1'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.avdog~' />
+        <seealso name='dk.fourses~' />
+        <seealso name='dk.gongue~' />
+        <seealso name='dk.justfriends~' />
+        <seealso name='dk.mangrove~' />
+        <seealso name='dk.quantussy~' />
+        <seealso name='dk.snare~' />
+        <seealso name='dk.ultrasound~' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

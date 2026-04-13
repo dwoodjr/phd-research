@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.cvonset~' category='' module='dataknot'>
+    <digest>CV-based onset detection
+</digest>
+    <description>The <o>dk.cvonset~</o> object takes control voltage input and outputs a bang, trigger, a gate, and a couple more signals based on when an &quot;onset&quot; is detected. This is similar to <o>dk.onset~</o> but operates on control voltage signals instead.
+</description>
+    <discussion>This can be used to process MSP signals or actual CV/triggers/gates from modular hardware. This can be accomplished with any DC-coupled audio interface or with specialist hardware like Expert-Sleepers interfaces<br/><a href="http://expert-sleepers.co.uk">http://expert-sleepers.co.uk</a>
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='signal'>
+            <digest>Trigger/gate and control in
+</digest>
+            <description>Trigger/gate and control in.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='signal'>
+            <digest>Trigger/gate output
+</digest>
+            <description>Trigger/gate output.
+</description>
+        </outlet>
+        <outlet id='1' type='signal'>
+            <digest>Trigger when cloud completes
+</digest>
+            <description>Trigger when cloud completes.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='attack'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Attack time of signal
+</digest>
+        <description>Attack time of signal (in ms).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='attackcurve'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Curve for attack of envelope
+</digest>
+        <description>Curve for attack of envelope (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='curve'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Curve for both attack and release
+</digest>
+        <description>Curve for both attack and release (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='hold'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Hold time for each onset
+</digest>
+        <description>Hold time for each onset (in ms).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='lockout'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Time before an onset can be triggered again
+</digest>
+        <description>Time before an onset can be triggered again (in ms).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='35'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='offset'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Offset of signal
+</digest>
+        <description>Offset of signal (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='release'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Release time of signal
+</digest>
+        <description>Release time of signal (in ms).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='releasecurve'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Curve for release of envelope
+</digest>
+        <description>Curve for release of envelope (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='scale'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Scale of signal
+</digest>
+        <description>Scale of signal (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='100'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='sensitivity'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Sets the sensitivity of the thresholding for the gate output
+</digest>
+        <description>Sets the sensitivity of the thresholding for the gate output (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='75'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='slew'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Smoothing applied to input signal
+</digest>
+        <description>Smoothing applied to input signal (in ms).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='10'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.cvcontrollers~' />
+        <seealso name='dk.cvcross~' />
+        <seealso name='dk.cvgate~' />
+        <seealso name='dk.cvscatter~' />
+        <seealso name='dk.cvsmear~' />
+        <seealso name='dk.probability~' />
+        <seealso name='dk.triggerbounce~' />
+        <seealso name='dk.triggercloud~' />
+        <seealso name='dk.triggerdelay~' />
+        <seealso name='dk.triggerlength~' />
+        <seealso name='dk.triggershape~' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

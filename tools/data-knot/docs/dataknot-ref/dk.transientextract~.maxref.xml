@@ -1,0 +1,548 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.transientextract~' category='' module='dataknot'>
+    <digest>Extract transients from incoming audio
+</digest>
+    <description>The <o>dk.transientextract~</o> object separates transients from a signal via transient separation, harmonic-percussive source separation (HPSS), or sinusoidal reconstruction alglorithms.
+</description>
+    <discussion>If you want to learn more about the underlying algorithms have a look at these articles:<br/><a href="https://learn.flucoma.org/reference/hpss">https://learn.flucoma.org/reference/hpss</a><br/><a href="https://learn.flucoma.org/reference/transients">https://learn.flucoma.org/reference/transients</a><br/><a href="https://learn.flucoma.org/reference/sines">https://learn.flucoma.org/reference/sines</a>
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='signal'>
+            <digest>Audio and control in
+</digest>
+            <description>Audio input to analyze for novelty.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='list'>
+            <digest>bang out
+</digest>
+            <description>bang output when an onset is detected.
+</description>
+        </outlet>
+        <outlet id='1' type='signal'>
+            <digest>Trigger out
+</digest>
+            <description>Trigger output when an onset is detected.
+</description>
+        </outlet>
+        <outlet id='2' type='signal'>
+            <digest>Gate out
+</digest>
+            <description>Gate output when an onset is detected.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='bandwidth'
+        type='int'
+        size=''
+        get='1' set='1'
+        >
+        <digest>Bandwidth
+</digest>
+        <description>The number of bins used to resynthesise a peak. It has an effect on CPU cost, the widest is more accurate but more computationally expensive. It is capped at (fftsize / 2) + 1.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='76'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='birthhighthreshold'
+        type='float'
+        size=''
+        get='1' set='1'
+        >
+        <digest>Track Birth High Frequency Threshold
+</digest>
+        <description>The threshold in dB above which to consider a peak to start a sinusoidal component tracking, for the high end of the spectrum. It is interpolated across the spectrum until <at>birthlowthreshold</at> at DC.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='-60'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='birthlowthreshold'
+        type='float'
+        size=''
+        get='1' set='1'
+        >
+        <digest>Track Birth Low Frequency Threshold
+</digest>
+        <description>The threshold in dB above which to consider a peak to start a sinusoidal component tracking, for the low end of the spectrum. It is interpolated across the spectrum until <at>birthhighthreshold</at> at half-Nyquist.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='-24'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='blocksize'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Block size
+</digest>
+        <description>The size of audio block (in samples) on which the process is operating. This determines the maximum 
+duration (in samples) of a detected transient, which cannot be more than half of <at>blocksize</at> - <at>order.</at> High values are more cpu intensive.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='128'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='clumplength'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Clumping window length
+</digest>
+        <description>The window size in samples within which anomalous samples will be clumped together to avoid over-detecting in time. This is like setting a minimum transient length.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='100'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='detectionthreshold'
+        type='float'
+        size=''
+        get='1' set='1'
+        >
+        <digest>Peak Detection Threshold
+</digest>
+        <description>The threshold in dB above which a magnitude peak is considered to be a sinusoidal component.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='-40'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='extractmode'
+        type='symbol'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Select between transients, HPSS, or sines extraction modes (transients, hpss, sines)
+</digest>
+        <description>Select between transients, HPSS, or sines extraction modes (transients, hpss, sines).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='symbol'
+            size='1'
+            value='hpss'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='fftsettings'
+        type='list'
+        size='3'
+        get='1' set='1'
+        >
+        <digest>FFT settings for analysis
+</digest>
+        <description>FFT settings consist of three numbers representing the window size,
+hop size and FFT size in samples:<br/><br/>
+The hop size and fft size can both be set to -1 (and are by
+default), with slightly different meanings:<br/>
+<ul>
+<li>For the hop size, -1 = windowsize/2
+</li>
+<li>For the FFT size, -1 = windowsize snapped to the nearest equal /
+greater power of 2 (e.g. windowsize 1024 =&gt; fftsize 1024, but
+windowssize 1000 also =&gt; fftsize 1024)
+</li>
+</ul>
+<strong>Constraints</strong><br/>
+<ul>
+<li>FFTSize, if != -1, will snap to the next greatest power of two
+</li>
+<li>if FFT size != -1, then window size is clipped at FFT size
+</li>
+</ul>
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='list'
+            size='3'
+            value='256 64 512'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='harmfiltersize'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Harmonic filter size
+</digest>
+        <description>The size, in spectral frames, of the median filter for the harmonic component. Must be an odd number, &gt;= 3.<br/><br/>* Minimum 3 * Snaps to odd numbers
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='7'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='mintracklen'
+        type='int'
+        size=''
+        get='1' set='1'
+        >
+        <digest>Minimum Track Length
+</digest>
+        <description>The minimum duration, in spectral frames, for a sinusoidal track to be accepted as a partial. It allows to remove bubbly pitchy artefacts, but is more CPU intensive and might reject quick pitch material.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='1'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='order'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Order
+</digest>
+        <description>The number of previous samples used by the algorithm to create the model of the signal within the <at>blocksize</at> window of analysis. order must be less than <at>blocksize.</at>
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='14'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='padsize'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Padding
+</digest>
+        <description>The size (in samples) of analysis on each side of <at>blocksize</at> used to provide some historical context for analysis, so that each <at>blocksize</at> isn&#39;t modelled completely independently of its predecessor.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='64'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='percfiltersize'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Percussive filter size
+</digest>
+        <description>The size, in spectral bins, of the median filter for the percussive component. Must be an odd number, &gt;=3.<br/><br/>* Minimum 3 * Snaps to odd numbers
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='7'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='skew'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Skew
+</digest>
+        <description>The nervousness of the bespoke detection function. It ranges from -10 to 10 (it has no units) representing the strength and direction of some nonlinearity applied to the detection signal which controls how peaks are amplified or smoothed before the thresholding. High values increase the sensitivity to small variations.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='threshback'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Backward threshold
+</digest>
+        <description>The threshold applied to the smoothed backward prediction error for determining an offset. The units are roughly in standard deviations, thus can be considered how &quot;deviant&quot;, or anomalous, the signal must be to be considered transient. When the smoothed error function goes below <at>threshback</at> an offset is identified. As it proceeds backwards in time, it allows tight identification of the end of the anomaly.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='1.1'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='threshfwd'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Forward threshold
+</digest>
+        <description>The threshold applied to the smoothed forward prediction error for determining an onset. The units are roughly in standard deviations, thus can be considered how &quot;deviant&quot;, or anomalous, the signal must be to be detected as a transient. It allows tight identification of the start of the anomaly as it proceeds forward.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='2'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='trackfreqrange'
+        type='float'
+        size=''
+        get='1' set='1'
+        >
+        <digest>Tracking Frequency Range (Hz)
+</digest>
+        <description>The frequency difference allowed for a track to diverge between frames, in Hertz.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='50'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='trackmagrange'
+        type='float'
+        size=''
+        get='1' set='1'
+        >
+        <digest>Tracking Magnitude Range (dB)
+</digest>
+        <description>The amplitude difference allowed for a track to diverge between frames, in dB.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='15'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='trackmethod'
+        type='int'
+        size=''
+        get='1' set='1'
+        >
+        <digest>Tracking Method
+</digest>
+        <description>The algorithm used to track the sinusoidal continuity between spectral frames. 0 is the default, &quot;Greedy&quot;, and 1 is a more expensive [^&quot;Hungarian&quot;]( Neri, J., and Depalle, P., &quot;Fast Partial Tracking of Audio with Real-Time Capability through Linear Programming&quot;. Proceedings of DAFx-2018. ) one.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='trackprob'
+        type='float'
+        size=''
+        get='1' set='1'
+        >
+        <digest>Tracking Matching Probability
+</digest>
+        <description>The probability of the tracking algorithm to find a track.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0.5'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='windowsize'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Window size
+</digest>
+        <description>The averaging window of the error detection function. It needs smoothing as it is very jittery. The longer the window, the less precise, but the less false positive.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='14'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.convolver~' />
+        <seealso name='dk.crosstalk~' />
+        <seealso name='dk.envelope~' />
+        <seealso name='dk.lpg~' />
+        <seealso name='dk.melbandfilter~' />
+        <seealso name='dk.onsetfreeze~' />
+        <seealso name='dk.onsettap~' />
+        <seealso name='dk.scatter~' />
+        <seealso name='dk.scramble~' />
+        <seealso name='dk.shatter~' />
+        <seealso name='dk.sift~' />
+        <seealso name='dk.smear~' />
+        <seealso name='dk.spectralshapefilter~' />
+        <seealso name='dk.transientreplace~' />
+        <seealso name='dk.ultrasound~' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

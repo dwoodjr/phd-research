@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.mfccframe' category='' module='dataknot'>
+    <digest>Analyzes audio for MFCCs based on frame input
+</digest>
+    <description>The <o>dk.mfccframe</o> object outputs 13 MFCC coefficients (skipping the 0th coefficient) which can be used for classification and clustering. Although abstract they can also be used to control parameters.
+</description>
+    <discussion>If you want to learn more about the underlying algorithms have a look at these articles:<br/><a href="https://learn.flucoma.org/reference/loudness">https://learn.flucoma.org/reference/loudness</a><br/><a href="https://learn.flucoma.org/reference/mfcc">https://learn.flucoma.org/reference/mfcc</a>
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='list'>
+            <digest>Frame to analyze
+</digest>
+            <description>Frame to analyze from <o>dk.onsetframe~</o>, <o>dk.realtimeframe~</o>, or <o>dk.triggerframe~</o>
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='list'>
+            <digest>MFCCs as list
+</digest>
+            <description>Analyzed MFCCs in list form.
+</description>
+        </outlet>
+        <outlet id='1' type='list'>
+            <digest>MFCCs as <o>buffer~</o>
+</digest>
+            <description>Analyzed MFCCs in <o>buffer~</o> form.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='blocking'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Choose which thread to use for processing
+</digest>
+        <description>By default non-realtime objects use the Max main thread.<br/><br/>
+The available options are:<br/>
+<ul>
+<li><strong>0: Non-blocking</strong> = Use a dedicated worker thread (for longer jobs)
+</li>
+<li><strong>1: Blocking (Low Priority)</strong> = Use Max main thread (for small jobs)
+</li>
+<li><strong>2: Blocking (High Priority)</strong> = Use calling thread (for very small jobs)
+</li>
+</ul>
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='1'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='fftsettings'
+        type='list'
+        size='3'
+        get='1' set='1'
+        >
+        <digest>FFT settings for analysis
+</digest>
+        <description>FFT settings consist of three numbers representing the window size,
+hop size and FFT size in samples:<br/><br/>
+The hop size and fft size can both be set to -1 (and are by
+default), with slightly different meanings:<br/>
+<ul>
+<li>For the hop size, -1 = windowsize/2
+</li>
+<li>For the FFT size, -1 = windowsize snapped to the nearest equal /
+greater power of 2 (e.g. windowsize 1024 =&gt; fftsize 1024, but
+windowssize 1000 also =&gt; fftsize 1024)
+</li>
+</ul>
+<strong>Constraints</strong><br/>
+<ul>
+<li>FFTSize, if != -1, will snap to the next greatest power of two
+</li>
+<li>if FFT size != -1, then window size is clipped at FFT size
+</li>
+</ul>
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='list'
+            size='3'
+            value='256 64 512'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='numframes'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>How many samples to analyze
+</digest>
+        <description>How many samples to analyse. The default of -1 indicates to analyse through to the end of the <o>buffer~.</o>
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='256'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='realtime'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Runs in high-priority thread for realtime performance
+</digest>
+        <description>Runs in high-priority thread when fast realtime performance is required.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='1'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='source'
+        type='symbol'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>The buffer to use as source material
+</digest>
+        <description>The <o>buffer~</o> to use as the source material to be pitch-tracked. The different channels of multichannel buffers will be processed sequentially.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='symbol'
+            size='1'
+            value=''
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='startframe'
+        type='int'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Where in the <m>source</m> to start analysis.
+</digest>
+        <description>Where in <m>source</m> to start the analysis, in samples. The default is 0.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='int'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.descriptorframe' />
+        <seealso name='dk.melbandframe' />
+        <seealso name='dk.mfcc~' />
+        <seealso name='dk.onsetframe~' />
+        <seealso name='dk.sineframe' />
+        <seealso name='dk.spectralshapeframe' />
+        <seealso name='dk.triggerframe~' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

@@ -1,0 +1,371 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.karplus~' category='' module='dataknot'>
+    <digest>Extended Karplus-Strong resonant string model
+</digest>
+    <description>The <o>dk.karplus~</o> object creates a flurry of triggers (or gates) after each input based on the current parameter settings. Can be used to trigger more processes down the line.
+</description>
+    <discussion>Adapted from .qasar&#39;s post on the cycling74.com forum <a href="https://cycling74.com/forums/-sharing-nonlinear-allpass-for-physical-modeling-synthesis">https://cycling74.com/forums/-sharing-nonlinear-allpass-for-physical-modeling-synthesis</a>
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='signal'>
+            <digest>Note input and optional audio input
+</digest>
+            <description>Note input (as MIDI float) and optional audio input for triggering the algorithm.
+</description>
+        </inlet>
+        <inlet id='1' type='signal'>
+            <digest>Trigger input
+</digest>
+            <description>Trigger input.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='signal'>
+            <digest>Audio output
+</digest>
+            <description>Audio output.
+</description>
+        </outlet>
+        <outlet id='1' type='signal'>
+            <digest>Impulse output
+</digest>
+            <description>Impulse that is fed to algorithm output.
+</description>
+        </outlet>
+        <outlet id='2' type='list'>
+            <digest>Dump out for parameter names, ranges, and values
+</digest>
+            <description>Dump out for parameter names, ranges, and values.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+    <method name='bang'>
+        <arglist>
+        </arglist>
+        <digest>Equivalent of sending a trigger when sent into right inlet
+</digest>
+        <description>Equivalent of sending a trigger when sent into right inlet.
+</description>
+    </method>
+    <method name='dump'>
+        <arglist>
+        </arglist>
+        <digest>Dump parameter names, ranges, and values
+</digest>
+        <description>Dumps parameter names, ranges, and values out of the right-most outlet.
+</description>
+    </method>
+    <method name='randomize'>
+        <arglist>
+        </arglist>
+        <digest>Randomize parameters
+</digest>
+        <description>Randomize parameters defined by the preset dictionary. An additional optional argument will randomize by a certain percentage.
+</description>
+    </method>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='a1'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>First filter coefficient
+</digest>
+        <description>First allpass filter coefficient.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='a2'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Second filter coefficient
+</digest>
+        <description>Second allpass filter coefficient.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='0'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='damping'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Amount of damping in the algorithm
+</digest>
+        <description>Amount of damping in the algorithm (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='80'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='gain'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Output gain
+</digest>
+        <description>Output gain (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='100'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='impulse'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Amount of impulse signal sent to algorithm
+</digest>
+        <description>Amount of impulse signal sent to algorithm.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='50'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='input'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Amount of input signal sent to algorithm
+</digest>
+        <description>Amount of input signal sent to algorithm.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='35'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='inputgain'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Amount of input sent directly to model when in realtime/combined modes
+</digest>
+        <description>Amount of input sent directly to model when in realtime/combined modes.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='100'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='mode'
+        type='list'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Sets the actuation mode for audio input
+</digest>
+        <description>Sets the actuation mode for audio input.<br/>
+The available options are:<br/>
+<ul>
+<li><strong>0</strong> = no direct audio, triggers only</li>
+<li><strong>1</strong> = direct audio only, no triggers</li>
+<li><strong>2</strong> = both direct and trigger audio)</li>
+</ul>
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='list'
+            size='1'
+            value=''
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='noise'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Amount of noise added to the impulse signal
+</digest>
+        <description>Amount of noise added to the impulse signal.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='10'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='note'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Default note choice of algorithm
+</digest>
+        <description>Default note choice of algorithm (in MIDI cents).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='60'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='pickup'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Pickup parameter in impulse generator algorithm
+</digest>
+        <description>Pickup parameter in impulse generator algorithm.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='33'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+        <attribute
+        name='position'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Position parameter in impulse generator algorithm
+</digest>
+        <description>Position parameter in impulse generator algorithm.
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='20'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.convolver~' />
+        <seealso name='dk.justfriends~' />
+        <seealso name='dk.mangrove~' />
+        <seealso name='dk.resonators~' />
+        <seealso name='dk.resonatorscreate~' />
+        <seealso name='dk.shaker~' />
+        <seealso name='dk.sinusoidplayer~' />
+        <seealso name='dk.sinusoids~' />
+        <seealso name='dk.waveguidemesh~' />
+        <seealso name='dk.waveguidesnare~' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

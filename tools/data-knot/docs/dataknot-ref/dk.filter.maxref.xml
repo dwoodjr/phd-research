@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.filter' category='' module='dataknot'>
+    <digest>Apply filtering/routing to incoming descriptor messages
+</digest>
+    <description>The <o>dk.filter</o> object allows you to selectively send incoming descriptor or spectralshape messages to one of two outlets depending on whether the filtering criteria is met. This allows you to fork processing based on audio characteristics.
+</description>
+    <discussion>If you want to learn more about the underlying algorithm have a look at this article:<br/><a href="https://learn.flucoma.org/reference/datasetquery">https://learn.flucoma.org/reference/datasetquery</a>
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='list'>
+            <digest>Descriptor in
+</digest>
+            <description>Descriptor input as list or <o>buffer~.</o>
+</description>
+        </inlet>
+        <inlet id='1' type='list'>
+            <digest>Descriptor in to be filtered
+</digest>
+            <description>Descriptor input as list or <o>buffer~</o> that will be filtered by the input of the left-most inlet.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='list'>
+            <digest>Descriptor output if conditions are met
+</digest>
+            <description>Descriptor output if conditions are met. Output will be list or <o>buffer~</o> based on what the input was.
+</description>
+        </outlet>
+        <outlet id='1' type='list'>
+            <digest>Descriptor output if conditions are not met
+</digest>
+            <description>Descriptor output if conditions are not met. Output will be list or <o>buffer~</o> based on what the input was.
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+        <objarg name='filter' optional='1' type='symbol'>
+            <digest>Messages related to descriptor filtering
+</digest>
+            <description>Messages related to descriptor filtering.
+</description>
+        </objarg>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='filter'
+        type=''
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Messages related to descriptor filtering
+</digest>
+        <description>Messages related to descriptor filtering.<br/><br/>
+After sending the <m>filter</m> message you send a series of
+additional arguments that determine what descriptor is being
+filtered, how it is being filtered, as well as further filtering
+strands combined with conditionals.<br/><br/>
+The available descriptors that can be used for filtering are:<br/>
+<ul>
+<li><strong>loudness</strong> = loudness in <strong>dB</strong>
+</li>
+<li><strong>loudness_derivative</strong> = derivative of loudness in <strong>dB</strong>
+</li>
+<li><strong>centroid</strong> = centroid in <strong>MIDI pitch</strong>
+</li>
+<li><strong>centroid_derivative</strong> = derivative of centroid in <strong>MIDI pitch</strong>
+</li>
+<li><strong>flatness</strong> = spectral flatness in <strong>dB</strong>
+</li>
+<li><strong>flatness_derivative</strong> = derivative of spectral flatness in <strong>dB</strong>
+</li>
+<li><strong>pitch</strong> = pitch in <strong>MIDI pitch</strong>
+</li>
+<li><strong>pitch_confidence</strong> = pitch confidence in <strong>0 to 1</strong><br/><br/>
+</li>
+</ul>
+The available spectralshape descriptors that can be used for filtering are:<br/>
+<ul>
+<li><strong>centroid</strong> = centroid in <strong>MIDI pitch</strong>
+</li>
+<li><strong>spread</strong> = spectral spread in <strong>MIDI pitch</strong>
+</li>
+<li><strong>skewness</strong> = spectral skewness in  <strong>ratio</strong>
+</li>
+<li><strong>kurtosis</strong> = spectral kurtosis <strong>ratio</strong>
+</li>
+<li><strong>rolloff_low</strong> = low spectral rolloff in <strong>MIDI pitch</strong>
+</li>
+<li><strong>rolloff_mid</strong> = mid spectral rolloff in <strong>MIDI pitch</strong>
+</li>
+<li><strong>rolloff_high</strong> = high spectral rolloff in <strong>MIDI pitch</strong>
+</li>
+<li><strong>flatness</strong> = spectral flatness in <strong>dB</strong>
+</li>
+<li><strong>crest</strong> = spectral crest in <strong>dB</strong><br/><br/>
+</li>
+</ul>
+You can filter by the following operators:<br/>
+<ul>
+<li><strong>==</strong> = equals
+</li>
+<li><strong>!=</strong> = does not equal
+</li>
+<li><strong>&lt;</strong> = less than
+</li>
+<li><strong>&lt;=</strong> = less than or equal
+</li>
+<li><strong>&gt;</strong> = greater than
+</li>
+<li><strong>&gt;=</strong> = greater than or equal<br/><br/>
+</li>
+</ul>
+You can join multiple queries using:<br/>
+<ul>
+<li><strong>and</strong>
+</li>
+<li><strong>or</strong>
+</li>
+</ul>
+Therefore a complete message would look as follows:<br/>
+<code>filter loudness &lt; -45</code> or <code>filter centroid &gt; 60 and flatness &lt; -80</code><br/><br/>
+To reset the filtering you can send the following message:
+&#39;filter reset&#39;
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='list'
+            size='1'
+            value=''
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.descriptorframe' />
+        <seealso name='dk.descriptors~' />
+        <seealso name='dk.descriptorsrt~' />
+        <seealso name='dk.descriptorcurves' />
+        <seealso name='dk.descriptorreplace' />
+        <seealso name='dk.gridscale' />
+        <seealso name='dk.quantizepitch' />
+        <seealso name='dk.schmitt' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>

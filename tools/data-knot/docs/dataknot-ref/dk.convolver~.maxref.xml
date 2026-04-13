@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<?xml-stylesheet href="./_c74_ref.xsl" type="text/xsl"?>
+
+<c74object name='dk.convolver~' category='' module='dataknot'>
+    <digest>Zero-latency convolution
+</digest>
+    <description>The <o>dk.convolver~</o> object is a zero-latency convolution abstraction powered by the HIRT <o>multiconvolve~</o> object. You can point it to an external IR (mono or stereo) or read/load an IR into its internal <o>buffer~.</o>
+</description>
+    <discussion>Based on <o>multiconvolve~</o> from the HIRT package. For more info visit <a href="https://cycling74.com/packages/hisstools-impulse-response-toolbox-hirt">https://cycling74.com/packages/hisstools-impulse-response-toolbox-hirt</a>
+</discussion>
+
+	<metadatalist>
+		<metadata name='author'>Rodrigo Constanzo, FluCoMa Project</metadata>
+		<metadata name='tag'>Machine Learning</metadata>
+		<metadata name='tag'>Audio Analysis</metadata>
+		<metadata name='tag'>Onset Detection</metadata>
+		<metadata name='tag'>Corpus Playback</metadata>
+	</metadatalist>
+
+    <!-- INLETS -->
+    <inletlist>
+        <inlet id='0' type='signal'>
+            <digest>Audio input
+</digest>
+            <description>Audio input.
+</description>
+        </inlet>
+    </inletlist>
+    <!-- INLETS -->
+
+    <!-- OUTLETS -->
+    <outletlist>
+        <outlet id='0' type='signal'>
+            <digest>Audio output (L)
+</digest>
+            <description>Audio output (left).
+</description>
+        </outlet>
+        <outlet id='1' type='signal'>
+            <digest>Audio output (R)
+</digest>
+            <description>Audio outout (right).
+</description>
+        </outlet>
+    </outletlist>
+    <!-- OUTLETS -->
+
+    <!-- ARGUMENTS -->
+    <objarglist>
+        <objarg name='default' optional='1' type='symbol'>
+            <digest>IR to load by default
+</digest>
+            <description>IR file to load by default.
+</description>
+        </objarg>
+    </objarglist>
+    <!-- ARGUMENTS -->
+
+    <!--MESSAGES-->
+    <methodlist>
+    <method name='read'>
+        <arglist>
+        </arglist>
+        <digest>Read an IR file
+</digest>
+        <description>Reads an impulse response file directly from a relative or absolute path. With no additional argument, a file dialog will appear to choose a file.
+</description>
+    </method>
+    <method name='set'>
+        <arglist>
+        </arglist>
+        <digest>Sets the <o>buffer~</o> with an IR
+</digest>
+        <description>Sets the <o>buffer~</o> with an impulse response file.
+</description>
+    </method>
+	</methodlist>
+	<!--MESSAGES-->
+
+	<!--ATTRIBUTES-->
+	<attributelist>
+        <attribute
+        name='gain'
+        type='float'
+        size='1'
+        get='1' set='1'
+        >
+        <digest>Output gain
+</digest>
+        <description>Output gain (in %).
+</description>
+
+        <attributelist>
+            <attribute
+            name='default'
+            type='float'
+            size='1'
+            value='100'
+            get='1' set='1'
+            />
+        </attributelist>
+        </attribute>
+	</attributelist>
+	<!--ATTRIBUTES-->
+
+	<!-- SEEALSO -->
+	<seealsolist>
+        <seealso name='dk.crosstalk~' />
+        <seealso name='dk.envelope~' />
+        <seealso name='dk.lpg~' />
+        <seealso name='dk.melbandfilter~' />
+        <seealso name='dk.onsetfreeze~' />
+        <seealso name='dk.onsettap~' />
+        <seealso name='dk.scatter~' />
+        <seealso name='dk.scramble~' />
+        <seealso name='dk.shatter~' />
+        <seealso name='dk.sift~' />
+        <seealso name='dk.smear~' />
+        <seealso name='dk.spectralshapefilter~' />
+        <seealso name='dk.transientextract~' />
+        <seealso name='dk.transientreplace~' />
+        <seealso name='dk.ultrasound~' />
+	</seealsolist>
+	<!-- SEEALSO -->
+</c74object>
