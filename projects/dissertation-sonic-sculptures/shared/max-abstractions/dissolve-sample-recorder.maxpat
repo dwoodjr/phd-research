@@ -9,7 +9,7 @@
             "modernui": 1
         },
         "classnamespace": "box",
-        "rect": [ 47.0, 97.0, 1553.0, 960.0 ],
+        "rect": [ 47.0, 137.0, 1553.0, 920.0 ],
         "boxes": [
             {
                 "box": {
@@ -234,13 +234,13 @@
             {
                 "box": {
                     "id": "obj-97",
-                    "linecount": 3,
+                    "linecount": 7,
                     "maxclass": "message",
                     "numinlets": 2,
                     "numoutlets": 1,
                     "outlettype": [ "" ],
-                    "patching_rect": [ 489.0, 133.0, 50.0, 50.0 ],
-                    "text": "PourTest_PBOF_002"
+                    "patching_rect": [ 489.0, 133.0, 50.0, 105.0 ],
+                    "text": "Dissolve_Test_PZT_Parallel_Contact_Hydro_002"
                 }
             },
             {
@@ -284,7 +284,7 @@
                     "numoutlets": 1,
                     "outlettype": [ "" ],
                     "patching_rect": [ 1066.1017203330994, 143.22034239768982, 50.0, 22.0 ],
-                    "text": "0"
+                    "text": "1"
                 }
             },
             {
@@ -361,7 +361,7 @@
                     "numoutlets": 2,
                     "outlettype": [ "", "" ],
                     "patching_rect": [ 1201.0, 554.7288212776184, 102.0, 22.0 ],
-                    "text": "combine s _ s _ s"
+                    "text": "combine x _ x _ x"
                 }
             },
             {
@@ -678,6 +678,7 @@
             {
                 "box": {
                     "id": "obj-26",
+                    "linecount": 2,
                     "maxclass": "textedit",
                     "numinlets": 1,
                     "numoutlets": 4,
@@ -686,7 +687,7 @@
                     "patching_rect": [ 489.0, 49.0, 206.0, 28.0 ],
                     "presentation": 1,
                     "presentation_rect": [ 46.0, 156.0, 319.0, 28.0 ],
-                    "text": "PourTest_PBOF_002"
+                    "text": "Dissolve_Test_PZT_Parallel_Contact_Hydro_002"
                 }
             },
             {
