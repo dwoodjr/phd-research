@@ -9,7 +9,7 @@
             "modernui": 1
         },
         "classnamespace": "box",
-        "rect": [ -21300.0, -21299.0, 2469.0, 1252.0 ],
+        "rect": [ -21292.0, -21249.0, 1615.0, 878.0 ],
         "boxes": [
             {
                 "box": {
@@ -107,7 +107,7 @@
                             "modernui": 1
                         },
                         "classnamespace": "box",
-                        "rect": [ -21293.0, -21249.0, 2469.0, 1252.0 ],
+                        "rect": [ -25908.0, -25635.0, 1441.0, 672.0 ],
                         "visible": 1,
                         "boxes": [],
                         "lines": []
@@ -132,7 +132,7 @@
                             "modernui": 1
                         },
                         "classnamespace": "box",
-                        "rect": [ -21293.0, -21249.0, 2469.0, 1252.0 ],
+                        "rect": [ -25908.0, -25635.0, 1441.0, 672.0 ],
                         "visible": 1,
                         "boxes": [],
                         "lines": []
@@ -157,7 +157,7 @@
                             "modernui": 1
                         },
                         "classnamespace": "box",
-                        "rect": [ -21293.0, -21249.0, 2469.0, 1252.0 ],
+                        "rect": [ -25908.0, -25635.0, 1441.0, 672.0 ],
                         "visible": 1,
                         "boxes": [],
                         "lines": []
@@ -182,9 +182,21 @@
                             "modernui": 1
                         },
                         "classnamespace": "box",
-                        "rect": [ 1752.0, -273.0, 2056.0, 1252.0 ],
+                        "rect": [ 46.0, 95.0, 1199.0, 878.0 ],
                         "visible": 1,
                         "boxes": [
+                            {
+                                "box": {
+                                    "format": 6,
+                                    "id": "obj-5",
+                                    "maxclass": "flonum",
+                                    "numinlets": 1,
+                                    "numoutlets": 2,
+                                    "outlettype": [ "", "bang" ],
+                                    "parameter_enable": 0,
+                                    "patching_rect": [ 344.0, 413.0, 50.0, 22.0 ]
+                                }
+                            },
                             {
                                 "box": {
                                     "id": "obj-65",
@@ -324,7 +336,7 @@
                                     "format": 6,
                                     "id": "obj-19",
                                     "maxclass": "flonum",
-                                    "maximum": 2.0,
+                                    "maximum": 20.0,
                                     "minimum": 0.05,
                                     "numinlets": 1,
                                     "numoutlets": 2,
@@ -556,7 +568,7 @@
                                     "numoutlets": 1,
                                     "outlettype": [ "" ],
                                     "patching_rect": [ 202.20587849617004, 947.0588054656982, 72.79411625862122, 36.0 ],
-                                    "text": "0.273964 10000"
+                                    "text": "0.889248 10000"
                                 }
                             },
                             {
@@ -617,12 +629,13 @@
                             {
                                 "box": {
                                     "id": "obj-142",
+                                    "linecount": 2,
                                     "maxclass": "message",
                                     "numinlets": 2,
                                     "numoutlets": 1,
                                     "outlettype": [ "" ],
-                                    "patching_rect": [ 355.14705204963684, 883.0882184505463, 89.0, 22.0 ],
-                                    "text": "1. 10000"
+                                    "patching_rect": [ 355.14705204963684, 883.0882184505463, 89.0, 36.0 ],
+                                    "text": "0.959651 10000"
                                 }
                             },
                             {
@@ -650,12 +663,13 @@
                             {
                                 "box": {
                                     "id": "obj-127",
+                                    "linecount": 2,
                                     "maxclass": "message",
                                     "numinlets": 2,
                                     "numoutlets": 1,
                                     "outlettype": [ "" ],
-                                    "patching_rect": [ 674.9999871253967, 970.5882167816162, 50.0, 22.0 ],
-                                    "text": "1."
+                                    "patching_rect": [ 674.9999871253967, 970.5882167816162, 50.0, 36.0 ],
+                                    "text": "0.959651"
                                 }
                             },
                             {
@@ -666,7 +680,7 @@
                                     "numoutlets": 1,
                                     "outlettype": [ "" ],
                                     "patching_rect": [ 674.9999871253967, 901.4705710411072, 50.0, 22.0 ],
-                                    "text": "0."
+                                    "text": "1."
                                 }
                             },
                             {
@@ -1245,19 +1259,19 @@
                                     "data": {
                                         "clips": [
                                             {
-                                                "absolutepath": "Dissolution_Test_003.wav",
-                                                "filename": "Dissolution_Test_003.wav",
+                                                "absolutepath": "soul_dissolve_sample_00_120s.wav",
+                                                "filename": "soul_dissolve_sample_00_120s.wav",
                                                 "filekind": "audiofile",
-                                                "id": "u025001037",
+                                                "id": "u276000912",
                                                 "selection": [ 0.0, 1.0 ],
                                                 "loop": 1,
                                                 "content_state": {
-                                                    "loop": 1,
-                                                    "name": "drone-sample"
+                                                    "loop": 1
                                                 }
                                             }
                                         ]
                                     },
+                                    "followglobaltempo": 1,
                                     "id": "obj-2",
                                     "maxclass": "playlist~",
                                     "mode": "basic",
@@ -1760,6 +1774,12 @@
                             },
                             {
                                 "patchline": {
+                                    "destination": [ "obj-21", 1 ],
+                                    "source": [ "obj-5", 0 ]
+                                }
+                            },
+                            {
+                                "patchline": {
                                     "destination": [ "obj-57", 0 ],
                                     "source": [ "obj-51", 0 ]
                                 }
@@ -2095,7 +2115,7 @@
                     "numoutlets": 1,
                     "outlettype": [ "" ],
                     "patching_rect": [ 120.51282173395157, 293.162396132946, 117.94871914386749, 22.0 ],
-                    "text": "tempo 54.974017"
+                    "text": "tempo 55.214428"
                 }
             },
             {
