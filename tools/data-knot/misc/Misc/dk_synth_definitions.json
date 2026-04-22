@@ -1,0 +1,263 @@
+{
+	"avdog" : 	{
+		"parameters" : 11,
+		"names" : [ "pitch", "rate", "q", "resonance", "decay", "brightness", "sharpness", "position", "impulse", "input", "impulseout" ],
+		"ranges" : 		{
+			"pitch" : [ -1.0, 1.0 ],
+			"rate" : [ -1.0, 1.0 ],
+			"q" : [ -1.0, 1.0 ],
+			"resonance" : [ 0.0, 100.0 ],
+			"decay" : [ 0.0, 100.0 ],
+			"brightness" : [ 0.0, 100.0 ],
+			"sharpness" : [ 0.0, 100.0 ],
+			"position" : [ 0.0, 100.0 ],
+			"impulse" : [ 0.0, 100.0 ],
+			"input" : [ 0.0, 100.0 ],
+			"impulseout" : [ 0.0, 100.0 ]
+		}
+
+	}
+,
+	"fourses" : 	{
+		"parameters" : 8,
+		"names" : [ "slopea", "slopeb", "slopec", "sloped", "ratea", "rateb", "ratec", "rated" ],
+		"ranges" : 		{
+			"slopea" : [ -1.0, 1.0 ],
+			"slopeb" : [ -1.0, 1.0 ],
+			"slopec" : [ -1.0, 1.0 ],
+			"sloped" : [ -1.0, 1.0 ],
+			"ratea" : [ -1.0, 1.0 ],
+			"rateb" : [ -1.0, 1.0 ],
+			"ratec" : [ -1.0, 1.0 ],
+			"rated" : [ -1.0, 1.0 ]
+		}
+
+	}
+,
+	"gongue" : 	{
+		"parameters" : 11,
+		"names" : [ "frequency", "q", "pace", "resonance", "decay", "brightness", "sharpness", "position", "impulse", "input", "impulseout" ],
+		"ranges" : 		{
+			"frequency" : [ -1.0, 1.0 ],
+			"q" : [ -1.0, 1.0 ],
+			"pace" : [ -1.0, 1.0 ],
+			"resonance" : [ 0.0, 100.0 ],
+			"decay" : [ 0.0, 100.0 ],
+			"brightness" : [ 0.0, 100.0 ],
+			"sharpness" : [ 0.0, 100.0 ],
+			"position" : [ 0.0, 100.0 ],
+			"impulse" : [ 0.0, 100.0 ],
+			"input" : [ 0.0, 100.0 ],
+			"impulseout" : [ 0.0, 100.0 ]
+		}
+
+	}
+,
+	"justfriends" : 	{
+		"parameters" : 6,
+		"names" : [ "time", "intone", "ramp", "curve", "formant", "range" ],
+		"ranges" : 		{
+			"time" : [ 10, 20000.0 ],
+			"intone" : [ -1.0, 1.0 ],
+			"ramp" : [ -1.0, 1.0 ],
+			"curve" : [ -1.0, 1.0 ],
+			"formant" : [ -1.0, 1.0 ],
+			"range" : [ 0, 1 ]
+		}
+
+	}
+,
+	"karplus" : 	{
+		"parameters" : 8,
+		"names" : [ "pickup", "position", "noise", "input", "impulse", "damping", "a1", "a2" ],
+		"ranges" : 		{
+			"pickup" : [ 0.0, 100.0 ],
+			"position" : [ 0.0, 100.0 ],
+			"noise" : [ 0.0, 100.0 ],
+			"input" : [ 0.0, 100.0 ],
+			"impulse" : [ 0.0, 100.0 ],
+			"damping" : [ 0.0, 100.0 ],
+			"a1" : [ -100.0, 100.0 ],
+			"a2" : [ -100.0, 100.0 ]
+		}
+
+	}
+,
+	"mangrove" : 	{
+		"parameters" : 5,
+		"names" : [ "formant", "barrel", "curve", "air", "constant" ],
+		"ranges" : 		{
+			"formant" : [ -1.0, 1.0 ],
+			"barrel" : [ -1.0, 1.0 ],
+			"curve" : [ -1.0, 1.0 ],
+			"air" : [ -1.0, 1.0 ],
+			"constant" : [ 0, 1 ]
+		}
+
+	}
+,
+	"quantussy" : 	{
+		"parameters" : 9,
+		"names" : [ "frequency", "chaos", "ramp", "curve", "ratea", "rateb", "ratec", "rated", "ratee" ],
+		"ranges" : 		{
+			"frequency" : [ -1.0, 1.0 ],
+			"chaos" : [ -1.0, 1.0 ],
+			"ramp" : [ -1.0, 1.0 ],
+			"curve" : [ -1.0, 1.0 ],
+			"ratea" : [ -1.0, 1.0 ],
+			"rateb" : [ -1.0, 1.0 ],
+			"ratec" : [ -1.0, 1.0 ],
+			"rated" : [ -1.0, 1.0 ],
+			"ratee" : [ -1.0, 1.0 ]
+		}
+
+	}
+,
+	"resonators" : 	{
+		"parameters" : 8,
+		"names" : [ "gain", "pickup", "position", "noise", "impulse", "input", "duration", "width" ],
+		"ranges" : 		{
+			"gain" : [ 0.0, 100.0 ],
+			"pickup" : [ 0.0, 100.0 ],
+			"position" : [ 0.0, 100.0 ],
+			"noise" : [ 0.0, 100.0 ],
+			"impulse" : [ 0.0, 100.0 ],
+			"input" : [ 0.0, 100.0 ],
+			"duration" : [ 20.0, 500.0 ],
+			"width" : [ 0.0, 100.0 ]
+		}
+
+	}
+,
+	"rungler" : 	{
+		"parameters" : 12,
+		"names" : [ "frequencya", "frequencyb", "runglera", "runglerb", "pwma", "pwmb", "rampa", "rampb", "synca", "syncb", "runglerinputa", "runglerinputb" ],
+		"ranges" : 		{
+			"frequencya" : [ -1.0, 1.0 ],
+			"frequencyb" : [ -1.0, 1.0 ],
+			"runglera" : [ -1.0, 1.0 ],
+			"runglerb" : [ -1.0, 1.0 ],
+			"pwma" : [ -1.0, 1.0 ],
+			"pwmb" : [ -1.0, 1.0 ],
+			"rampa" : [ -1.0, 1.0 ],
+			"rampb" : [ -1.0, 1.0 ],
+			"synca" : [ 0, 1 ],
+			"syncb" : [ 0, 1 ],
+			"runglerinputa" : [ 0, 1 ],
+			"runglerinputb" : [ 0, 1 ]
+		}
+
+	}
+,
+	"shaker" : 	{
+		"parameters" : 8,
+		"names" : [ "sustain", "frequency", "objects", "pickup", "position", "noise", "input", "impulse" ],
+		"ranges" : 		{
+			"sustain" : [ 0.0, 100.0 ],
+			"frequency" : [ 200.0, 10000.0 ],
+			"objects" : [ 1, 100 ],
+			"pickup" : [ 0.0, 100.0 ],
+			"position" : [ 0.0, 100.0 ],
+			"noise" : [ 0.0, 100.0 ],
+			"input" : [ 0.0, 100.0 ],
+			"impulse" : [ 0.0, 100.0 ]
+		}
+
+	}
+,
+	"sinusoidplayer" : 	{
+		"parameters" : 7,
+		"names" : [ "duration", "voices", "slope", "shape", "transpose", "brightness", "width" ],
+		"ranges" : 		{
+			"duration" : [ 100.0, 10000.0 ],
+			"voices" : [ 1, 32 ],
+			"slope" : [ 0.0, 100.0 ],
+			"shape" : [ 0.0, 100.0 ],
+			"transpose" : [ -36.0, 36.0 ],
+			"brightness" : [ 0.0, 100.0 ],
+			"width" : [ 0.0, 100.0 ]
+		}
+
+	}
+,
+	"sinusoids" : 	{
+		"parameters" : 7,
+		"names" : [ "duration", "voices", "slope", "shape", "transpose", "brightness", "width" ],
+		"ranges" : 		{
+			"duration" : [ 100.0, 10000.0 ],
+			"voices" : [ 1, 32 ],
+			"slope" : [ 0.0, 100.0 ],
+			"shape" : [ 0.0, 100.0 ],
+			"transpose" : [ -36.0, 36.0 ],
+			"brightness" : [ 0.0, 100.0 ],
+			"width" : [ 0.0, 100.0 ]
+		}
+
+	}
+,
+	"snare" : 	{
+		"parameters" : 2,
+		"names" : [ "decay", "gain" ],
+		"ranges" :  {
+			"decay" : [ -1.0, 1.0 ],
+			"gain" : [ 0, 100.0 ]
+		}
+
+	}
+,
+	"ultrasound" : 	{
+		"parameters" : 4,
+		"names" : [ "frequency", "q", "capacitor", "noise" ],
+		"ranges" : 		{
+			"frequency" : [ -1.0, 1.0 ],
+			"q" : [ -1.0, 1.0 ],
+			"capacitor" : [ -1.0, 1.0 ],
+			"noise" : [ -1.0, 1.0 ]
+		}
+
+	}
+,
+	"waveguidemesh" : 	{
+		"parameters" : 16,
+		"names" : [ "resonance", "decay", "brightness", "sharpness", "position", "impulse", "input", "impulseout", "reflect", "reflectmode", "damping", "a1", "a2", "node1", "node2", "node3" ],
+		"ranges" : 		{
+			"resonance" : [ 0.0, 100.0 ],
+			"decay" : [ 0.0, 1000.0 ],
+			"brightness" : [ 0.0, 100.0 ],
+			"sharpness" : [ 0.0, 100.0 ],
+			"position" : [ 0.0, 100.0 ],
+			"impulse" : [ 0.0, 100.0 ],
+			"input" : [ 0.0, 100.0 ],
+			"impulseout" : [ 0.0, 100.0 ],
+			"reflect" : [ 0.0, 100.0 ],
+			"reflectmode" : [ 0, 3 ],
+			"damping" : [ 0.0, 100.0 ],
+			"a1" : [ 0.0, 100.0 ],
+			"a2" : [ 0.0, 100.0 ],
+			"node1" : [ 0.0, 600.0 ],
+			"node2" : [ 0.0, 600.0 ],
+			"node3" : [ 0.0, 600.0 ]
+		}
+
+	}
+,
+	"waveguidesnare" : 	{
+		"parameters" : 11,
+		"names" : [ "resonance", "decay", "brightness", "sharpness", "position", "impulse", "input", "impulseout", "tuning", "rattle", "damping" ],
+		"ranges" : 		{
+			"resonance" : [ 0.0, 100.0 ],
+			"decay" : [ 0.0, 1000.0 ],
+			"brightness" : [ 0.0, 100.0 ],
+			"sharpness" : [ 0.0, 100.0 ],
+			"position" : [ 0.0, 100.0 ],
+			"impulse" : [ 0.0, 100.0 ],
+			"input" : [ 0.0, 100.0 ],
+			"impulseout" : [ 0.0, 100.0 ],
+			"tuning" : [ 0.0, 100.0 ],
+			"rattle" : [ 0.0, 100.0 ],
+			"damping" : [ 0.0, 100.0 ]
+		}
+
+	}
+
+}

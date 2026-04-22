@@ -1,0 +1,255 @@
+{
+	"descriptors" : 	{
+		"parameters" : 8,
+		"names" : [ "loudness(dB)", "loudness_deriv(dB)", "centroid(MIDI)", "centroid_deriv(MIDI)", "flatness(dB)", "flatness_deriv(dB)", "pitch(MIDI)", "pitch_conf" ],
+		"ranges" : 		{
+			"loudness(dB)" : [ -100.0, 0.0 ],
+			"loudness_deriv(dB)" : [ -20.0, 20.0 ],
+			"centroid(MIDI)" : [ 0.0, 127.0 ],
+			"centroid_deriv(MIDI)" : [ -20.0, 20.0 ],
+			"flatness(dB)" : [ -100.0, 0.0 ],
+			"flatness_deriv(dB)" : [ -20.0, 20.0 ],
+			"pitch(MIDI)" : [ 0.0, 127.0 ],
+			"pitch_conf" : [ 0.0, 1.0 ]
+		}
+
+	}
+,
+	"mfcc" : 	{
+		"parameters" : 13,
+		"names" : [ "mfcc_1", "mfcc_2", "mfcc_3", "mfcc_4", "mfcc_5", "mfcc_6", "mfcc_7", "mfcc_8", "mfcc_9", "mfcc_10", "mfcc_11", "mfcc_12", "mfcc_13" ],
+		"ranges" : 		{
+			"mfcc_1" : [ -80.0, 80.0 ],
+			"mfcc_2" : [ -80.0, 80.0 ],
+			"mfcc_3" : [ -80.0, 80.0 ],
+			"mfcc_4" : [ -80.0, 80.0 ],
+			"mfcc_5" : [ -80.0, 80.0 ],
+			"mfcc_6" : [ -80.0, 80.0 ],
+			"mfcc_7" : [ -80.0, 80.0 ],
+			"mfcc_8" : [ -80.0, 80.0 ],
+			"mfcc_9" : [ -80.0, 80.0 ],
+			"mfcc_10" : [ -80.0, 80.0 ],
+			"mfcc_11" : [ -80.0, 80.0 ],
+			"mfcc_12" : [ -80.0, 80.0 ],
+			"mfcc_13" : [ -80.0, 80.0 ]
+		}
+
+	}
+,
+	"spectralshape" : 	{
+		"parameters" : 9,
+		"names" : [ "centroid(MIDI)", "spread(MIDI)", "skewness(ratio)", "kurtosis(ratio)", "rollofflow(MIDI)", "rolloffmid(MIDI)", "rolloffhigh(MIDI)", "flatness(dB)", "crest(dB)" ],
+		"ranges" : 		{
+			"centroid(MIDI)" : [ 0.0, 127.0 ],
+			"spread(MIDI)" : [ 0.0, 60.0 ],
+			"skewness(ratio)" : [ -4.0, 4.0 ],
+			"kurtosis(ratio)" : [ 0.0, 50.0 ],
+			"rollofflow(MIDI)" : [ 0.0, 127.0 ],
+			"rolloffmid(MIDI)" : [ 0.0, 127.0 ],
+			"rolloffhigh(MIDI)" : [ 0.0, 127.0 ],
+			"flatness(dB)" : [ -100.0, 0.0 ],
+			"crest(dB)" : [ 0.0, 127.0 ]
+		}
+
+	}
+,
+	"melbands" : 	{
+		"parameters" : 40,
+		"names" : [ "melband_1", "melband_2", "melband_3", "melband_4", "melband_5", "melband_6", "melband_7", "melband_8", "melband_9", "melband_10", "melband_11", "melband_12", "melband_13", "melband_14", "melband_15", "melband_16", "melband_17", "melband_18", "melband_19", "melband_20", "melband_21", "melband_22", "melband_23", "melband_24", "melband_25", "melband_26", "melband_27", "melband_28", "melband_29", "melband_30", "melband_31", "melband_32", "melband_33", "melband_34", "melband_35", "melband_36", "melband_37", "melband_38", "melband_39", "melband_40" ],
+		"ranges" : 		{
+			"melband_1" : [ 0.0, 1.0 ],
+			"melband_2" : [ 0.0, 1.0 ],
+			"melband_3" : [ 0.0, 1.0 ],
+			"melband_4" : [ 0.0, 1.0 ],
+			"melband_5" : [ 0.0, 1.0 ],
+			"melband_6" : [ 0.0, 1.0 ],
+			"melband_7" : [ 0.0, 1.0 ],
+			"melband_8" : [ 0.0, 1.0 ],
+			"melband_9" : [ 0.0, 1.0 ],
+			"melband_10" : [ 0.0, 1.0 ],
+			"melband_11" : [ 0.0, 1.0 ],
+			"melband_12" : [ 0.0, 1.0 ],
+			"melband_13" : [ 0.0, 1.0 ],
+			"melband_14" : [ 0.0, 1.0 ],
+			"melband_15" : [ 0.0, 1.0 ],
+			"melband_16" : [ 0.0, 1.0 ],
+			"melband_17" : [ 0.0, 1.0 ],
+			"melband_18" : [ 0.0, 1.0 ],
+			"melband_19" : [ 0.0, 1.0 ],
+			"melband_20" : [ 0.0, 1.0 ],
+			"melband_21" : [ 0.0, 1.0 ],
+			"melband_22" : [ 0.0, 1.0 ],
+			"melband_23" : [ 0.0, 1.0 ],
+			"melband_24" : [ 0.0, 1.0 ],
+			"melband_25" : [ 0.0, 1.0 ],
+			"melband_26" : [ 0.0, 1.0 ],
+			"melband_27" : [ 0.0, 1.0 ],
+			"melband_28" : [ 0.0, 1.0 ],
+			"melband_29" : [ 0.0, 1.0 ],
+			"melband_30" : [ 0.0, 1.0 ],
+			"melband_31" : [ 0.0, 1.0 ],
+			"melband_32" : [ 0.0, 1.0 ],
+			"melband_33" : [ 0.0, 1.0 ],
+			"melband_34" : [ 0.0, 1.0 ],
+			"melband_35" : [ 0.0, 1.0 ],
+			"melband_36" : [ 0.0, 1.0 ],
+			"melband_37" : [ 0.0, 1.0 ],
+			"melband_38" : [ 0.0, 1.0 ],
+			"melband_39" : [ 0.0, 1.0 ],
+			"melband_40" : [ 0.0, 1.0 ]
+		}
+
+	}
+,
+	"melbands_db" : 	{
+		"parameters" : 40,
+		"names" : [ "melband_1", "melband_2", "melband_3", "melband_4", "melband_5", "melband_6", "melband_7", "melband_8", "melband_9", "melband_10", "melband_11", "melband_12", "melband_13", "melband_14", "melband_15", "melband_16", "melband_17", "melband_18", "melband_19", "melband_20", "melband_21", "melband_22", "melband_23", "melband_24", "melband_25", "melband_26", "melband_27", "melband_28", "melband_29", "melband_30", "melband_31", "melband_32", "melband_33", "melband_34", "melband_35", "melband_36", "melband_37", "melband_38", "melband_39", "melband_40" ],
+		"ranges" : 		{
+			"melband_1" : [ -100.0, 0.0 ],
+			"melband_2" : [ -100.0, 0.0 ],
+			"melband_3" : [ -100.0, 0.0 ],
+			"melband_4" : [ -100.0, 0.0 ],
+			"melband_5" : [ -100.0, 0.0 ],
+			"melband_6" : [ -100.0, 0.0 ],
+			"melband_7" : [ -100.0, 0.0 ],
+			"melband_8" : [ -100.0, 0.0 ],
+			"melband_9" : [ -100.0, 0.0 ],
+			"melband_10" : [ -100.0, 0.0 ],
+			"melband_11" : [ -100.0, 0.0 ],
+			"melband_12" : [ -100.0, 0.0 ],
+			"melband_13" : [ -100.0, 0.0 ],
+			"melband_14" : [ -100.0, 0.0 ],
+			"melband_15" : [ -100.0, 0.0 ],
+			"melband_16" : [ -100.0, 0.0 ],
+			"melband_17" : [ -100.0, 0.0 ],
+			"melband_18" : [ -100.0, 0.0 ],
+			"melband_19" : [ -100.0, 0.0 ],
+			"melband_20" : [ -100.0, 0.0 ],
+			"melband_21" : [ -100.0, 0.0 ],
+			"melband_22" : [ -100.0, 0.0 ],
+			"melband_23" : [ -100.0, 0.0 ],
+			"melband_24" : [ -100.0, 0.0 ],
+			"melband_25" : [ -100.0, 0.0 ],
+			"melband_26" : [ -100.0, 0.0 ],
+			"melband_27" : [ -100.0, 0.0 ],
+			"melband_28" : [ -100.0, 0.0 ],
+			"melband_29" : [ -100.0, 0.0 ],
+			"melband_30" : [ -100.0, 0.0 ],
+			"melband_31" : [ -100.0, 0.0 ],
+			"melband_32" : [ -100.0, 0.0 ],
+			"melband_33" : [ -100.0, 0.0 ],
+			"melband_34" : [ -100.0, 0.0 ],
+			"melband_35" : [ -100.0, 0.0 ],
+			"melband_36" : [ -100.0, 0.0 ],
+			"melband_37" : [ -100.0, 0.0 ],
+			"melband_38" : [ -100.0, 0.0 ],
+			"melband_39" : [ -100.0, 0.0 ],
+			"melband_40" : [ -100.0, 0.0 ]
+		}
+
+	}
+,
+	"sines" : 	{
+		"parameters" : 64,
+		"names" : [ "frequency_1(Hz)", "magnitude_1(mag)", "frequency_2(Hz)", "magnitude_2(mag)", "frequency_3(Hz)", "magnitude_3(mag)", "frequency_4(Hz)", "magnitude_4(mag)", "frequency_5(Hz)", "magnitude_5(mag)", "frequency_6(Hz)", "magnitude_6(mag)", "frequency_7(Hz)", "magnitude_7(mag)", "frequency_8(Hz)", "magnitude_8(mag)", "frequency_9(Hz)", "magnitude_9(mag)", "frequency_10(Hz)", "magnitude_10(mag)", "frequency_11(Hz)", "magnitude_11(mag)", "frequency_12(Hz)", "magnitude_12(mag)", "frequency_13(Hz)", "magnitude_13(mag)", "frequency_14(Hz)", "magnitude_14(mag)", "frequency_15(Hz)", "magnitude_15(mag)", "frequency_16(Hz)", "magnitude_16(mag)", "frequency_17(Hz)", "magnitude_17(mag)", "frequency_18(Hz)", "magnitude_18(mag)", "frequency_19(Hz)", "magnitude_19(mag)", "frequency_20(Hz)", "magnitude_20(mag)", "frequency_21(Hz)", "magnitude_21(mag)", "frequency_22(Hz)", "magnitude_22(mag)", "frequency_23(Hz)", "magnitude_23(mag)", "frequency_24(Hz)", "magnitude_24(mag)", "frequency_25(Hz)", "magnitude_25(mag)", "frequency_26(Hz)", "magnitude_26(mag)", "frequency_27(Hz)", "magnitude_27(mag)", "frequency_28(Hz)", "magnitude_28(mag)", "frequency_29(Hz)", "magnitude_29(mag)", "frequency_30(Hz)", "magnitude_30(mag)", "frequency_31(Hz)", "magnitude_31(mag)", "frequency_32(Hz)", "magnitude_32(mag)" ],
+		"ranges" : 		{
+			"frequency_1(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_1(mag)" : [ 0.0, 1.0 ],
+			"frequency_2(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_2(mag)" : [ 0.0, 1.0 ],
+			"frequency_3(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_3(mag)" : [ 0.0, 1.0 ],
+			"frequency_4(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_4(mag)" : [ 0.0, 1.0 ],
+			"frequency_5(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_5(mag)" : [ 0.0, 1.0 ],
+			"frequency_6(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_6(mag)" : [ 0.0, 1.0 ],
+			"frequency_7(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_7(mag)" : [ 0.0, 1.0 ],
+			"frequency_8(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_8(mag)" : [ 0.0, 1.0 ],
+			"frequency_9(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_9(mag)" : [ 0.0, 1.0 ],
+			"frequency_10(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_10(mag)" : [ 0.0, 1.0 ],
+			"frequency_11(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_11(mag)" : [ 0.0, 1.0 ],
+			"frequency_12(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_12(mag)" : [ 0.0, 1.0 ],
+			"frequency_13(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_13(mag)" : [ 0.0, 1.0 ],
+			"frequency_14(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_14(mag)" : [ 0.0, 1.0 ],
+			"frequency_15(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_15(mag)" : [ 0.0, 1.0 ],
+			"frequency_16(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_16(mag)" : [ 0.0, 1.0 ],
+			"frequency_17(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_17(mag)" : [ 0.0, 1.0 ],
+			"frequency_18(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_18(mag)" : [ 0.0, 1.0 ],
+			"frequency_19(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_19(mag)" : [ 0.0, 1.0 ],
+			"frequency_20(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_20(mag)" : [ 0.0, 1.0 ],
+			"frequency_21(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_21(mag)" : [ 0.0, 1.0 ],
+			"frequency_22(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_22(mag)" : [ 0.0, 1.0 ],
+			"frequency_23(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_23(mag)" : [ 0.0, 1.0 ],
+			"frequency_24(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_24(mag)" : [ 0.0, 1.0 ],
+			"frequency_25(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_25(mag)" : [ 0.0, 1.0 ],
+			"frequency_26(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_26(mag)" : [ 0.0, 1.0 ],
+			"frequency_27(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_27(mag)" : [ 0.0, 1.0 ],
+			"frequency_28(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_28(mag)" : [ 0.0, 1.0 ],
+			"frequency_29(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_29(mag)" : [ 0.0, 1.0 ],
+			"frequency_30(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_30(mag)" : [ 0.0, 1.0 ],
+			"frequency_31(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_31(mag)" : [ 0.0, 1.0 ],
+			"frequency_32(Hz)" : [ 20.0, 20000.0 ],
+			"magnitude_32(mag)" : [ 0.0, 1.0 ]
+		}
+
+	}
+,
+	"speed" : 	{
+		"parameters" : 5,
+		"names" : [ "speed", "tempo", "slope", "variance", "direction" ],
+		"ranges" : 		{
+			"speed" : [ 0.0, 1.0 ],
+			"tempo" : [ 0.0, 1.0 ],
+			"slope" : [ 0.0, 1.0 ],
+			"variance" : [ 0.0, 1.0 ],
+			"direction" : [ 0, 1 ]
+		}
+
+	}
+,
+	"controllers" : 	{
+		"parameters" : 10,
+		"names" : [ "loudness_normalized", "loudness_mean", "loudness_slope", "loudness_variance", "loudness_direction", "centroid_normalized", "centroid_mean", "centroid_slope", "centroid_variance", "centroid_direction" ],
+		"ranges" : 		{
+			"loudness_normalized" : [ 0.0, 1.0 ],
+			"loudness_mean" : [ 0.0, 1.0 ],
+			"loudness_slope" : [ 0.0, 1.0 ],
+			"loudness_variance" : [ 0.0, 1.0 ],
+			"loudness_direction" : [ 0, 1 ],
+			"centroid_normalized" : [ 0.0, 1.0 ],
+			"centroid_mean" : [ 0.0, 1.0 ],
+			"centroid_slope" : [ 0.0, 1.0 ],
+			"centroid_variance" : [ 0.0, 1.0 ],
+			"centroid_direction" : [ 0, 1 ]
+		}
+
+	}
+
+}

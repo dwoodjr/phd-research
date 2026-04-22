@@ -147,17 +147,17 @@ GATED TRIGGER (from outlet 2 of dk.descriptors~, converted to bang via [edge~])
 -- Keeps a low-level granular haze running even between onset events
 -- Quieter than triggered layer — gives the drone its ambient quality
 
-[ phasor~ 0.003 ]       -- very slow cycle (~5 min full sweep of sample)
+-- Use a second groove~ instance running at very slow rate (not onset-triggered)
+[ groove~ drone-sample 1 ]   -- arg 1 = loop mode on
+  rate: 0.15–0.25            -- very slow playback (set via [sig~ 0.2] on inlet 0)
         |
-[ *~ sample_length ]    -- scale to buffer length in ms
-        |
-[ fluid.bufgrain~ drone-sample ]
-  position: above
-  rate: 1.0
-  duration: 600ms
-  amplitude: 0.15       -- quiet background haze
+[ *~ 0.12 ]                  -- quiet background amplitude (fixed, not modulated)
         |
 [ send~ drone-out ]
+
+-- Alternatively, use dk.sampler~ for more granular texture:
+-- See dk.sampler~.maxref.xml in tools/data-knot/docs/dataknot-ref/
+-- dk.sampler~ gives independent control of grain position, rate, duration, overlap
 ```
 
 ---

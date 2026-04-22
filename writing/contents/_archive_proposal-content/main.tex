@@ -1,0 +1,261 @@
+\PassOptionsToPackage{hypertexnames=false}{hyperref}
+\PassOptionsToPackage{backend=biber}{biblatex}
+\documentclass[draftnotes]{proquest_drexel_thesis}
+% Make sure the class (if it loads biblatex) uses Biber
+
+
+% Strip the fields at import time
+\DeclareSourcemap{
+	\maps[datatype=bibtex]{
+		\map{ \step[fieldset=shorttitle, null] }
+		\map{ \step[fieldset=shortjournal, null] }
+	}
+}
+
+\usepackage{biblatex} % only if your class does NOT already load biblatex
+\addbibresource{references.bib}
+
+% Your other options are fine here
+\ExecuteBibliographyOptions{doi=true,url=true,eprint=false,annotation=false}
+
+% Load additional packages as needed
+\usepackage{lipsum} 	% For sample text (remove in final version)
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{csquotes}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{makecell} 	% for line breaks in headers if needed
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{ragged2e} 	% for \RaggedRight in X columns
+\usepackage{enumitem} 	% tighter lists inside cells (optional)
+\usepackage{pdflscape}
+\usepackage{geometry}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{hyperref}
+%\hypersetup{colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue}
+\usepackage{pgfgantt}
+\usepackage{xcolor} 
+\usepackage{colortbl}
+
+% For Tables
+\renewcommand\theadfont{\normalsize\bfseries}
+% An X column that ragged-wraps (no hyphenation gaps)
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+% If you want a narrow fixed-width paragraph column:
+\newcolumntype{P}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+
+% Set dissertation information
+\title{Sonic Speculocultural Technopoiesis}
+\proposalsubtitle{Black Speculative Tradition as Modification for Embodied Practice} % optional
+
+\setproposalsupervisor{Emil Polyak}
+\setproposalcommittee{%
+	Dr.\ Michael Wagner\\
+	Dr.\ Arianna Gass\\
+	Dr.\ Raja Schaar\\
+	Prof.\ Valerie Ifill%
+}
+
+\setproposalcandidate{Darren Woodland, Jr.}
+\setproposalcollege{Westphal College of Media Arts and Design}
+\setproposaluniversity{Drexel University}
+\setproposaldegreename{Doctor of Philosophy}
+\setproposaldegreedate{2025}
+\setproposallogo{assets/drexel-vertical-all_blue.png}
+
+% --- Advisor Notes Toggle ---
+\newif\ifadvisornotes
+\advisornotesfalse % enable notes (set to \advisornotesfalse for final)
+
+%TikZ Library Extensions
+\usetikzlibrary{arrows.meta,positioning,shapes,calc}
+
+\begin{document}
+	
+% Title page
+\makeproposaltitle
+
+% Copyright page
+\newpage
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{center}
+© Copyright \proposalDegreeDate\\
+ \proposalCandidate \space All Rights Reserved. 
+ 
+  %---MILESTONE MARKER GOES HERE--- % Remove for final version
+ \vspace{1.0em}
+ %\adnote{Document Version: Draft v3.14 - Release: Final 00\\}
+ 
+\end{center}
+\vspace*{\fill}
+\newpage
+
+% Optional dedication
+%\input{contents/preliminary/dedications}
+
+% Optional acknowledgments
+%\input{contents/preliminary/acknowledgements}
+
+% Prefatory Note
+\insertlistsection{PREFATORY NOTE TO COMMITTEE}{contents/preliminary/prefatory}
+\newpage
+
+% Table of Contents
+\tableofcontents
+\newpage
+
+% List of Tables (if you have tables)
+\listoftables
+\newpage
+
+% List of Figures (if you have figures)
+\listoffigures
+\newpage
+
+% List of Key Terms
+\insertlistsection{LIST OF KEY TERMS}{contents/preliminary/keyterms}
+\newpage
+
+% List of Software
+\insertlistsection{LIST OF SOFTWARE}{contents/preliminary/software}
+
+%List of Hardware
+\insertlistsection{LIST OF HARDWARE}{contents/preliminary/hardware}
+
+% Start the main text (Adds blank page and switches to Arabic page numbers)
+\starttext
+% Chapter 1: Introduction
+\chapter{INTRODUCTION}\label{ch:introduction}
+\section{Research Context}
+\input{contents/chapters/introduction/intro_context}
+\section{Gap in Theory and Practice}
+\input{contents/chapters/introduction/intro_gap}
+\section{Central Argument}
+\input{contents/chapters/introduction/intro_argument}
+\section{Research Questions}
+\input{contents/chapters/introduction/intro_questions}
+%\section{Anticipated Contributions}
+%\input{chapters/introduction/intro_contributions}
+\section{Researcher Qualifications and Positioning}
+\input{contents/chapters/introduction/intro_researcher}
+
+% Chapter 2: Literature Review
+\chapter{LITERATURE REVIEW}\label{ch:literature}
+\section{Post-phenomenological Experience and Technopoiesis} 
+\input{contents/chapters/literature/technopoiesis}
+\section{Black Speculative Traditions and Sonic Fiction}
+\input{contents/chapters/literature/speculative}
+\section{Computational Culture and Algorithmic Power}
+\input{contents/chapters/literature/cultural_computing}
+\section{Research-Creation and Critical Technical Practice}
+\input{contents/chapters/literature/research_creation}
+\section{Conclusion}
+\input{contents/chapters/literature/conclusion}
+
+% Chapter 3: Methodology
+\chapter{METHODOLOGY}\label{ch:methodology}
+\section{Overview}
+\input{contents/chapters/methodology/methodology_overview}
+\section{Methodological Positioning} 
+\input{contents/chapters/methodology/methodology_positioning}
+\section{Research Design and Scope} 
+\input{contents/chapters/methodology/research_design}
+%\section{Practice-Based Methods} 
+%\input{contents/chapters/methodology/methodology_practice}
+%\section{Methodological Protocols}
+%\input{contents/chapters/methodology/methodology_protocols}
+%\section{Collaboration and Participatory Design}
+%\input{contents/chapters/methodology/methodology_collab}
+%\section{Data Collection and Instrumentation Plan}
+%\input{contents/chapters/methodology/data_collection}
+%\section{Data Coding and Analysis Plan}
+%\input{contents/chapters/methodology/data_analysis}
+%\section{Validity and Trustworthiness}
+%\input{contents/chapters/methodology/validity}
+%\section{Ethics and Risk Mitigation}
+%\input{contents/chapters/methodology/methodology_IRB}
+%\section{Anticipated Outputs and Dissemination}
+%\input{contents/chapters/methodology/methodology_outputs.tex}
+
+% Chapter 4: Framework
+\chapter{SONIC SPECULOCULTURAL TECHNOPOIESIS}\label{ch:practice}
+\section{Introduction}
+\input{contents/chapters/framework/frame_introduction.tex}
+\section{Practice Overview}
+\input{contents/chapters/framework/practice_overview.tex}
+\section{\emph{Buffalo Soldier}}
+\input{contents/chapters/framework/buffalo_soldier.tex}
+\section{\emph{Did Sun Ra Fear Cryosleep?}}
+\input{contents/chapters/framework/sun_ra_cryosleep.tex}
+\section{\emph{Don't Play with My Hair}}
+\input{contents/chapters/framework/dont_play_hair.tex}
+\section{Synthesis}
+\input{contents/chapters/framework/synthesis.tex}
+
+%Chapter 5: Dissertation
+\chapter{DISSERTATION OVERVIEW}\label{ch:dissertation}
+\section{Structural Overview}
+\input{contents/chapters/dissertation/overview}
+\section{Chapters}
+\subsection{Prologue}
+\input{contents/chapters/dissertation/prologue.tex}
+\subsection{1 - Introduction}
+\input{contents/chapters/dissertation/1_introduction}
+\subsection{2 - Literature Review}
+\input{contents/chapters/dissertation/2_literature-review}
+\subsection{3 - Methodology}
+\input{contents/chapters/dissertation/3_methodology}
+\subsection{4 - Results and Analysis}
+\input{contents/chapters/dissertation/4_results-analysis}
+\subsection{5 - Discussion}
+\input{contents/chapters/dissertation/5_discussion}
+\subsection{6 - Conclusion}
+\input{contents/chapters/dissertation/6_conclsion}
+\subsection{Epilogue}
+\input{contents/chapters/dissertation/epilogue}
+
+% Chapter 6: Project Time line 
+\chapter{ANTICIPATED PROJECT TIMELINE}\label{ch:timeline}
+\input{contents/chapters/dissertation/timeline.tex}
+
+
+%Chapter 7: Research Ethics and Attempted IRB Correspondences
+\chapter{RESEARCH ETHICS AND IRB DOCUMENTATION} \label{ch:ethics}
+\input{contents/appendix/ethics_documents}
+
+
+% References section
+\printbibliography[heading=bibintoc,title={LIST OF REFERENCES}]
+
+
+% Appendices
+\startappendix
+
+\chapter{CALL FOR COLLABORATORS (DRAFT)}
+\input{contents/appendix/call}
+
+\chapter{IRB DOCUMENTATION AND CORRESPONDENCE}
+\input{contents/appendix/irb_correspondence}
+
+\chapter{USE OF ARTIFICIAL INTELLIGENCE IN RESEARCH PROCESS} \label{apdx:use_of_ai}
+\input{contents/appendix/ai_usage}
+
+\begin{comment}
+\chapter{COLLABORATOR PARTICIPATION IN RESEARCH CONSENT} %\label{apdx:consent}
+\input{contents/appendix/consent.tex}
+
+\chapter{IRB PROTOCOL} %\label{apdx:protocol}
+\input{contents/appendix/protocol.tex}
+
+\chapter{RESEARCH INSTRUMENTS}
+\input{contents/appendix/instruments.tex}
+
+% Vita - Required for PhD dissertations according to Drexel guidelines
+%\input{contents/appendix/vita}
+\end{comment}
+
+\end{document}
