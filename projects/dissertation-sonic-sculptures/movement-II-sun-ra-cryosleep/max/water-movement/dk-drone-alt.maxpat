@@ -9,7 +9,7 @@
             "modernui": 1
         },
         "classnamespace": "box",
-        "rect": [ 1750.0, -276.0, 2105.0, 1050.0 ],
+        "rect": [ 51.0, 101.0, 2458.0, 1240.0 ],
         "boxes": [
             {
                 "box": {
@@ -1766,6 +1766,21 @@
                     "source": [ "obj-93", 0 ]
                 }
             }
-        ]
+        ],
+        "parameters": {
+            "obj-20::obj-18": [ "freqbands-multislider", "freqbands-multislider", 0 ],
+            "obj-20::obj-53": [ "pictctrl", "pictctrl", 0 ],
+            "obj-20::obj-7": [ "onoff", "onoff", 0 ],
+            "parameterbanks": {
+                "0": {
+                    "index": 0,
+                    "name": "",
+                    "parameters": [ "-", "-", "-", "-", "-", "-", "-", "-" ],
+                    "buttons": [ "-", "-", "-", "-", "-", "-", "-", "-" ]
+                }
+            },
+            "inherited_shortname": 1
+        },
+        "autosave": 0
     }
 }

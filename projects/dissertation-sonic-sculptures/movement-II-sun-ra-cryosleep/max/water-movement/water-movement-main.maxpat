@@ -9,7 +9,7 @@
             "modernui": 1
         },
         "classnamespace": "box",
-        "rect": [ -21292.0, -21249.0, 1615.0, 878.0 ],
+        "rect": [ 51.0, 101.0, 2458.0, 1240.0 ],
         "boxes": [
             {
                 "box": {
@@ -107,7 +107,7 @@
                             "modernui": 1
                         },
                         "classnamespace": "box",
-                        "rect": [ -25908.0, -25635.0, 1441.0, 672.0 ],
+                        "rect": [ 51.0, 101.0, 2458.0, 1240.0 ],
                         "visible": 1,
                         "boxes": [],
                         "lines": []
@@ -132,7 +132,7 @@
                             "modernui": 1
                         },
                         "classnamespace": "box",
-                        "rect": [ -25908.0, -25635.0, 1441.0, 672.0 ],
+                        "rect": [ 51.0, 101.0, 2458.0, 1240.0 ],
                         "visible": 1,
                         "boxes": [],
                         "lines": []
@@ -157,7 +157,7 @@
                             "modernui": 1
                         },
                         "classnamespace": "box",
-                        "rect": [ -25908.0, -25635.0, 1441.0, 672.0 ],
+                        "rect": [ 51.0, 101.0, 2458.0, 1240.0 ],
                         "visible": 1,
                         "boxes": [],
                         "lines": []
@@ -182,7 +182,7 @@
                             "modernui": 1
                         },
                         "classnamespace": "box",
-                        "rect": [ 46.0, 95.0, 1199.0, 878.0 ],
+                        "rect": [ 51.0, 101.0, 2458.0, 1240.0 ],
                         "visible": 1,
                         "boxes": [
                             {
