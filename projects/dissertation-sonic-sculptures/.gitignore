@@ -146,3 +146,10 @@ yarn-error.log
 **/test-recordings/
 **/scratch/
 **/experiments/archive/
+
+# ============================================
+# MicroPython / Firmware
+# ============================================
+# Credentials and machine-specific device config — use config.template.py
+**/firmware/**/config.py
+**/firmware/**/device.cfg

@@ -35,9 +35,10 @@ comes from what the water is doing right now.
 
 ## Before You Start
 
-- Remove the existing `buffer~ drone-sample` objects and all associated `groove~`
-  objects from the current dk-drone patch if already built. Keep the `dk.descriptors~`
-  analysis chain (Sections 3–5) — that architecture is unchanged.
+- Remove the existing `buffer~ drone-sample` objects and any `groove~` objects
+  from the current dk-drone patch if already built. `groove~` is not used in
+  this revised patch — `play~` and `record~` replace it throughout. Keep the
+  `dk.descriptors~` analysis chain (Sections 3–5) — that architecture is unchanged.
 - No sample files needed. The patch generates its own audio material from the
   hydrophone signal.
 - You will need a working `receive~ hydrophone-in` signal — use `sfplay~` with a
@@ -50,9 +51,10 @@ comes from what the water is doing right now.
 ```
 [receive~ hydrophone-in]
         |
-        ├──→ [LIVE CAPTURE BUFFER]     ← rolling record into buffer~
+        ├──→ [LIVE CAPTURE BUFFER]     ← rolling record~ into buffer~
         |           |
-        |     on onset: freeze window → slow playback groove~
+        |     on onset: freeze window → play~ triggered playback
+        |     between onsets: metro-retriggered play~ for haze
         |
         ├──→ [dk.descriptors~]         ← onset + pitch + loudness (unchanged)
         |           |
@@ -120,111 +122,127 @@ Expose confidence threshold as a `float` number box. Label "CONF THRESHOLD".
 
 ## Section 3 — Live Capture Buffer
 
-Records the hydrophone signal continuously into a rolling buffer. On each onset,
-freezes a short window of that recording and begins playing it back at very slow
-rate. Between onsets, the last frozen window continues playing. The drone is
-always the material's own recent past.
+Records the hydrophone signal continuously into a rolling buffer. Two playback
+sub-layers run from this section:
+
+- **Freeze playback** — on each onset, a second `record~` captures a window of
+  live audio into a freeze buffer, then `play~` is triggered to play it back once.
+  Each new onset replaces the freeze with fresh material.
+- **Background haze** — a `metro` continuously retriggers `play~` on the live
+  buffer at a slow interval, creating overlapping layered playback of the most
+  recent captured material.
+
+`groove~` is not used here. `play~` is the correct object for buffer playback
+when the buffer is written to by `record~` — `groove~` is designed for
+file-loaded static buffers and does not behave correctly with live-written content.
 
 ### Objects:
 
 | Object text | Notes |
 |---|---|
 | `buffer~ capture-live 10000` | 10-second rolling capture buffer (10000ms) |
-| `buffer~ capture-freeze 10000` | Second buffer — receives frozen windows |
-| `record~ capture-live` | Continuously records hydrophone into the live buffer |
-| `groove~ capture-freeze 1` | Plays back frozen material, loop on |
+| `buffer~ capture-freeze 10000` | Freeze buffer — receives onset window captures |
+| `record~ capture-live` | Continuously records hydrophone into live buffer |
+| `record~ capture-freeze` | Triggered — captures onset window into freeze buffer |
+| `play~ capture-freeze` | Triggered playback of freeze buffer — one shot per onset |
+| `play~ capture-live` | Haze playback — retriggered by metro |
 
-### Recording setup:
+### Recording setup — continuous capture:
 
 | Object text | Notes |
 |---|---|
 | `toggle` | RECORD ENABLE — on by default via loadbang |
-| `loadbang` | Sends 1 to toggle on patch load — recording starts immediately |
+| `loadbang` | Sends 1 to toggle on patch load |
 
 Connections:
-1. `loadbang` → `toggle` inlet 0 → set to 1 on load
-2. `toggle` outlet 0 → `record~ capture-live` inlet 0 (start/stop recording)
-3. `receive~ hydrophone-in` outlet 0 → `record~ capture-live` inlet 1 (audio inlet)
+1. `loadbang` → `toggle` → set to 1 on load
+2. `toggle` outlet 0 → `record~ capture-live` inlet 0 (start/stop)
+3. `receive~ hydrophone-in` outlet 0 → `record~ capture-live` inlet 1 (audio)
 
-`record~` runs continuously. The 10-second buffer fills and wraps — the most
-recent 10 seconds of dissolution is always available.
+`record~` runs continuously. The 10-second buffer wraps — the most recent
+10 seconds of dissolution is always available.
 
-### Freeze on onset:
+### Freeze capture on onset:
 
-On each ONSET BANG, copy a window from the live capture buffer into the freeze
-buffer. The window size sets how much material gets frozen — shorter = a single
-event, longer = a phrase of dissolution.
-
-| Object text | Notes |
-|---|---|
-| `number box` | FREEZE_WINDOW_MS — default 3000 (3 seconds). Range 500–8000ms. |
-| `peek~ capture-live` | Reads samples from the live buffer at arbitrary position |
-| `poke~ capture-freeze` | Writes samples into the freeze buffer |
-| `counter` | Steps through sample positions during copy |
-
-**Note on buffer-to-buffer copy in Max:** Direct sample-by-sample copying with
-`peek~`/`poke~` inside `pfft~` or a signal loop is complex. The practical approach
-depends on your Max version and available objects:
-
-**Option A — Use `buffer~` `copyto` message (simplest):**
-
-Max's `buffer~` object accepts a `copyto` message that copies content between
-buffers directly:
-
-`message: copyto capture-freeze 0 0 FREEZE_WINDOW_MS`
-
-This message, sent to `buffer~ capture-live`, copies FREEZE_WINDOW_MS of content
-from the live buffer (starting at position 0ms) to capture-freeze (starting at 0ms).
-
-On ONSET BANG:
-1. ONSET BANG → `message: copyto capture-freeze 0 0 FREEZE_WINDOW_MS` → `buffer~ capture-live`
-
-This triggers the copy. After copy completes, `groove~ capture-freeze` is already
-playing the updated material.
-
-**Option B — Record~ / Playback~ pair (more flexible):**
-
-Instead of copying buffers, use a second `record~` controlled by a short triggered
-recording burst:
+On each ONSET BANG, start a brief `record~` burst into `capture-freeze`, then
+stop it after FREEZE_WINDOW_MS. This writes the live dissolution moment into
+the freeze buffer.
 
 | Object text | Notes |
 |---|---|
-| `record~ capture-freeze` | Second record object targeting freeze buffer |
-| `delay FREEZE_WINDOW_MS` | Stops the freeze recording after the window |
-
-On ONSET BANG:
-1. ONSET BANG → `message: 1` → `record~ capture-freeze` inlet 0 (start recording)
-2. ONSET BANG → `delay FREEZE_WINDOW_MS` → `message: 0` → `record~ capture-freeze` (stop)
-3. `receive~ hydrophone-in` outlet 0 → `record~ capture-freeze` inlet 1 (same audio source)
-
-This captures exactly FREEZE_WINDOW_MS of live material into the freeze buffer
-starting from the onset moment. After the delay fires, freeze recording stops and
-`groove~` continues looping what was captured.
-
-**Recommendation:** Try Option A first — it is simpler. If `copyto` is not
-available in your Max version, use Option B.
-
-### Freeze playback:
-
-| Object text | Notes |
-|---|---|
-| `groove~ capture-freeze 1` | Loops the frozen material continuously |
-| `sig~ 0.08` | Very slow playback rate — material stretched to ~12x length |
-| `*~` | Amplitude from envelope (Section 6) |
+| `number box` | FREEZE_WINDOW_MS — default 3000ms. Range 500–8000ms. |
+| `record~ capture-freeze` | Triggered freeze recorder |
+| `delay` | Stops freeze recording after window elapses |
 
 Connections:
-1. `sig~ 0.08` outlet 0 → `groove~ capture-freeze` inlet 0 (rate)
-2. `groove~ capture-freeze` outlet 0 → `*~` inlet 0
+1. ONSET BANG → `record~ capture-freeze` inlet 0 with message `1` (start)
+2. ONSET BANG → `delay FREEZE_WINDOW_MS` → `record~ capture-freeze` inlet 0
+   with message `0` (stop after window)
+3. `receive~ hydrophone-in` outlet 0 → `record~ capture-freeze` inlet 1 (audio)
+
+To send the `1` and `0` messages: use two `message` objects (`message: 1` and
+`message: 0`), both connected to `record~ capture-freeze` inlet 0. ONSET BANG
+triggers the `1` message directly and triggers the `delay` which fires the `0`
+message after FREEZE_WINDOW_MS.
+
+### Freeze playback — play~ triggered:
+
+After each freeze capture, trigger `play~` to play back what was just written.
+Use a `delay` slightly longer than FREEZE_WINDOW_MS to ensure recording is
+complete before playback starts.
+
+| Object text | Notes |
+|---|---|
+| `play~ capture-freeze` | One-shot playback of freeze buffer |
+| `delay` | Waits for freeze recording to complete before triggering play~ |
+
+Connections:
+1. ONSET BANG → `delay FREEZE_WINDOW_MS + 50` → `play~ capture-freeze` inlet 0
+   (bang triggers playback — add 50ms margin over the record window)
+2. `play~ capture-freeze` outlet 0 → `*~` inlet 0
 3. Amplitude envelope (Section 6, CAPTURE_ENV) → `*~` inlet 1
 4. `*~` outlet 0 → **CAPTURE_AUDIO** (feeds master sum in Section 7)
+
+`play~` plays the buffer once from start to end and stops. Each new ONSET BANG
+replaces the freeze buffer and retriggers playback. Between onsets, the last
+frozen moment plays once and then the haze layer takes over.
+
+### Background haze — metro-retriggered play~:
+
+A `metro` continuously retriggers `play~ capture-live` so the live buffer plays
+back in overlapping loops, creating the persistent ambient texture between onsets.
+The metro period should be slightly shorter than the buffer length so each new
+play~ starts before the previous one ends.
+
+| Object text | Notes |
+|---|---|
+| `metro 8000` | Retrigger interval — default 8000ms (8 sec). Tune to taste. |
+| `toggle` | HAZE ENABLE — on by default via loadbang |
+| `play~ capture-live` | Haze playback — plays live buffer on each metro tick |
+| `*~ 0.15` | Fixed quiet level — haze should sit well below freeze layer |
+
+Connections:
+1. `loadbang` → HAZE ENABLE toggle → set to 1 on load
+2. HAZE ENABLE toggle → `metro 8000` inlet 0 (start/stop metro)
+3. `metro 8000` outlet 0 → `play~ capture-live` inlet 0 (bang triggers playback)
+4. `play~ capture-live` outlet 0 → `*~ 0.15` inlet 0
+5. `*~ 0.15` outlet 0 → **HAZE_AUDIO** (feeds master sum in Section 7)
+
+**Note on metro period:** Set the metro period to match your sense of the
+dissolution pace. 8000ms means the haze layer cycles roughly every 8 seconds.
+During dense dissolution, you may want to shorten this (4000–5000ms) so the
+haze keeps up with rapid material changes. During very slow dissolution (wax,
+plaster) you may want to lengthen it (12000–15000ms).
 
 ### Expose as parameters:
 
 | Parameter | Object | Default | Range |
 |---|---|---|---|
 | FREEZE_WINDOW_MS | number box | 3000 | 500–8000ms |
-| Playback rate | float box → `sig~` | 0.08 | 0.03–0.3 |
+| Haze metro period | number box → metro | 8000 | 2000–15000ms |
+| Haze level | float box → `*~ 0.15` | 0.15 | 0.05–0.35 |
 | RECORD ENABLE | toggle | 1 (on) | — |
+| HAZE ENABLE | toggle | 1 (on) | — |
 
 ---
 
@@ -469,7 +487,8 @@ existing drone-out bus.
 
 | Object text | Notes |
 |---|---|
-| `+~` | Sum capture + freeze audio |
+| `+~` | Sum freeze + capture audio |
+| `+~` | Sum previous + haze audio |
 | `+~` | Sum previous + sub audio |
 | `*~ 0.7` | Master drone level trim |
 | `clip~ -1. 1.` | Safety limiter — three layers summing can clip |
@@ -480,10 +499,12 @@ existing drone-out bus.
 1. **SPECTRAL_FREEZE_OUT** → first `+~` inlet 0
 2. **CAPTURE_AUDIO** → first `+~` inlet 1
 3. First `+~` outlet 0 → second `+~` inlet 0
-4. **SUB_AUDIO_SUM** → second `+~` inlet 1
-5. Second `+~` outlet 0 → `*~ 0.7` inlet 0
-6. `*~ 0.7` outlet 0 → `clip~` inlet 0
-7. `clip~` outlet 0 → `send~ drone-out`
+4. **HAZE_AUDIO** → second `+~` inlet 1
+5. Second `+~` outlet 0 → third `+~` inlet 0
+6. **SUB_AUDIO_SUM** → third `+~` inlet 1
+7. Third `+~` outlet 0 → `*~ 0.7` inlet 0
+8. `*~ 0.7` outlet 0 → `clip~` inlet 0
+9. `clip~` outlet 0 → `send~ drone-out`
 
 Expose `0.7` as a `float` number box. Label "DRONE MASTER LEVEL".
 
@@ -521,11 +542,22 @@ button should flash on dissolution events. If too many false triggers, raise
 `@floor` or lower `@sensitivity`.
 
 **Test 2 — Live capture and freeze:**
-With a dissolution recording playing, watch the `groove~ capture-freeze` output
-on a `meter~`. On the first onset, the freeze buffer should be populated and
-`groove~` should begin producing audio. If silent: confirm Option A or B copy
-mechanism is connected correctly. Double-click `buffer~ capture-freeze` to see
-its waveform — should show captured audio content after the first onset.
+With a dissolution recording playing via `sfplay~`, confirm `record~ capture-live`
+is running (toggle on). Double-click `buffer~ capture-live` — you should see a
+waveform building. Trigger an onset manually if needed. After the onset, double-click
+`buffer~ capture-freeze` — it should show captured content. Then confirm
+`play~ capture-freeze` fires and produces audio at the `meter~`. Connect
+`play~ capture-freeze` outlet directly to `ezdac~` for isolation testing if needed.
+If `capture-freeze` is empty: check that `record~ capture-freeze` is receiving
+the ONSET BANG start message and that `receive~ hydrophone-in` is connected to
+its audio inlet.
+
+**Test 2b — Background haze:**
+Enable the HAZE ENABLE toggle. The `metro` should start firing and `play~ capture-live`
+should retrigger every 8 seconds. Connect `play~ capture-live` outlet directly to
+`ezdac~` to confirm it produces audio independently of the freeze layer. If silent:
+confirm `buffer~ capture-live` has content (from Test 2 above) and that the metro
+is running.
 
 **Test 3 — Spectral freeze:**
 Without any dissolution audio (silence), manually click the freeze trigger toggle.
@@ -574,7 +606,8 @@ room fills slowly with the ghosts of dissolved things.
 | `@lockout` | 100ms | Raise to 200–400ms for dense bursts |
 | Confidence threshold | 0.5 | Lower to 0.35–0.4 if dissolution pitch is highly diffuse |
 | FREEZE_WINDOW_MS | 3000ms | Shorter (1000ms) for single-event capture; longer (6000ms) for phrase |
-| Capture playback rate | 0.08 | Lower (0.04) for more extreme stretch; raise (0.2) for faster cycling |
+| Haze metro period | 8000ms | Lower for denser overlap; raise to let each play~ instance breathe |
+| Haze level | 0.15 | Raise if haze is inaudible; lower if it overwhelms the freeze layer |
 | Capture attack | 4000ms | Lower for fast-dissolving materials; raise for geological pace |
 | Freeze attack | 6000ms | Raise further for very slow, glacial spectrum materialization |
 | Sub attack | 8000ms | Keep long — subharmonics should feel inevitable, not triggered |

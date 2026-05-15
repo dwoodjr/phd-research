@@ -2,8 +2,8 @@
     "name": "water-movement",
     "version": 1,
     "creationdate": 3859907782,
-    "modificationdate": 3859907804,
-    "viewrect": [ 17.0, 81.0, 2526.0, 1260.0 ],
+    "modificationdate": 3859925507,
+    "viewrect": [ 2577.0, 439.0, 1886.0, 900.0 ],
     "autoorganize": 1,
     "hideprojectwindow": 0,
     "showdependencies": 1,
@@ -39,7 +39,16 @@
                 "disclosed": 0
             }
         },
-        "media": {        },
+        "media": {
+            "soul_dissolve_sample_00_120s.wav": {
+                "kind": "audiofile",
+                "local": 1,
+                "singleton": {
+                    "bootpath": "~/ClaudeCoworkWorkspace/phd-research/projects/dissertation-sonic-sculptures/movement-II-sun-ra-cryosleep/max/archive/organic-memory",
+                    "projectrelativepath": "../../archive/organic-memory"
+                }
+            }
+        },
         "code": {        },
         "externals": {        },
         "other": {        }
